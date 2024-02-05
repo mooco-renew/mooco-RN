@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Second from './src/screens/test/Second';
 import Third from './src/screens/test/Third';
 import First from './src/screens/test/First';
+import Login from './src/screens/sign/Login';
+import KakaoLoginScreen from './src/screens/sign/KakaoLogin';
 
 // rn navigatior로 stack 생성, rn은 stack으로 사용자의 이동을 확인한다.
 const Stack = createNativeStackNavigator();
@@ -21,6 +23,8 @@ function App() {
         <Stack.Screen name="Home" component={First} />
         <Stack.Screen name="Second" component={Second} />
         <Stack.Screen name="Third" component={Third} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="KakaoLogin" component={KakaoLoginScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

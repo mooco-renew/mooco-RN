@@ -11,8 +11,8 @@ export default function First({ navigation }) {
           onPress={() => navigation.navigate('Second')}
         />
         <Button
-          title="go Third"
-          onPress={() => navigation.navigate('Third')}
+          title="go Login"
+          onPress={() => navigation.navigate('Login')}
         />
       </View>
     );
