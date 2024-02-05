@@ -6,6 +6,7 @@ import Third from './src/screens/test/Third';
 import First from './src/screens/test/First';
 import Login from './src/screens/sign/Login';
 import KakaoLoginScreen from './src/screens/sign/KakaoLogin';
+import GoogleLoginScreen from './src/screens/sign/GoogleLogin';
 
 // rn navigatior로 stack 생성, rn은 stack으로 사용자의 이동을 확인한다.
 const Stack = createNativeStackNavigator();
@@ -25,6 +26,7 @@ function App() {
         <Stack.Screen name="Third" component={Third} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="KakaoLogin" component={KakaoLoginScreen} />
+        <Stack.Screen name="GoogleLogin" component={GoogleLoginScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );
