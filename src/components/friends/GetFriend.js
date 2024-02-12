@@ -5,7 +5,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 export default function GetFriend({setSecondView}) {
 
     const clickDelete = () => {
-        setSecondView(true);
+        // 추후 다른 로직 추가 필요할 듯
     }
     const clickGet = () => {
         setSecondView(true);
