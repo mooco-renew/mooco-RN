@@ -28,7 +28,7 @@ export default function Account() {
     <TouchableOpacity style={styles.button}>
         <Text style={styles.buttontext}>확인</Text>
     </TouchableOpacity>
-    <View style={styles.checkcontainer}>
+  <View style={styles.checkcontainer}>
     <Checkbox
           style={styles.checkbox}
           value={checked}
