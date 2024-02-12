@@ -5278,6 +5278,11 @@ expo-auth-session@~5.4.0:
     expo-web-browser "~12.8.0"
     invariant "^2.2.4"
 
+expo-checkbox@~2.7.0:
+  version "2.7.0"
+  resolved "https://registry.yarnpkg.com/expo-checkbox/-/expo-checkbox-2.7.0.tgz#90bb07725724a8bd2f241188d03949b6d3efb0e0"
+  integrity sha512-1wYgoOZ9pBg64PPPULbdD7jEVFX354dpJdUZRmkrO/7ybI668qO4r4+9777CUQ+2JoZEEJBBQzN6UiAl0Uodkg==
+
 expo-constants@~15.4.0, expo-constants@~15.4.3:
   version "15.4.5"
   resolved "https://registry.yarnpkg.com/expo-constants/-/expo-constants-15.4.5.tgz#81756a4c4e1c020f840a419cd86a124a6d1fb35b"
