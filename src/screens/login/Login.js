@@ -9,7 +9,6 @@ export default function Login() {
     const navigation = useNavigation();
     const [email, setEmail] = useState("");
     const [pw, setPw] = useState("");
-    const [checked, setChecked] = useState(false);
 
     return (
       <View style={styles.container}>
@@ -36,12 +35,12 @@ export default function Login() {
         Or Login width
       </Text>
       <View style={styles.socialcontainer}>
-      <View style={styles.socialbox}>
+      <TouchableOpacity style={styles.socialbox} onPress={() => navigation.navigate('GoogleLogin')}>
           <GoogleSvg />
-        </View>
-        <View style={styles.socialbox}>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.socialbox} onPress={() => navigation.navigate('KakaoLogin')}>
           <KakaoSvg />
-        </View>
+        </TouchableOpacity>
       </View>
       <View style={styles.helptextbox}>
       <Text style={styles.helptext}>

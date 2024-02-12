@@ -25,7 +25,7 @@ export default function Account() {
         onChangeText={setPw}
         secureTextEntry={true}/>
     </View>
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Agreement')}>
         <Text style={styles.buttontext}>확인</Text>
     </TouchableOpacity>
   <View style={styles.checkcontainer}>
@@ -46,6 +46,7 @@ export default function Account() {
       width: '100%',
       height: '100%',
       alignItems: 'center',
+      backgroundColor: '#ffffff',
     },
     inputbox: {
       width: '100%',

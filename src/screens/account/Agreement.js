@@ -1,9 +1,11 @@
 import React from 'react'
+import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import Checkbox from 'expo-checkbox';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 
 export default function Agreement() {
+  const navigation = useNavigation();
     const [checked, setChecked] = useState(false);
 
   return (
@@ -54,7 +56,7 @@ export default function Agreement() {
         />
     <Text style={styles.checktext}>약관4)</Text>
     </View>
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GetProfile')}>
         <Text style={styles.buttontext}>다음으로</Text>
     </TouchableOpacity>
     </View>
@@ -66,6 +68,7 @@ const styles = StyleSheet.create({
       width: '100%',
       height: '100%',
       alignItems: 'center',
+      backgroundColor: '#ffffff',
     },
     title: {
         width: '90%',
