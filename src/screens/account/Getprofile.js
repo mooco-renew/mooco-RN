@@ -6,7 +6,6 @@ import { View, Text, TouchableOpacity, Pressable, StyleSheet, TextInput, Image }
 // test용 스크린
 export default function GetProfile() {
     const navigation = useNavigation();
-    const [profile, setProfile] = useState();
     const [nickname, setNickname] = useState("");
 
     // 이미지 권한 요청을 위한 hooks
@@ -47,7 +46,6 @@ export default function GetProfile() {
         value={nickname}
         style={styles.input}
         onChangeText={setNickname}
-        secureTextEntry={true}
         placeholder='닉네임을 입력해주세요'
         placeholderTextColor='#979797' />
     </View>
@@ -63,6 +61,7 @@ export default function GetProfile() {
       width: '100%',
       height: '100%',
       alignItems: 'center',
+      backgroundColor: '#ffffff',
     },
     inputbox: {
       width: '100%',

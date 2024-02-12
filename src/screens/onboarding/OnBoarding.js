@@ -15,10 +15,10 @@ export default function OnBoarding() {
         <Text style={styles.secondtext}>
             지금 바로 당신의 {' '}<Text style={styles.colortext}>무드 바코드</Text> {' '}아트를 생성해보세요!
         </Text>
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Login')}>
         <Text style={styles.buttontext}>로그인 하기</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.subbutton} onPress={() => {/* 가입 로직 */}}>
+    <TouchableOpacity style={styles.subbutton} onPress={() => navigation.navigate('Account')}>
         <Text style={styles.subbuttontext}>가입하기</Text>
     </TouchableOpacity>
       </View>
