@@ -1,12 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
 import Checkbox from 'expo-checkbox';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 
 export default function Agreement() {
   const navigation = useNavigation();
-    const [checked, setChecked] = useState(false);
+
+  const [allchecked, setAllchecked] = useState(false);
+    const [firstchecked, setFirstChecked] = useState(false);
+    const [secondchecked, setSecondChecked] = useState(false);
+    const [thirdchecked, setThirdChecked] = useState(false);
+    const [fourchecked, setFourChecked] = useState(false);
+
+    const AllChecked = () => {
+      setFirstChecked(!firstchecked);
+      setSecondChecked(!secondchecked);
+      setThirdChecked(!thirdchecked);
+      setFourChecked(!fourchecked);
+      setAllchecked(!allchecked);
+    }
+
+    // 모든 선택지를 true로 한다면, allchecked도 true로 변경한다.
+    useEffect(() => {
+      if(firstchecked == true && secondchecked == true && thirdchecked == true && fourchecked == true) {
+        setAllchecked(true);
+      } else {
+        setAllchecked(false);
+      }
+    }, [firstchecked, secondchecked, thirdchecked, fourchecked]);
 
   return (
     <View style={styles.container}>
@@ -14,45 +35,45 @@ export default function Agreement() {
         <View style={styles.firstcheckcontainer}>
     <Checkbox
           style={styles.checkbox}
-          value={checked}
-          onValueChange={setChecked}
-          color={checked ? '#000000' : undefined}
+          value={allchecked}
+          onValueChange={() => AllChecked()}
+          color={allchecked ? '#000000' : undefined}
         />
     <Text style={styles.checktext}>전체동의</Text>
     </View>
     <View style={styles.checkcontainer}>
     <Checkbox
           style={styles.checkbox}
-          value={checked}
-          onValueChange={setChecked}
-          color={checked ? '#000000' : undefined}
+          value={firstchecked}
+          onValueChange={setFirstChecked}
+          color={firstchecked ? '#000000' : undefined}
         />
     <Text style={styles.checktext}>약관1)</Text>
     </View>
     <View style={styles.checkcontainer}>
     <Checkbox
           style={styles.checkbox}
-          value={checked}
-          onValueChange={setChecked}
-          color={checked ? '#000000' : undefined}
+          value={secondchecked}
+          onValueChange={setSecondChecked}
+          color={secondchecked ? '#000000' : undefined}
         />
     <Text style={styles.checktext}>약관2)</Text>
     </View>
     <View style={styles.checkcontainer}>
     <Checkbox
           style={styles.checkbox}
-          value={checked}
-          onValueChange={setChecked}
-          color={checked ? '#000000' : undefined}
+          value={thirdchecked}
+          onValueChange={setThirdChecked}
+          color={thirdchecked ? '#000000' : undefined}
         />
     <Text style={styles.checktext}>약관3)</Text>
     </View>
     <View style={styles.checkcontainer}>
     <Checkbox
           style={styles.checkbox}
-          value={checked}
-          onValueChange={setChecked}
-          color={checked ? '#000000' : undefined}
+          value={fourchecked}
+          onValueChange={setFourChecked}
+          color={fourchecked ? '#000000' : undefined}
         />
     <Text style={styles.checktext}>약관4)</Text>
     </View>
