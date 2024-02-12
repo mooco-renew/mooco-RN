@@ -36,18 +36,16 @@ export default function GetProfile() {
 
     return (
       <View style={styles.container}>
-    <View style={styles.inputbox}>
-        <Text style={styles.firstlabel}>프로필 설정</Text>
         <Pressable onPress={uploadImage}>
-            <Image style={styles.imagebox} source={{ uri: imageUrl }}/>
+            <Image style={styles.image} source={{ uri: imageUrl }}/>
         </Pressable>
-        <Text style={styles.secondlabel}>Nickname</Text>
+        <View style={styles.inputbox}>
         <TextInput 
         value={nickname}
         style={styles.input}
         onChangeText={setNickname}
         placeholder='닉네임을 입력해주세요'
-        placeholderTextColor='#979797' />
+        placeholderTextColor='rgba(0,0,0,0.3)' />
     </View>
     <TouchableOpacity style={styles.button}>
         <Text style={styles.buttontext}>확인</Text>
@@ -61,49 +59,38 @@ export default function GetProfile() {
       width: '100%',
       height: '100%',
       alignItems: 'center',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#000000',
     },
     inputbox: {
       width: '100%',
       alignItems: 'center',
-      textAlign: 'left',
+      textAlign: 'center',
+      marginTop: 40,
     },
-    firstlabel: {
-      width: '90%',
-      textAlign: 'left',
-      color: '#979797',
-      fontSize: 12,
-      marginTop: 10,
-    },
-    imagebox: {
-        width: 120,
-        height: 120,
-        borderColor: '#000000',
-        borderWidth: 1,
-        backgroundColor: '#ffc7c7',
+    image: {
+        width: 236,
+        height: 236,
+        backgroundColor: 'rgba(255, 255, 255, 0.2)',
         borderRadius: 120,
+        marginTop: 100,
       },
-    secondlabel: {
-      width: '90%',
-      textAlign: 'left',
-      color: '#979797',
-      fontSize: 12,
-      marginTop: 20,
-    },
     input: {
-      width: '90%',
-      borderBottomWidth: 1,
-      padding: 2,
-      borderColor: '#d4d4d4',
+      width: 236,
+      backgroundColor: '#ffffff',
+      paddingHorizontal: 20,
+      paddingVertical: 6,
+      borderRadius: 100,
+      fontSize: 16,
+      textAlign: 'center',
     },
     button: {
-      backgroundColor: '#000000',
+      backgroundColor: '#151515',
       alignItems: 'center',
       justifyContent: 'center',
       width: '90%', 
       paddingVertical: 18, // 상하 패딩 
       borderRadius: 10,
-      marginTop: 25,
+      marginTop: 110,
     },
     buttontext: {
       color: '#ffffff',
