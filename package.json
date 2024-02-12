@@ -32,6 +32,7 @@
     "react-native-dotenv": "^3.4.9",
     "react-native-safe-area-context": "^4.9.0",
     "react-native-screens": "^3.29.0",
+    "react-native-svg": "14.1.0",
     "react-native-web": "~0.19.6",
     "react-native-webview": "^13.7.0",
     "yarn": "^1.22.21"
