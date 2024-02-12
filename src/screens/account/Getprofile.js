@@ -94,7 +94,7 @@ export default function GetProfile() {
     input: {
       width: '90%',
       borderBottomWidth: 1,
-      padding: 4,
+      padding: 2,
       borderColor: '#d4d4d4',
     },
     button: {
