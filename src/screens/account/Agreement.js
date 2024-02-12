@@ -13,11 +13,19 @@ export default function Agreement() {
     const [fourchecked, setFourChecked] = useState(false);
 
     const AllChecked = () => {
-      setFirstChecked(!firstchecked);
-      setSecondChecked(!secondchecked);
-      setThirdChecked(!thirdchecked);
-      setFourChecked(!fourchecked);
-      setAllchecked(!allchecked);
+      if(firstchecked == true && secondchecked == true && thirdchecked == true && fourchecked == true) {
+        setAllchecked(false);
+        setFirstChecked(false);
+        setSecondChecked(false);
+        setThirdChecked(false);
+        setFourChecked(false);
+      } else {
+        setAllchecked(true);
+        setFirstChecked(true);
+        setSecondChecked(true);
+        setThirdChecked(true);
+        setFourChecked(true);
+      }
     }
 
     // 모든 선택지를 true로 한다면, allchecked도 true로 변경한다.
@@ -31,22 +39,21 @@ export default function Agreement() {
 
   return (
     <View style={styles.container}>
-        <Text style={styles.title}>약관동의</Text>
         <View style={styles.firstcheckcontainer}>
     <Checkbox
           style={styles.checkbox}
           value={allchecked}
           onValueChange={() => AllChecked()}
-          color={allchecked ? '#000000' : undefined}
+          color={allchecked ? '#000000' : 'rgba(255,255,255,0.3)'}
         />
-    <Text style={styles.checktext}>전체동의</Text>
+    <Text style={styles.checktext}>전체 항목에 동의합니다.</Text>
     </View>
     <View style={styles.checkcontainer}>
     <Checkbox
           style={styles.checkbox}
           value={firstchecked}
           onValueChange={setFirstChecked}
-          color={firstchecked ? '#000000' : undefined}
+          color={allchecked ? '#000000' : 'rgba(255,255,255,0.3)'}
         />
     <Text style={styles.checktext}>약관1)</Text>
     </View>
@@ -55,7 +62,7 @@ export default function Agreement() {
           style={styles.checkbox}
           value={secondchecked}
           onValueChange={setSecondChecked}
-          color={secondchecked ? '#000000' : undefined}
+          color={allchecked ? '#000000' : 'rgba(255,255,255,0.3)'}
         />
     <Text style={styles.checktext}>약관2)</Text>
     </View>
@@ -64,7 +71,7 @@ export default function Agreement() {
           style={styles.checkbox}
           value={thirdchecked}
           onValueChange={setThirdChecked}
-          color={thirdchecked ? '#000000' : undefined}
+          color={allchecked ? '#000000' : 'rgba(255,255,255,0.3)'}
         />
     <Text style={styles.checktext}>약관3)</Text>
     </View>
@@ -73,12 +80,12 @@ export default function Agreement() {
           style={styles.checkbox}
           value={fourchecked}
           onValueChange={setFourChecked}
-          color={fourchecked ? '#000000' : undefined}
+          color={allchecked ? '#000000' : 'rgba(255,255,255,0.3)'}
         />
     <Text style={styles.checktext}>약관4)</Text>
     </View>
     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GetProfile')}>
-        <Text style={styles.buttontext}>다음으로</Text>
+        <Text style={styles.buttontext}>완료</Text>
     </TouchableOpacity>
     </View>
   )
@@ -89,17 +96,10 @@ const styles = StyleSheet.create({
       width: '100%',
       height: '100%',
       alignItems: 'center',
-      backgroundColor: '#ffffff',
-    },
-    title: {
-        width: '90%',
-        fontSize: 20,
-        fontWeight: '800',
-        marginTop: 10,
-        textAlign: 'left',
+      backgroundColor: '#000000',
     },
     button: {
-      backgroundColor: '#000000',
+      backgroundColor: '#151515',
       alignItems: 'center',
       justifyContent: 'center',
       width: '90%', 
@@ -116,28 +116,30 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         width: '90%',
-        marginTop: 35,
+        marginTop: 50,
         borderBottomWidth: 1,
-        borderColor: '#dedede',
-        paddingBottom: 25,
+        borderColor: '#ffffff',
+        paddingBottom: 15,
+        marginBottom: 30,
       },
     checkcontainer: {
       flexDirection: 'row',
       alignItems: 'center',
       width: '90%',
-      marginTop: 20,
+      marginBottom: 60,
     },
     checktext: {
       fontSize: 14,
       textAlign: 'center',
       fontWeight: '800',
+      color: '#ffffff',
     },
     checkbox: {
-      width: 24,
-      height: 24,
+      width: 20,
+      height: 20,
       marginRight: 10,
-      borderRadius: 0,
-      borderColor: '#000000',
-      borderWidth: 1,
+      borderRadius: 30,
+      borderWidth: 2.5,
+      borderColor: 'rgba(255,255,255,0.3)',
     },
   });

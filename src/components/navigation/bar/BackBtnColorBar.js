@@ -16,10 +16,10 @@ const CustomBackButton = () => {
 
 export const backbtncolorbar = {
   headerStyle: {
-    backgroundColor: '#FEF7FF',
-    height: 50,
+    backgroundColor: '#151515',
+    height: 40,
   },
-  headerTintColor: '#000000',
+  headerTintColor: '#ffffff',
   headerTitleAlign: 'center',
   headerTitleStyle: {
     fontWeight: 'bold', 

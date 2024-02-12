@@ -10,15 +10,12 @@ import { backbtncolorbar } from './src/components/navigation/bar/BackBtnColorBar
 import Second from './src/screens/test/Second';
 import Third from './src/screens/test/Third';
 import First from './src/screens/test/First';
-import Account from './src/screens/account/Account';
 import Agreement from './src/screens/account/Agreement';
 import KakaoLoginScreen from './src/screens/login/KakaoLogin';
-import GoogleLoginScreen from './src/screens/sign/GoogleLogin';
+import GoogleLoginScreen from './src/screens/login/GoogleLogin';
 import GetProfile from './src/screens/account/Getprofile';
 import Login from './src/screens/login/Login';
 import OnBoarding from './src/screens/onboarding/OnBoarding';
-import { TouchableOpacity } from 'react-native';
-
 // rn navigatior로 stack 생성, rn은 stack으로 사용자의 이동을 확인한다.
 const Stack = createNativeStackNavigator();
 
@@ -37,8 +34,7 @@ function App() {
         <Stack.Screen name="Third" component={Third} />
         <Stack.Screen name="OnBoarding" component={OnBoarding} options={{ headerShown: false}}/> 
         <Stack.Screen name="Login" component={Login} options={{...backbtncolorbar, title: '로그인'}} />
-        <Stack.Screen name="Account" component={Account} options={{...backbtncolorbar, title: '가입하기'}}/>
-        <Stack.Screen name="Agreement" component={Agreement} options={{...backbtncolorbar, title: '가입하기'}}/>
+        <Stack.Screen name="Agreement" component={Agreement} options={{...backbtncolorbar, title: '이용 약관 동의서'}}/>
         <Stack.Screen name="GetProfile" component={GetProfile} options={{...backbtncolorbar, title: '프로필 추가 정보'}}/>
         <Stack.Screen name="KakaoLogin" component={KakaoLoginScreen} />
         <Stack.Screen name="GoogleLogin" component={GoogleLoginScreen} />
