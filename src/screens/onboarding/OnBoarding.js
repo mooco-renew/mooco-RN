@@ -34,7 +34,6 @@ export default function OnBoarding() {
     },
     firsttext: {
       fontSize: 28,
-      marginTop: 10,
       fontWeight: '800',
     },
     secondtext: {
@@ -54,7 +53,7 @@ export default function OnBoarding() {
       width: '90%', 
       paddingVertical: 18, // 상하 패딩 
       borderRadius: 10,
-      marginTop: 60,
+      marginTop: 110,
     },
     buttontext: {
       color: '#ffffff',

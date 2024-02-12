@@ -7,8 +7,8 @@ export default function First({ navigation }) {
         <Text>First Screen</Text>
         <Text>페이지 추가, 이름 추가해서 네비게이터로 확인해주세요.</Text>
         <Button
-          title="go GoogleLogin"
-          onPress={() => navigation.navigate('GoogleLogin')}
+          title="go onBoarding"
+          onPress={() => navigation.navigate('OnBoarding')}
         />
         <Button
           title="go KakaoLogin"
