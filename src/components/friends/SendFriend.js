@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 // test용 스크린
-export default function SendFriend() {
+export default function SendFriend({setFirstView}) {
     const [select, setSelect] = useState(false);
+
+    const handleDelete = () => {
+        setFirstView(true);
+      }
 
     return (
       <View style={styles.container}>
@@ -21,7 +25,7 @@ export default function SendFriend() {
             </View>
         </View>
         <View style={styles.secondbox}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => handleDelete()}>
             <Text style={styles.buttontext}>요청 취소</Text>
         </TouchableOpacity>
         </View>

@@ -1,15 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView } from 'react-native';
-import DeleteFriend from '../../components/friends/DeleteFriend';
 import CustomSwitch from '../../components/switch/CustomSwitch';
-import SendFriend from '../../components/friends/SendFriend';
 import GetFriend from '../../components/friends/GetFriend';
+import SendFriendAlert from '../../components/alert/sendfriendalert';
+import GetFriendAlert from '../../components/alert/getfriendalert';
+import SendFriend from '../../components/friends/SendFriend';
+
 
 // test용 스크린
 export default function RequestFriends() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
+    const [firstview, setFirstView] = useState(false);
+    const [secondview, setSecondView] = useState(false);
+    const [firstindex, setFirstIndex] = useState(10);
+    const [secondindex, setSecondIndex] = useState(10);
 
     const onSelectSwitch = () => {
         navigation.navigate('FriendsList');
@@ -17,6 +23,8 @@ export default function RequestFriends() {
 
     return (
       <View style={styles.container}>
+         {firstview ? ( < SendFriendAlert setFirstView={setFirstView}/>) : ( <></> )}
+         {secondview ? ( < GetFriendAlert setSecondView={setSecondView}/>) : ( <></> )}
         <TextInput 
         value={search}
         style={styles.input}
@@ -27,11 +35,15 @@ export default function RequestFriends() {
             <View style={styles.container}>
             <Text style={styles.label}>보낸 요청</Text>
             <ScrollView style={styles.firstscroll} contentContainerStyle={{alignItems: 'center'}}>
-            <SendFriend />
+            {[...Array(firstindex).keys()].map((value, index) => (
+            <SendFriend key={index} setFirstView={setFirstView} />
+          ))}
             </ScrollView>
             <Text style={styles.label}>빋은 요청</Text>
             <ScrollView style={styles.secondscroll} contentContainerStyle={{alignItems: 'center'}}>
-              <GetFriend />
+              {[...Array(secondindex).keys()].map((value, index) => (
+            <GetFriend key={index} setSecondView={setSecondView} />
+          ))}
             </ScrollView>
             </View>
         </View>
@@ -61,13 +73,13 @@ export default function RequestFriends() {
     firstscroll: {
         width: '90%',
         height: '56%',
-        marginTop: 40,
+        marginTop: 30,
         marginBottom: 10,
     },
     secondscroll: {
         width: '90%',
         height: '30%',
-        marginTop: 40,
+        marginTop: 30,
     },
     label: {
       width: '90%',

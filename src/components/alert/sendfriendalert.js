@@ -2,28 +2,28 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 // test용 스크린
-export default function DeleteFriendAlert({ setView}) {
+export default function SendFriendAlert({ setFirstView }) {
     const handleCancel = () => {
         // 취소 로직
-        setView(false);
+        setFirstView(false);
     }
 
     const handleDelete = () => {
-        // 삭제 로직
-        setView(false);
+        // 삭제 로직 추가
+        setFirstView(false);
     }
 
     return (
       <View style={styles.container}>
         <View style={styles.box}>
-        <Text style={styles.firsttext}>친구 삭제</Text> 
-        <Text style={styles.secondtext}>'밍밍밍밍'님의 게시글을 더 이상 볼 수 없으며, 나의 게시글도 표시되지 않습니다.</Text> 
+        <Text style={styles.firsttext}>친구 요청 취소</Text> 
+        <Text style={styles.secondtext}>'밍구밍구밍'님께 보낸 친구 요청을 취소할까요?</Text> 
         <View style={styles.buttonbox}>
         <TouchableOpacity style={styles.firstbutton} onPress={() => handleCancel()}>
-            <Text style={styles.firstbuttontext}>취소</Text>
+            <Text style={styles.firstbuttontext}>닫기</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.secondbutton} onPress={() => handleDelete()}>
-            <Text style={styles.secondbuttontext}>삭제</Text>
+            <Text style={styles.secondbuttontext}>요청 취소</Text>
         </TouchableOpacity>
         </View>
         </View>

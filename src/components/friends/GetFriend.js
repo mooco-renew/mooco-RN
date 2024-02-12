@@ -2,8 +2,14 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 // test용 스크린
-export default function GetFriend() {
-    const [select, setSelect] = useState(false);
+export default function GetFriend({setSecondView}) {
+
+    const clickDelete = () => {
+        setSecondView(true);
+    }
+    const clickGet = () => {
+        setSecondView(true);
+    }
 
     return (
       <View style={styles.container}>
@@ -21,10 +27,10 @@ export default function GetFriend() {
             </View>
         </View>
         <View style={styles.secondbox}>
-        <TouchableOpacity style={styles.firstbutton}>
+        <TouchableOpacity style={styles.firstbutton} onPress={() => clickGet()}>
             <Text style={styles.buttontext}>수락</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.secondbutton}>
+        <TouchableOpacity style={styles.secondbutton} onPress={() => clickDelete()}>
             <Text style={styles.buttontext}>거절</Text>
         </TouchableOpacity>
         </View>
