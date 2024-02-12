@@ -32,6 +32,14 @@
       "eas": {
         "projectId": "3594a49d-c3dd-4ede-b136-aef4f9d3cb0d"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "이미지 업로드 권한을 허용하시겠습니까?"
+        }
+      ]
+    ]
   }
 }
