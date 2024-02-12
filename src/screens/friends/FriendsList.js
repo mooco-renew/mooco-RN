@@ -5,11 +5,14 @@ import DeleteFriend from '../../components/friends/DeleteFriend';
 import CustomSwitch from '../../components/switch/CustomSwitch';
 import SendFriend from '../../components/friends/SendFriend';
 import GetFriend from '../../components/friends/GetFriend';
+import DeleteFriendAlert from '../../components/alert/deletefriend';
 
 // test용 스크린
 export default function FriendsList() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
+    const [view, setView] = useState(false);
+    const [index, setIndex] = useState(10);
 
     const onSelectSwitch = () => {
         navigation.navigate('RequestFriends');
@@ -17,6 +20,7 @@ export default function FriendsList() {
 
     return (
       <View style={styles.container}>
+        {view ? ( <DeleteFriendAlert setView={setView}/>) : ( <></> )}
         <TextInput 
         value={search}
         style={styles.input}
@@ -26,17 +30,9 @@ export default function FriendsList() {
         <View style={styles.subcontainer}>
             <Text style={styles.label}>친구 목록</Text>
              <ScrollView style={styles.scrollbox} contentContainerStyle={{alignItems: 'center'}}>
-             <Text>스크롤뷰</Text>
-             <DeleteFriend />
-             <DeleteFriend />
-             <DeleteFriend />
-             <DeleteFriend />
-             <DeleteFriend />
-             <DeleteFriend />
-             <DeleteFriend />
-             <DeleteFriend />
-             <DeleteFriend />
-             <DeleteFriend />
+             {[...Array(index).keys()].map((value, index) => (
+            <DeleteFriend key={index} setView={setView} />
+          ))}
              </ScrollView>
         </View>
     <View style={styles.switch}>
@@ -92,7 +88,7 @@ export default function FriendsList() {
     },
     scrollbox: {
         width: '90%',
-        marginTop: 10,
+        marginTop: 30,
     },
     switch: {
         marginTop: -30,

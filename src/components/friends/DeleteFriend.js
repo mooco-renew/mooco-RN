@@ -2,8 +2,12 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 // test용 스크린
-export default function DeleteFriend() {
+export default function DeleteFriend({setView}) {
     const [select, setSelect] = useState(false);
+
+    const clickDelete = () => {
+      setView(true);
+    }
 
     return (
       <View style={styles.container}>
@@ -21,7 +25,7 @@ export default function DeleteFriend() {
             </View>
         </View>
         <View style={styles.secondbox}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={() => clickDelete()}>
             <Text style={styles.buttontext}>삭제</Text>
         </TouchableOpacity>
         </View>
