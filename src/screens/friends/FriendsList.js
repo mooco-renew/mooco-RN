@@ -3,8 +3,6 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView } from 'react-native';
 import DeleteFriend from '../../components/friends/DeleteFriend';
 import CustomSwitch from '../../components/switch/CustomSwitch';
-import SendFriend from '../../components/friends/SendFriend';
-import GetFriend from '../../components/friends/GetFriend';
 import DeleteFriendAlert from '../../components/alert/deletefriendalert';
 
 // test용 스크린

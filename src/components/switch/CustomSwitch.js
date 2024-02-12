@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 
-import {Text, View, TouchableOpacity} from 'react-native';
+import {Text, View } from 'react-native';
 
 const CustomSwitch = ({
   selectionMode,

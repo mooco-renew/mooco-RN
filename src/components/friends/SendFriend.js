@@ -1,9 +1,7 @@
-import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 // test용 스크린
 export default function SendFriend({setFirstView}) {
-    const [select, setSelect] = useState(false);
 
     const handleDelete = () => {
         setFirstView(true);
