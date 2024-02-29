@@ -1,38 +1,47 @@
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, TouchableOpacity, StyleSheet  } from 'react-native';
-import StarsSvg from '../../assets/images/onboarding/stars';
+import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions  } from 'react-native';
+import BarcordSvg from '../../assets/images/onboarding/barcord';
+import GoogleSvg from '../../assets/images/sign/google';
+import KakaoSvg from '../../assets/images/sign/kakao';
+
+// gif code
+// <Image source={require('../../assets/images/test.gif')} style={{ width: 200, height: 200 }} />
 
 export default function OnBoarding() {
     const navigation = useNavigation();
 
     return (
       <View style={styles.container}>
-        <StarsSvg />
+        <View style={styles.center}>
+        <BarcordSvg />
         <Text style={styles.firsttext}>
-            지금 바로 나만의 
+            나만의 무드 바코드
         </Text>
-        <Text style={styles.firsttext}>
-            무드 바코드를 만들어 보세요
-        </Text>
+        </View>
     <TouchableOpacity style={styles.firstbutton} onPress={() => navigation.navigate('KakaoLogin')}>
-        <Text style={styles.buttontext}>카카오</Text>
+        <KakaoSvg />
     </TouchableOpacity>
     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GoogleLogin')}>
-        <Text style={styles.buttontext}>구글</Text>
-    </TouchableOpacity>
-    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('Agreement')}>
-        <Text style={styles.buttontext}>약관동의(임시라우팅)</Text>
+        <GoogleSvg />
     </TouchableOpacity>
       </View>
     );
   }
+  
+  const screenHeight = Dimensions.get('window').height;
   
   const styles = StyleSheet.create({
     container: {
       width: '100%',
       height: '100%',
       alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: '#151515',
+    },
+    center: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      gap: '12px',
     },
     firsttext: {
       width: '60%',
@@ -43,37 +52,13 @@ export default function OnBoarding() {
       marginTop: 5,
     },
     firstbutton: {
-      backgroundColor: '#000000',
+      top: 100,
       alignItems: 'center',
       justifyContent: 'center',
-      width: '80%', 
-      paddingVertical: 15, // 상하 패딩 
-      borderRadius: 10,
-      marginTop: 50,
     },
     button: {
-      backgroundColor: '#000000',
+      top: 115,
       alignItems: 'center',
       justifyContent: 'center',
-      width: '80%', 
-      paddingVertical: 15, // 상하 패딩 
-      borderRadius: 10,
-      marginTop: 15,
-    },
-    buttontext: {
-      color: '#ffffff',
-      fontSize: 16,
-      fontWeight: '600',
-    },
-    subbutton: {
-        backgroundColor: 'transparent',
-        fontSize: 14,
-        borderBottomWidth: 1,
-        borderColor: 'rgba(0, 0, 0, 0.7)',
-        marginTop: 20,
-    },
-    subbuttontext: {
-        fontSize: 14,
-        color: 'rgba(0, 0, 0, 0.7)',
     },
   });
