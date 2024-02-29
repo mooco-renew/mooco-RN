@@ -47,7 +47,7 @@ export default function GetProfile() {
         placeholder='닉네임을 입력해주세요'
         placeholderTextColor='rgba(0,0,0,0.3)' />
     </View>
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FriendsList')}>
         <Text style={styles.buttontext}>확인</Text>
     </TouchableOpacity>
       </View>
