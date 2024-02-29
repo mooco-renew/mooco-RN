@@ -83,9 +83,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.moocotest'
+    namespace 'com.idog.googlelogin'
     defaultConfig {
-        applicationId 'com.anonymous.moocotest'
+        applicationId 'com.idog.googlelogin'
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
