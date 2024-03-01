@@ -1,9 +1,12 @@
 import React from "react";
 import {View, StyleSheet, Platform} from "react-native";
 import {WebView} from 'react-native-webview';
-import { REST_API_KEY, REDIRECT_URI } from "@env";
+import { REST_API_KEY, REDIRECT_URI, INJECTED_JAVASCRIPT } from "@env";
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function KakaoLoginScreen({ navigation }) {
+	// 인가코드 발급
 	const getCode = (target) => {
 		const exp = 'code=';
 		const condition = target.indexOf(exp);
@@ -13,43 +16,40 @@ export default function KakaoLoginScreen({ navigation }) {
             // 인가 코드 발급
 			const requestCode = target.substring(condition + exp.length);
 			console.log('code = ', requestCode);
-			// requestToken(requestCode);
+			getToken(requestCode);
 		}
 	};
+    
+	// access token 받기
+	const getToken = async (code) => {
+		const requestTokenUrl = 'https://kauth.kakao.com/oauth/token';
+		var accessToken = "none";
+		axios ({
+			method: 'post',
+			url: requestTokenUrl,
+			params: {
+				grant_type: 'authorization_code',
+				client_id: REST_API_KEY,
+				redirect_uri: REDIRECT_URI,
+				code: code,
+			},
+		}).then((response) => {
+			accessToken = response.data.access_token;
+			console.log('token : ', accessToken);
+			// store에 token 저장
+			storeData(accessToken);
+		}).catch(function (error) {
+			console.log('error : ', error);
+		})
+	};
 
-    /*
-	const requestToken = async (code) => {
-		const requestTokenUrl = 'https://lastdance.kr/api/members/kakao/login';
-
+	const storeData = async (returnValue) => {
 		try {
-			const body = {
-				code,
-			};
-			const response = await axios.post(requestTokenUrl, body);
-
-			console.log(response.headers);
-
-			const accessToken = response.headers['authorization'];
-			const refreshToken = response.headers['authorization-refresh'];
-
-			if (accessToken) {
-				// AsyncStorage에 accessToken 저장
-				await AsyncStorage.setItem('accessToken', accessToken);
-			}
-
-			if (refreshToken) {
-				// AsyncStorage에 refreshToken 저장
-				await AsyncStorage.setItem('refreshToken', refreshToken);
-			}
-
-			console.log(response.data);
-
-			await navigation.navigate('가족선택');
-		} catch (e) {
-			console.log(e);
+			await AsyncStorage.setItem('access_token', returnValue);
+		} catch (error) {
+			console.log('토큰 저장에 실패하였습니다. ', error);
 		}
-	};
-    */
+	}
 
 	return Platform.OS === "web" ? (
         <iframe src="https://www.somedomain.com/" height={'100%'} width={'100%'} />
