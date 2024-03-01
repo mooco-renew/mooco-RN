@@ -9,14 +9,6 @@ export default function First({ navigation }) {
       <Button title="go Second" onPress={() => navigation.navigate("Second")} />
       <Button title="go Third" onPress={() => navigation.navigate("Third")} />
       <Button title="go Daily" onPress={() => navigation.navigate("Daily")} />
-      <Button
-        title="go Post"
-        onPress={() => navigation.navigate("DailyPost")}
-      />
-      <Button
-        title="go DailyUpload"
-        onPress={() => navigation.navigate("DailyUpload")}
-      />
     </View>
   );
 }
