@@ -1,10 +1,12 @@
-import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import Second from './src/screens/test/Second';
-import Third from './src/screens/test/Third';
-import First from './src/screens/test/First';
-
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Second from "./src/screens/test/Second";
+import Third from "./src/screens/test/Third";
+import First from "./src/screens/test/First";
+import Daily from "./src/screens/daily/Daily";
+import DailyUpload from "./src/screens/daily/DailyUpload";
+import DailyPost from "./src/screens/daily/DailyPost";
 // rn navigatior로 stack 생성, rn은 stack으로 사용자의 이동을 확인한다.
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +23,9 @@ function App() {
         <Stack.Screen name="Home" component={First} />
         <Stack.Screen name="Second" component={Second} />
         <Stack.Screen name="Third" component={Third} />
+        <Stack.Screen name="Daily" component={Daily} />
+        <Stack.Screen name="DailyUpload" component={DailyUpload} />
+        <Stack.Screen name="DailyPost" component={DailyPost} />
       </Stack.Navigator>
     </NavigationContainer>
   );
