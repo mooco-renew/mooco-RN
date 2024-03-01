@@ -1,4 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
+import { useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions  } from 'react-native';
 import BarcordSvg from '../../assets/images/onboarding/barcord';
 import GoogleSvg from '../../assets/images/sign/google';
@@ -9,6 +10,20 @@ import KakaoSvg from '../../assets/images/sign/kakao';
 
 export default function OnBoarding() {
     const navigation = useNavigation();
+
+    useEffect(() => {
+      async function getData() {
+        try {
+          const value = await AsyncStorage.getItem('access_token');
+          if(value !== null) {
+            console.log('로그인 유저입니다. value : ', value);
+          }
+        } catch(e) {
+          console.log('로그인 유저가 아닙니다. ', error);
+        }
+      }
+      getData();
+    }, []);
 
     return (
       <View style={styles.container}>
