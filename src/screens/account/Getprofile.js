@@ -2,6 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { View, Text, TouchableOpacity, Pressable, StyleSheet, TextInput, Image } from 'react-native';
+import preImageSvg from '../../assets/images/getProfile/preImage';
 
 // test용 스크린
 export default function GetProfile() {
@@ -10,7 +11,8 @@ export default function GetProfile() {
 
     // 이미지 권한 요청을 위한 hooks
     const [status, requestPermisson] = ImagePicker.useMediaLibraryPermissions();
-    const [imageUrl, setImageUrl] = useState('data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'); // 이미지 주소(1x1 픽셀 크기의 완전 투명한 gif 이미지를 나타낸다.)
+    const [imageUrl, setImageUrl] = useState(require('../../assets/images/getProfile/pre-image.png')); // 기본 이미지
+    const [isUploaded, setIsUploaded] = useState(false);
 
     const uploadImage = async () => {
         // 권한 확인 코드 : 권한 없으면 물어보고, 승인하지 않으면 함수 종료
@@ -32,12 +34,13 @@ export default function GetProfile() {
         }
         // 이미지 업로드 결과 및 이미지 경로 업데이트
         setImageUrl(result.assets[0].uri);
+        setIsUploaded(true);
     }
 
     return (
       <View style={styles.container}>
         <Pressable onPress={uploadImage}>
-            <Image style={styles.image} source={{ uri: imageUrl }}/>
+        <Image style={styles.image} source={isUploaded ? { uri: imageUrl } : imageUrl} />
         </Pressable>
         <View style={styles.inputbox}>
         <TextInput 
@@ -45,7 +48,7 @@ export default function GetProfile() {
         style={styles.input}
         onChangeText={setNickname}
         placeholder='닉네임을 입력해주세요'
-        placeholderTextColor='rgba(0,0,0,0.3)' />
+        placeholderTextColor='#ffffff' />
     </View>
     <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FriendsList')}>
         <Text style={styles.buttontext}>확인</Text>
@@ -76,12 +79,14 @@ export default function GetProfile() {
       },
     input: {
       width: 236,
-      backgroundColor: '#ffffff',
-      paddingHorizontal: 20,
-      paddingVertical: 6,
+      paddingHorizontal: 16,
+      paddingVertical: 10,
       borderRadius: 100,
+      borderColor: '#ffffff',
+      borderWidth: 1,
       fontSize: 16,
       textAlign: 'center',
+      color: '#ffffff',
     },
     button: {
       backgroundColor: '#151515',
@@ -95,6 +100,6 @@ export default function GetProfile() {
     buttontext: {
       color: '#ffffff',
       fontSize: 16,
-      fontWeight: '600',
+      fontWeight: '800',
     },
   });
