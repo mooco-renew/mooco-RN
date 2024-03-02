@@ -1,8 +1,10 @@
 {
   "expo": {
-    "name": "moocotest",
-    "slug": "moocotest",
+    "name": "mooco",
+    "slug": "mooco",
+    "owner": "mooco",
     "version": "1.0.0",
+    "scheme": "mooco",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
