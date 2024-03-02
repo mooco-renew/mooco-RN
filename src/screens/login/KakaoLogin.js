@@ -6,6 +6,8 @@ import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function KakaoLoginScreen({ navigation }) {
+	var _REDIRECT_URI = REDIRECT_URI;
+
 	// 인가코드 발급
 	const getCode = (target) => {
 		const exp = 'code=';
@@ -44,10 +46,12 @@ export default function KakaoLoginScreen({ navigation }) {
 
 	// 서버로 코드 전송 후 토큰 받아오기
 	const postToken = async (accessToken) => {
+
 		const data = {
 			"accessToken": accessToken,
 			"provider": "Kakao"
 		  };
+
 		const config = {
 			headers: {
 			  'Content-Type': 'application/json',
@@ -57,10 +61,12 @@ export default function KakaoLoginScreen({ navigation }) {
 		try {
 		  const response = await axios.post(`${SERVER_HOST}/api/v1/auth/kakao`, data, config);
 		  console.log('성공 !: ', response.data);
-		  			// store에 token 저장
-			//storeData(accessToken);
-
-			//navigation.navigate('OnBoarding');
+			storeData(response.data.data.accessToken); // store에 token 저장
+			if(!response.data.data.isExisted) {
+				navigation.navigate('GetProfile'); // 추가 정보 입력
+			} else {
+				navigation.navigate('OnBoarding'); // 메인
+			}
 		} catch (error) {
 		  console.error('에러가 있습니다. ', error);
 		}
@@ -81,7 +87,7 @@ export default function KakaoLoginScreen({ navigation }) {
 			<WebView
 				style={{ flex: 1 }}
 				source={{
-					uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
+					uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${_REDIRECT_URI}`,
 				}}
 				injectedJavaScript={INJECTED_JAVASCRIPT}
 				javaScriptEnabled
