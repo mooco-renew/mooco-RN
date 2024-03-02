@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { View, Text, TouchableOpacity, Pressable, StyleSheet, TextInput, Image } from 'react-native';
-import preImageSvg from '../../assets/images/getProfile/preImage';
+
 
 // test용 스크린
 export default function GetProfile() {
@@ -11,7 +11,7 @@ export default function GetProfile() {
 
     // 이미지 권한 요청을 위한 hooks
     const [status, requestPermisson] = ImagePicker.useMediaLibraryPermissions();
-    const [imageUrl, setImageUrl] = useState(require('../../assets/images/getProfile/pre-image.png')); // 기본 이미지
+    const [imageUrl, setImageUrl] = useState(null); // 기본 이미지
     const [isUploaded, setIsUploaded] = useState(false);
 
     const uploadImage = async () => {
@@ -40,7 +40,7 @@ export default function GetProfile() {
     return (
       <View style={styles.container}>
         <Pressable onPress={uploadImage}>
-        <Image style={styles.image} source={isUploaded ? { uri: imageUrl } : imageUrl} />
+        <Image style={styles.image} source={isUploaded ? { uri: imageUrl } : require('../../assets/images/getProfile/pre-image.png')} />
         </Pressable>
         <View style={styles.inputbox}>
         <TextInput 
