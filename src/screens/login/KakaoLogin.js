@@ -1,23 +1,23 @@
 import React from "react";
-import {View, StyleSheet, Platform} from "react-native";
-import {WebView} from 'react-native-webview';
+import { View, StyleSheet, Platform } from "react-native";
+import { WebView } from "react-native-webview";
 import { REST_API_KEY, REDIRECT_URI } from "@env";
 
 export default function KakaoLoginScreen({ navigation }) {
-	const getCode = (target) => {
-		const exp = 'code=';
-		const condition = target.indexOf(exp);
-        console.log('exp : ', exp);
-        console.log('condition: ', condition);
-		if (condition !== -1) {
-            // 인가 코드 발급
-			const requestCode = target.substring(condition + exp.length);
-			console.log('code = ', requestCode);
-			// requestToken(requestCode);
-		}
-	};
+  const getCode = (target) => {
+    const exp = "code=";
+    const condition = target.indexOf(exp);
+    console.log("exp : ", exp);
+    console.log("condition: ", condition);
+    if (condition !== -1) {
+      // 인가 코드 발급
+      const requestCode = target.substring(condition + exp.length);
+      console.log("code = ", requestCode);
+      // requestToken(requestCode);
+    }
+  };
 
-    /*
+  /*
 	const requestToken = async (code) => {
 		const requestTokenUrl = 'https://lastdance.kr/api/members/kakao/login';
 
@@ -51,22 +51,22 @@ export default function KakaoLoginScreen({ navigation }) {
 	};
     */
 
-	return Platform.OS === "web" ? (
-        <iframe src="https://www.somedomain.com/" height={'100%'} width={'100%'} />
-      ) : (
-		<View style={{ flex: 1 }}>
-			<WebView
-				style={{ flex: 1 }}
-				source={{
-					uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
-				}}
-				injectedJavaScript={INJECTED_JAVASCRIPT}
-				javaScriptEnabled
-				onMessage={(event) => {
-					const data = event.nativeEvent.url;
-					getCode(data);
-				}}
-			/>
-		</View>
-	);
+  return Platform.OS === "web" ? (
+    <iframe src="https://www.somedomain.com/" height={"100%"} width={"100%"} />
+  ) : (
+    <View style={{ flex: 1 }}>
+      <WebView
+        style={{ flex: 1 }}
+        source={{
+          uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
+        }}
+        injectedJavaScript={INJECTED_JAVASCRIPT}
+        javaScriptEnabled
+        onMessage={(event) => {
+          const data = event.nativeEvent.url;
+          getCode(data);
+        }}
+      />
+    </View>
+  );
 }
