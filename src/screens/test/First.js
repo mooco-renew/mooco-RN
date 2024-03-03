@@ -15,6 +15,14 @@ export default function First({ navigation }) {
         onPress={() => navigation.navigate("KakaoLogin")}
       />
       <Button title="go Daily" onPress={() => navigation.navigate("Daily")} />
+      <Button
+        title="go DailyPost"
+        onPress={() => navigation.navigate("DailyPost")}
+      />
+      <Button
+        title="go DailyUpload"
+        onPress={() => navigation.navigate("DailyUpload")}
+      />
     </View>
   );
 }
