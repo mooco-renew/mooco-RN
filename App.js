@@ -1,15 +1,16 @@
-import * as React from 'react';
+import * as React from "react";
 import { useNavigation } from '@react-navigation/native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 /* 네비게이션 스타일 */
 import { backbtncolorbar } from './src/components/navigation/bar/BackBtnColorBar';
 
 /* screens */
-import Second from './src/screens/test/Second';
-import Third from './src/screens/test/Third';
-import First from './src/screens/test/First';
+import Second from "./src/screens/test/Second";
+import Third from "./src/screens/test/Third";
+import First from "./src/screens/test/First";
+import Daily from "./src/screens/daily/Daily";
 import Agreement from './src/screens/account/Agreement';
 import KakaoLoginScreen from './src/screens/login/KakaoLogin';
 import GoogleLoginScreen from './src/screens/login/GoogleLogin';
@@ -44,6 +45,7 @@ function App() {
 
         <Stack.Screen name="FriendsList" component={FriendsList} options={{...backbtncolorbar, title: '친구 목록 및 추가'}} />
         <Stack.Screen name="RequestFriends" component={RequestFriends} options={{...backbtncolorbar, title: '친구 요청'}} />
+        <Stack.Screen name="Daily" component={Daily} />
       </Stack.Navigator>
     </NavigationContainer>
   );
