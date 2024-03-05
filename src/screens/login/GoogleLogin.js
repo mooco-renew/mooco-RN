@@ -4,7 +4,7 @@ import * as Google from "expo-auth-session/providers/google";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Button, View, Text } from "react-native";
 import { useEffect } from "react";
-import { WEBCLIENTID, ANDROIDCLIENTID } from "@env";
+import { WEBCLIENTID, ANDROIDCLIENTID, IOSCLIENTID } from "@env";
 
 // 로그인 버튼 누르면 웹 브라우저가 열리고, 구글 로그인 페이지로 이동함.
 WebBrowser.maybeCompleteAuthSession();
@@ -15,6 +15,7 @@ export default function GoogleLoginScreen() {
   const [request, response, promptAsync] = Google.useAuthRequest({
     webClientId: WEBCLIENTID,
     androidClientId: ANDROIDCLIENTID,
+    iosClientId: IOSCLIENTID,
   });
 
   const [userInfo, setUserInfo] = React.useState(null);
