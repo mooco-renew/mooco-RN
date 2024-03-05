@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const getToken = () => {
+    const navigation = useNavigation();
+
   const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getData = async () => {
@@ -12,12 +14,14 @@ const getToken = () => {
         if (value !== null) {
           console.log('value : ', value);
           setData(value);
+          navigation.navigate('GetProfile');
         } else {
           setData(null);
+          alert('로그인이 필요합니다.');
         }
       } catch (e) {
         console.error('error', e);
-        setError(e);
+        alert('에러 발생');
       }
     };
     getData();
