@@ -2,7 +2,7 @@ import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { View, Pressable, StyleSheet, Image, Text } from 'react-native';
 
-export default function ProfileImage() {
+export default function ProfileImage({ setImage }) {
     // 이미지 권한 요청을 위한 hooks
     const [status, requestPermisson] = ImagePicker.useMediaLibraryPermissions();
     const [imageUrl, setImageUrl] = useState(null); // 기본 이미지
@@ -27,6 +27,9 @@ export default function ProfileImage() {
         if(result.canceled) {
             return null; // 이미지 업로드를 취소한 경우
         }
+
+        setImage([result?.assets?.[0]?.fileName, result?.assets?.[0]?.type, result?.assets?.[0]?.uri]); // 내부 요소를 배열로 전달한다.
+        
         // 이미지 업로드 결과 및 이미지 경로 업데이트
         setImageUrl(result.assets[0].uri);
         setIsUploaded(true);
