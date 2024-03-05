@@ -1,5 +1,4 @@
-import * as React from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -21,8 +20,10 @@ screen 숨기고 싶으면 아래 코드로 변경(스크린 옵션 추가)
 <Stack.Navigator screenOptions={{ headerShown: false }}>)
  */
 
+
 // 맨 위 코드가 첫 번째 스크린
 function App() {
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -30,7 +31,6 @@ function App() {
         <Stack.Screen name="GetProfile" component={GetProfile} options={{...backbtncolorbar, title: '프로필 편집'}}/>
         <Stack.Screen name="KakaoLogin" component={KakaoLoginScreen} />
         <Stack.Screen name="GoogleLogin" component={GoogleLoginScreen} />
-
         <Stack.Screen name="FriendsList" component={FriendsList} options={{...backbtncolorbar, title: '친구 목록 및 추가'}} />
         <Stack.Screen name="RequestFriends" component={RequestFriends} options={{...backbtncolorbar, title: '친구 요청'}} />
       </Stack.Navigator>

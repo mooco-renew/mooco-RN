@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions  } from 're
 import BarcordSvg from '../../assets/images/onboarding/barcord';
 import GoogleSvg from '../../assets/images/sign/google';
 import KakaoSvg from '../../assets/images/sign/kakao';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // gif code
 // <Image source={require('../../assets/images/test.gif')} style={{ width: 200, height: 200 }} />
@@ -16,14 +17,15 @@ export default function OnBoarding() {
         try {
           const value = await AsyncStorage.getItem('access_token');
           if(value !== null) {
-            console.log('로그인 유저입니다. value : ', value);
-          }
+            console.log('value : ', value); 
+            navigation.navigate('FriendsList'); // 나중에 메인 페이지로 변경하기
+          } 
         } catch(e) {
-          console.log('로그인 유저가 아닙니다. ', error);
+          console.error('error', e);
         }
       }
       getData();
-    }, []);
+    },[]);
 
     return (
       <View style={styles.container}>
