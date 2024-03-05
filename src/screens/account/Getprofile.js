@@ -14,8 +14,6 @@ export default function GetProfile() {
 
     const [nickname, setNickname] = useState("");
     const [image, setImage] = useState([]);
-    
-    console.log('image : ', image);
 
 	const postUserInfo = async () => {
     const formData = new FormData();

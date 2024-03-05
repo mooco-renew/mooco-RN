@@ -21,7 +21,7 @@ export default function ProfileImage({ setImage }) {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: false,
-            quality: 1,
+            quality: 0.2,
             aspect: [1, 1],
         });
         if(result.canceled) {
@@ -49,7 +49,7 @@ export default function ProfileImage({ setImage }) {
         const result = await ImagePicker.launchCameraAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             allowsEditing: false,
-            quality: 1,
+            quality: 0.2,
             aspect: [1, 1],
         });
 
