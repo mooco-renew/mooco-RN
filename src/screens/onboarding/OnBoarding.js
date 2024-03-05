@@ -5,27 +5,14 @@ import BarcordSvg from '../../assets/images/onboarding/barcord';
 import GoogleSvg from '../../assets/images/sign/google';
 import KakaoSvg from '../../assets/images/sign/kakao';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import getToken from '../../server/getToken';
 
 // gif code
 // <Image source={require('../../assets/images/test.gif')} style={{ width: 200, height: 200 }} />
 
 export default function OnBoarding() {
     const navigation = useNavigation();
-
-    useEffect(() => {
-      async function getData() {
-        try {
-          const value = await AsyncStorage.getItem('access_token');
-          if(value !== null) {
-            console.log('value : ', value); 
-            navigation.navigate('FriendsList'); // 나중에 메인 페이지로 변경하기
-          } 
-        } catch(e) {
-          console.error('error', e);
-        }
-      }
-      getData();
-    },[]);
+    const data = getToken();
 
     return (
       <View style={styles.container}>
