@@ -37,5 +37,11 @@ yarn-error.*
 # env
 *.env
 
-#idea
+# yarn.lock
+yarn.lock
+
+# package-lock
+package-lock.json
+
+#.idea
 .idea
