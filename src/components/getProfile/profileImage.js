@@ -129,7 +129,8 @@ export default function ProfileImage({ setImage }) {
         marginTop: 100,
       },
       optionContainer: {
-        top: -140,
+        position:'absolute',
+        top: 200,
         width: 254,
         backgroundColor: '#1a1a1a',
         paddingVertical: 10,
