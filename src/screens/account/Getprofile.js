@@ -1,47 +1,50 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import * as ImagePicker from 'expo-image-picker';
-import { View, Text, TouchableOpacity, Pressable, StyleSheet, TextInput, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import ProfileImage from '../../components/getProfile/profileImage';
+import getToken from '../../server/getToken';
+import { SERVER_HOST } from "@env";
+import axios from 'axios';
 
 
 // test용 스크린
 export default function GetProfile() {
     const navigation = useNavigation();
+    const token = getToken();
+
     const [nickname, setNickname] = useState("");
+    const [image, setImage] = useState([]);
 
-    // 이미지 권한 요청을 위한 hooks
-    const [status, requestPermisson] = ImagePicker.useMediaLibraryPermissions();
-    const [imageUrl, setImageUrl] = useState(null); // 기본 이미지
-    const [isUploaded, setIsUploaded] = useState(false);
-
-    const uploadImage = async () => {
-        // 권한 확인 코드 : 권한 없으면 물어보고, 승인하지 않으면 함수 종료
-        if (!status?.granted) {
-            const permission = await requestPermisson();
-            if(!permission.granted) {
-                return null;
-            }
-        }
-        // 이미지 업로드 기능
-        const result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            allowsEditing: false,
-            quality: 1,
-            aspect: [1, 1],
-        });
-        if(result.canceled) {
-            return null; // 이미지 업로드를 취소한 경우
-        }
-        // 이미지 업로드 결과 및 이미지 경로 업데이트
-        setImageUrl(result.assets[0].uri);
-        setIsUploaded(true);
+	const postUserInfo = async () => {
+    const formData = new FormData();
+    // 이미지 용량이 너무 커서 압축이 필요하다.
+    const file = {
+      name: image[0],
+      type: image[1],
+      uri: image[2],
     }
+
+    formData.append('profileImage', file);
+    formData.append('nickname', nickname);
+
+		const config = {
+			headers: {
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${token}`,
+			}
+		};
+		
+		try {
+		  const response = await axios.post(`${SERVER_HOST}/api/v1/auth/user-info`, formData, config);
+		  console.log('성공 !: ', response.data);
+		} catch (error) {
+		  console.error('에러가 있습니다. ', error);
+		}
+	  };
 
     return (
       <View style={styles.container}>
-        <Pressable onPress={uploadImage}>
-        <Image style={styles.image} source={isUploaded ? { uri: imageUrl } : require('../../assets/images/getProfile/pre-image.png')} />
-        </Pressable>
+        <ProfileImage setImage={setImage} />
         <View style={styles.inputbox}>
         <TextInput 
         value={nickname}
@@ -50,7 +53,7 @@ export default function GetProfile() {
         placeholder='닉네임을 입력해주세요'
         placeholderTextColor='#ffffff' />
     </View>
-    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('FriendsList')}>
+    <TouchableOpacity style={styles.button} onPress={postUserInfo}>
         <Text style={styles.buttontext}>확인</Text>
     </TouchableOpacity>
       </View>

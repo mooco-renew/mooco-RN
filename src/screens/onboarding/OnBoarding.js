@@ -1,10 +1,8 @@
 import { useNavigation } from '@react-navigation/native';
-import { useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, Dimensions  } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions  } from 'react-native';
 import BarcordSvg from '../../assets/images/onboarding/barcord';
 import GoogleSvg from '../../assets/images/sign/google';
 import KakaoSvg from '../../assets/images/sign/kakao';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import getToken from '../../server/getToken';
 
 // gif code
