@@ -63,8 +63,9 @@ export default function KakaoLoginScreen({ navigation }) {
 		  console.log('성공 !: ', response.data);
 			storeData(response.data.data.accessToken); // store에 token 저장
 			if(!response.data.data.isExisted) {
-				navigation.navigate('GetProfile'); // 추가 정보 입력
+				navigation.navigate('FriendsList'); // 추가 정보 입력
 			} else {
+				alert('token 저장에 실패하였습니다. ');
 				navigation.navigate('OnBoarding'); // 메인
 			}
 		} catch (error) {
