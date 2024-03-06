@@ -23,11 +23,13 @@ export default function GetProfile() {
       type: image[1],
       uri: image[2],
     }
+
     formData.append('profileImage', file);
     formData.append('nickname', nickname);
 
 		const config = {
 			headers: {
+        'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${token}`,
 			}
 		};
