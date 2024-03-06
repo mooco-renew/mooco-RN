@@ -38,7 +38,7 @@ export default function DeleteFriend({setView}) {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      marginBottom: 10,
+      marginBottom: 15,
     },
     firstbox: {
         width: '70%',
