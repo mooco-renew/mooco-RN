@@ -58,7 +58,6 @@ export default function GetFriendAlert({ setSecondView}) {
     buttonbox: {
         position: 'absolute',
         flexDirection: 'row',
-        gap: 10,
         bottom: 20,
         right: 20,
     },

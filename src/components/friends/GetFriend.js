@@ -56,7 +56,6 @@ export default function GetFriend({setSecondView}) {
         height: 50,
         flexDirection: 'row',
         alignItems: 'center',
-        gap: 10,
       },
     image: {
       width:50,
@@ -67,7 +66,6 @@ export default function GetFriend({setSecondView}) {
     textbox: {
         marginLeft: 10,
       flexDirection: 'column',
-      gap: 2,
     },
     text: {
         color: '#ffffff',

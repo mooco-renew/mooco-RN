@@ -65,7 +65,6 @@ export default function DeleteFriendAlert({ setView}) {
     buttonbox: {
         position: 'absolute',
         flexDirection: 'row',
-        gap: 10,
         bottom: 20,
         right: 20,
     },

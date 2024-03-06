@@ -60,7 +60,6 @@ export default function SendFriend({setFirstView}) {
     textbox: {
         marginLeft: 10,
       flexDirection: 'column',
-      gap: 2,
     },
     text: {
         color: '#ffffff',
