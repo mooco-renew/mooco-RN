@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, Pressable, StyleSheet, TextInput, Image } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import ProfileImage from '../../components/getProfile/profileImage';
 import getToken from '../../server/getToken';
 import { SERVER_HOST } from "@env";
