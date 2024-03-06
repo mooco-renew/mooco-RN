@@ -43,7 +43,6 @@ export default function OnBoarding() {
     center: {
       justifyContent: 'center',
       alignItems: 'center',
-      gap: '12px',
     },
     firsttext: {
       width: '60%',
