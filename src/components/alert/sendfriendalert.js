@@ -41,7 +41,7 @@ export default function SendFriendAlert({ setFirstView }) {
         backgroundColor: 'transparent',
     },
     box: {
-        width: '80%',
+        width: '75%',
         height: 207,
         backgroundColor: '#000000',
         borderRadius: 10,
@@ -70,7 +70,7 @@ export default function SendFriendAlert({ setFirstView }) {
         right: 20,
     },
     firstbutton: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#8C8C8C',
         borderRadius: 5,
         paddingHorizontal: 9,
         paddingVertical: 6,
@@ -82,7 +82,7 @@ export default function SendFriendAlert({ setFirstView }) {
         textAlign: 'center',
     },
     secondbutton: {
-        backgroundColor: '#f73b3b',
+        backgroundColor: '#B466C3',
         borderRadius: 5,
         paddingHorizontal: 9,
         paddingVertical: 6,
