@@ -1,17 +1,24 @@
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView } from 'react-native';
 import DeleteFriend from '../../components/friends/DeleteFriend';
 import CustomSwitch from '../../components/switch/CustomSwitch';
 import DeleteFriendAlert from '../../components/alert/deletefriendalert';
 import SearchSvg from '../../assets/images/friends/search';
-
+import getFriendsList from '../../server/friends/getlist';
+import friendsList from '../../data/friends/friendsList';
+  
 // test용 스크린
 export default function FriendsList() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
     const [view, setView] = useState(false);
     const [index, setIndex] = useState(10);
+    // const [data, setData] = useState();
+
+    const data = friendsList;
+    console.log(data);
+
 
     const onSelectSwitch = () => {
         navigation.navigate('RequestFriends');
@@ -34,8 +41,8 @@ export default function FriendsList() {
         <View style={styles.subcontainer}>
             <Text style={styles.label}>친구 목록</Text>
              <ScrollView style={styles.scrollbox} contentContainerStyle={{alignItems: 'center'}}>
-             {[...Array(index).keys()].map((value, index) => (
-            <DeleteFriend key={index} setView={setView} />
+             {data.friendList.map((value, index) => (
+            <DeleteFriend key={index} setView={setView} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl}/>
           ))}
              </ScrollView>
         </View>

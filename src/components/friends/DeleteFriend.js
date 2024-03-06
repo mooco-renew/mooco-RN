@@ -1,8 +1,7 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 // test용 스크린
-export default function DeleteFriend({setView}) {
-
+export default function DeleteFriend({setView, nickname, identifierId, profileImageUrl}) {
     const clickDelete = () => {
       setView(true);
     }
@@ -10,15 +9,15 @@ export default function DeleteFriend({setView}) {
     return (
       <View style={styles.container}>
         <View style={styles.firstbox}>
-        <View style={styles.image}>
-
+        <View>
+        <Image style={styles.image} source={{uri: profileImageUrl}} />
         </View>
         <View style={styles.textbox}>
             <Text style={styles.text}>
-                밍밍밍밍
+                {nickname}
             </Text>
             <Text style={styles.text}>
-                @7dwkmqandkw
+                {identifierId}
             </Text>
             </View>
         </View>
@@ -54,7 +53,7 @@ export default function DeleteFriend({setView}) {
     image: {
       width:50,
       height: 50,
-      backgroundColor: '#ffffff',
+      backgroundColor: '#000000',
       borderRadius: 100,
     },
     textbox: {
