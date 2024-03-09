@@ -38,7 +38,11 @@ export default function GetProfile() {
 		
 		try {
 		  const response = await axios.post(`${SERVER_HOST}/api/v1/auth/user-info`, formData, config);
-		  console.log('성공 !: ', response.data);
+      if(response.data.success == true) {
+        navigation.navigate('Daily');  // 우선 daliy로 이동
+      } else {
+        alert('에러가 발생했습니다. 이미지를 다시 보내주세요.');
+      }
 		} catch (error) {
 		  console.log('에러가 있습니다. ', error);
 		}
