@@ -14,7 +14,6 @@ const getToken = () => {
         if (value !== null) {
           console.log('value : ', value);
           setData(value);
-          navigation.navigate('GetProfile');
         } else {
           setData(null);
           alert('로그인이 필요합니다.');
