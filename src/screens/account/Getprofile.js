@@ -5,6 +5,7 @@ import ProfileImage from '../../components/getProfile/profileImage';
 import getToken from '../../server/getToken';
 import { SERVER_HOST } from "@env";
 import axios from 'axios';
+import { Platform } from 'react-native';
 
 
 // test용 스크린
@@ -18,9 +19,10 @@ export default function GetProfile() {
 	const postUserInfo = async () => {
     const formData = new FormData();
     // 이미지 용량이 너무 커서 압축이 필요하다.
+    // 안드는 jpeg, ios는 jpg로 고정
     const file = {
       name: image[0],
-      type: image[1],
+      type: Platform.OS === 'android' ? 'image/jpeg' : 'image/jpg',
       uri: image[2],
     }
 
@@ -38,7 +40,7 @@ export default function GetProfile() {
 		  const response = await axios.post(`${SERVER_HOST}/api/v1/auth/user-info`, formData, config);
 		  console.log('성공 !: ', response.data);
 		} catch (error) {
-		  console.error('에러가 있습니다. ', error);
+		  console.log('에러가 있습니다. ', error);
 		}
 	  };
 
