@@ -14,10 +14,15 @@ export default function FriendsList() {
     const [search, setSearch] = useState("");
     const [view, setView] = useState(false);
     const [index, setIndex] = useState(10);
-    // const [data, setData] = useState();
+    const [data, setData] = useState({ friendList: [] }); 
 
-    const data = friendsList;
-    console.log(data);
+    useEffect(() => {
+        const getList = async () => {
+            const result = await getFriendsList(); 
+            setData(result); 
+        };
+        getList();
+    }, []); 
 
 
     const onSelectSwitch = () => {
@@ -42,7 +47,7 @@ export default function FriendsList() {
             <Text style={styles.label}>친구 목록</Text>
              <ScrollView style={styles.scrollbox} contentContainerStyle={{alignItems: 'center'}}>
              {data.friendList.map((value, index) => (
-            <DeleteFriend key={index} setView={setView} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl}/>
+            <DeleteFriend key={index} setView={setView} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId}/>
           ))}
              </ScrollView>
         </View>

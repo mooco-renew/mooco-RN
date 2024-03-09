@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SERVER_HOST } from "@env";
 import axios from 'axios';
+import friendsList from '../../data/friends/friendsList';
 
 // 친구 목록 조회
     const getFriendsList = async () => {
-        const [data, setData] = useState(null);
         const value = await AsyncStorage.getItem('access_token');
 		
 		try {
@@ -15,14 +14,14 @@ import axios from 'axios';
                 size: 10,
             },
             headers: {
-                'Authorization': `Bearer ${value};`
+                'Authorization': `Bearer ${value}`
               },
           });
 		  console.log('성공 !: ', response.data.data);
           return response.data.data;
 		} catch (error) {
 		  console.error('에러가 있습니다. ', error);
-          return null;
+          return friendsList;
 		}
     };
 
