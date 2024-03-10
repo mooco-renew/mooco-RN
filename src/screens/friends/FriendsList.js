@@ -7,6 +7,7 @@ import DeleteFriendAlert from '../../components/alert/deletefriendalert';
 import SearchSvg from '../../assets/images/friends/search';
 import getFriendsList from '../../server/friends/friends-list';
 import friendsList from '../../data/friends/friends-list';
+import searchFriends from '../../server/friends/search-friend';
 
 // test용 스크린
 export default function FriendsList() {
@@ -24,6 +25,11 @@ export default function FriendsList() {
         getList();
     }, []); 
 
+    // 검색 함수
+    const handleSearchChange = (text) => {
+      setSearch(text);  // onChange 텍스트 업데이트
+      searchFriends(text); // text로 검색
+  };
 
     const onSelectSwitch = () => {
         navigation.navigate('RequestFriends');
@@ -39,7 +45,7 @@ export default function FriendsList() {
         <TextInput 
         value={search}
         style={styles.input}
-        onChangeText={setSearch}
+        onChangeText={handleSearchChange}
         placeholder='추가하고 싶은 친구의 아이디를 검색해보세요!'
         placeholderTextColor={'rgba(0,0,0,0.5)'}/>
         </View>
@@ -88,13 +94,13 @@ export default function FriendsList() {
     firstscroll: {
         width: '90%',
         height: '56%',
-        marginTop: 40,
+        marginTop: 30,
         marginBottom: 10,
     },
     secondscroll: {
         width: '90%',
         height: '30%',
-        marginTop: 40,
+        marginTop: 30,
     },
     label: {
       width: '90%',

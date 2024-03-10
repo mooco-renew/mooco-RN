@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import CustomSwitch from '../../components/switch/CustomSwitch';
 import GetFriend from '../../components/friends/GetFriend';
 import SendFriendAlert from '../../components/alert/sendfriendalert';
@@ -28,8 +28,8 @@ export default function RequestFriends() {
         const getList = async () => {
             const received_result = await getReceviedList();
             const sent_result = await getSentList();
-            setReceivedList(receivedListData);
-            setSentList(sentListData);
+            setReceivedList(received_result);
+            setSentList(sent_result);
         };
         getList();
     }, []); 
@@ -43,17 +43,17 @@ export default function RequestFriends() {
       <View style={styles.container}>
          {firstview ? ( < SendFriendAlert setFirstView={setFirstView}/>) : ( <></> )}
          {secondview ? ( < GetFriendAlert setSecondView={setSecondView} receiveId={receiveId} />) : ( <></> )}
-         <View style={styles.inputcontainer}>
-          <View style={styles.search}>
+         <KeyboardAvoidingView style={styles.inputcontainer}>
+          <KeyboardAvoidingView style={styles.search}>
         <SearchSvg />
-        </View>
+        </KeyboardAvoidingView>
         <TextInput 
         value={search}
         style={styles.input}
         onChangeText={setSearch}
         placeholder='추가하고 싶은 친구의 아이디를 검색해보세요!'
         placeholderTextColor={'rgba(0,0,0,0.5)'}/>
-        </View>
+        </KeyboardAvoidingView>
         <View style={styles.subcontainer}>
             <View style={styles.container}>
             <Text style={styles.label}>보낸 요청</Text>
@@ -86,7 +86,7 @@ export default function RequestFriends() {
       width: '100%',
       height: '100%',
       alignItems: 'center',
-      backgroundColor: '#151515',
+      backgroundColor: '#000000',
     },
     inputcontainer: {
       position: 'relative',
