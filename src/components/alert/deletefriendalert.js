@@ -73,6 +73,7 @@ export default function DeleteFriendAlert({ setView}) {
         borderRadius: 5,
         paddingHorizontal: 9,
         paddingVertical: 6,
+        marginRight: 10,
     },
     firstbuttontext: {
         color: '#000000',

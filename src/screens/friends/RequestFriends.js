@@ -1,11 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView } from 'react-native';
 import CustomSwitch from '../../components/switch/CustomSwitch';
 import GetFriend from '../../components/friends/GetFriend';
 import SendFriendAlert from '../../components/alert/sendfriendalert';
 import GetFriendAlert from '../../components/alert/getfriendalert';
 import SendFriend from '../../components/friends/SendFriend';
+import getReceviedList from '../../server/friends/recevied-list';
+import getSentList from '../../server/friends/sent-list';
+import receivedListData from '../../data/friends/received-list';
+import sentListData from '../../data/friends/sent-list';
+import SearchSvg from '../../assets/images/friends/search';
 
 
 // test용 스크린
@@ -17,6 +22,20 @@ export default function RequestFriends() {
     const [firstindex, setFirstIndex] = useState(10);
     const [secondindex, setSecondIndex] = useState(10);
 
+    const [receivedList, setReceivedList] = useState({ receiceRequestList: [] }); 
+    const [sentList, setSentList] = useState({ sendRequestDtoList: [] }); 
+
+    useEffect(() => {
+        const getList = async () => {
+            const received_result = await getReceviedList();
+            const sent_result = await getSentList();
+            setReceivedList(received_result);
+            setSentList(sent_result);
+        };
+        getList();
+    }, []); 
+
+
     const onSelectSwitch = () => {
         navigation.navigate('FriendsList');
       };
@@ -25,24 +44,29 @@ export default function RequestFriends() {
       <View style={styles.container}>
          {firstview ? ( < SendFriendAlert setFirstView={setFirstView}/>) : ( <></> )}
          {secondview ? ( < GetFriendAlert setSecondView={setSecondView}/>) : ( <></> )}
+         <View style={styles.inputcontainer}>
+          <View style={styles.search}>
+        <SearchSvg />
+        </View>
         <TextInput 
         value={search}
         style={styles.input}
         onChangeText={setSearch}
-        placeholder='요청하고 싶은 친구의 아이디를 검색해보세요!'
+        placeholder='추가하고 싶은 친구의 아이디를 검색해보세요!'
         placeholderTextColor={'rgba(0,0,0,0.5)'}/>
+        </View>
         <View style={styles.subcontainer}>
             <View style={styles.container}>
             <Text style={styles.label}>보낸 요청</Text>
             <ScrollView style={styles.firstscroll} contentContainerStyle={{alignItems: 'center'}}>
-            {[...Array(firstindex).keys()].map((value, index) => (
-            <SendFriend key={index} setFirstView={setFirstView} />
+            {receivedList.receiceRequestList.map((value, index) => (
+            <SendFriend key={index} setFirstView={setFirstView} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
           ))}
             </ScrollView>
             <Text style={styles.label}>빋은 요청</Text>
             <ScrollView style={styles.secondscroll} contentContainerStyle={{alignItems: 'center'}}>
-              {[...Array(secondindex).keys()].map((value, index) => (
-            <GetFriend key={index} setSecondView={setSecondView} />
+              {sentList.sendRequestDtoList.map((value, index) => (
+            <GetFriend key={index} setSecondView={setSecondView} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
           ))}
             </ScrollView>
             </View>
@@ -64,6 +88,17 @@ export default function RequestFriends() {
       height: '100%',
       alignItems: 'center',
       backgroundColor: '#151515',
+    },
+    inputcontainer: {
+      position: 'relative',
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    search: {
+      top: 15,
+      left: 35,
+      zIndex: 10,
     },
     subcontainer: {
         width: '100%',
@@ -94,8 +129,8 @@ export default function RequestFriends() {
       backgroundColor: '#ffffff',
       fontSize: 14,
       borderRadius: 10,
-      paddingHorizontal: 20,
-      paddingVertical: 7,
+      paddingHorizontal: 43,
+      paddingVertical: 14,
       marginTop: 30,
     },
     scrollbox: {

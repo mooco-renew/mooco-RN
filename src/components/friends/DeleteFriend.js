@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 // test용 스크린
-export default function DeleteFriend({setView, nickname, identifierId, profileImageUrl}) {
+export default function DeleteFriend({setView, nickname, identifierId, profileImageUrl, userId}) {
     const clickDelete = () => {
       setView(true);
     }

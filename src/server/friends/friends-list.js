@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SERVER_HOST } from "@env";
 import axios from 'axios';
-import friendsList from '../../data/friends/friendsList';
 
 // 친구 목록 조회
     const getFriendsList = async () => {
@@ -21,7 +20,7 @@ import friendsList from '../../data/friends/friendsList';
           return response.data.data;
 		} catch (error) {
 		  console.error('에러가 있습니다. ', error);
-          return friendsList;
+          return [];
 		}
     };
 

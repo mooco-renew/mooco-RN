@@ -1,7 +1,7 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 // test용 스크린
-export default function GetFriend({setSecondView}) {
+export default function GetFriend({setSecondView, nickname, identifierId, profileImageUrl, userId}) {
 
     const clickDelete = () => {
         // 추후 다른 로직 추가 필요할 듯
@@ -12,16 +12,16 @@ export default function GetFriend({setSecondView}) {
 
     return (
       <View style={styles.container}>
-        <View style={styles.firstbox}>
-        <View style={styles.image}>
-
+         <View style={styles.firstbox}>
+        <View>
+        <Image style={styles.image} source={{uri: profileImageUrl}} />
         </View>
         <View style={styles.textbox}>
             <Text style={styles.text}>
-                밍밍밍밍
+                {nickname}
             </Text>
             <Text style={styles.text}>
-                @7dwkmqandkw
+                {identifierId}
             </Text>
             </View>
         </View>

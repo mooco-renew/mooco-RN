@@ -1,7 +1,7 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 // test용 스크린
-export default function SendFriend({setFirstView}) {
+export default function SendFriend({setFirstView, nickname, identifierId, profileImageUrl, userId}) {
 
     const handleDelete = () => {
         setFirstView(true);
@@ -10,15 +10,15 @@ export default function SendFriend({setFirstView}) {
     return (
       <View style={styles.container}>
         <View style={styles.firstbox}>
-        <View style={styles.image}>
-
+        <View>
+        <Image style={styles.image} source={{uri: profileImageUrl}} />
         </View>
         <View style={styles.textbox}>
             <Text style={styles.text}>
-                밍밍밍밍
+                {nickname}
             </Text>
             <Text style={styles.text}>
-                @7dwkmqandkw
+                {identifierId}
             </Text>
             </View>
         </View>

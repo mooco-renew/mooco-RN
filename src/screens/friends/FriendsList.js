@@ -5,9 +5,8 @@ import DeleteFriend from '../../components/friends/DeleteFriend';
 import CustomSwitch from '../../components/switch/CustomSwitch';
 import DeleteFriendAlert from '../../components/alert/deletefriendalert';
 import SearchSvg from '../../assets/images/friends/search';
-import getFriendsList from '../../server/friends/getlist';
-import friendsList from '../../data/friends/friendsList';
-  
+import getFriendsList from '../../server/friends/friends-list';
+
 // test용 스크린
 export default function FriendsList() {
     const navigation = useNavigation();
