@@ -4,7 +4,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 export default function GetFriendAlert({ setSecondView}) {
 
     const handleDelete = () => {
-        // 삭제 로직 추가
         setSecondView(false);
     }
 

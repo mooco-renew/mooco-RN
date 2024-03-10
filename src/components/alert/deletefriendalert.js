@@ -1,14 +1,14 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import deleteFriend from '../../server/friends/delete-friend';
 
 // test용 스크린
-export default function DeleteFriendAlert({ setView}) {
+export default function DeleteFriendAlert({ setView, selectedId}) {
     const handleCancel = () => {
-        // 취소 로직
         setView(false);
     }
 
-    const handleDelete = () => {
-        // 삭제 로직 추가
+    const handleDelete = async () => {
+        await deleteFriend(selectedId);
         setView(false);
     }
 

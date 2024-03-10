@@ -19,9 +19,8 @@ export default function RequestFriends() {
     const [search, setSearch] = useState("");
     const [firstview, setFirstView] = useState(false);
     const [secondview, setSecondView] = useState(false);
-    const [firstindex, setFirstIndex] = useState(10);
-    const [secondindex, setSecondIndex] = useState(10);
-
+    const [requestId, setRequestId] = useState(null);
+    const [receiveId, setReceiveId] = useState(null);
     const [receivedList, setReceivedList] = useState({ receiceRequestList: [] }); 
     const [sentList, setSentList] = useState({ sendRequestDtoList: [] }); 
 
@@ -29,8 +28,8 @@ export default function RequestFriends() {
         const getList = async () => {
             const received_result = await getReceviedList();
             const sent_result = await getSentList();
-            setReceivedList(received_result);
-            setSentList(sent_result);
+            setReceivedList(receivedListData);
+            setSentList(sentListData);
         };
         getList();
     }, []); 
@@ -43,7 +42,7 @@ export default function RequestFriends() {
     return (
       <View style={styles.container}>
          {firstview ? ( < SendFriendAlert setFirstView={setFirstView}/>) : ( <></> )}
-         {secondview ? ( < GetFriendAlert setSecondView={setSecondView}/>) : ( <></> )}
+         {secondview ? ( < GetFriendAlert setSecondView={setSecondView} receiveId={receiveId} />) : ( <></> )}
          <View style={styles.inputcontainer}>
           <View style={styles.search}>
         <SearchSvg />
@@ -66,7 +65,7 @@ export default function RequestFriends() {
             <Text style={styles.label}>빋은 요청</Text>
             <ScrollView style={styles.secondscroll} contentContainerStyle={{alignItems: 'center'}}>
               {sentList.sendRequestDtoList.map((value, index) => (
-            <GetFriend key={index} setSecondView={setSecondView} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
+            <GetFriend key={index} setSecondView={setSecondView} setReceiveId={setReceiveId} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
           ))}
             </ScrollView>
             </View>

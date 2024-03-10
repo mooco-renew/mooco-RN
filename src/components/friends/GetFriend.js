@@ -1,12 +1,15 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import receiveFriend from '../../server/friends/accept-friend';
+import refuseFriend from '../../server/friends/refusefriend';
 
 // test용 스크린
-export default function GetFriend({setSecondView, nickname, identifierId, profileImageUrl, userId}) {
+export default function GetFriend({setSecondView, setReceiveId, nickname, identifierId, profileImageUrl, userId}) {
 
-    const clickDelete = () => {
-        // 추후 다른 로직 추가 필요할 듯
+    const clickRefuse = () => {
+       refuseFriend(userId); // 요청 거절
     }
-    const clickGet = () => {
+    const clickReceive = () => {
+      receiveFriend(userId); // 요청 수락
         setSecondView(true);
     }
 
@@ -26,10 +29,10 @@ export default function GetFriend({setSecondView, nickname, identifierId, profil
             </View>
         </View>
         <View style={styles.secondbox}>
-        <TouchableOpacity style={styles.firstbutton} onPress={() => clickGet()}>
+        <TouchableOpacity style={styles.firstbutton} onPress={() => clickReceive()}>
             <Text style={styles.buttontext}>수락</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.secondbutton} onPress={() => clickDelete()}>
+        <TouchableOpacity style={styles.secondbutton} onPress={() => clickRefuse()}>
             <Text style={styles.buttontext}>거절</Text>
         </TouchableOpacity>
         </View>

@@ -6,13 +6,14 @@ import CustomSwitch from '../../components/switch/CustomSwitch';
 import DeleteFriendAlert from '../../components/alert/deletefriendalert';
 import SearchSvg from '../../assets/images/friends/search';
 import getFriendsList from '../../server/friends/friends-list';
+import friendsList from '../../data/friends/friends-list';
 
 // test용 스크린
 export default function FriendsList() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
     const [view, setView] = useState(false);
-    const [index, setIndex] = useState(10);
+    const [selectedId, setSelectedId] = useState(null);
     const [data, setData] = useState({ friendList: [] }); 
 
     useEffect(() => {
@@ -30,7 +31,7 @@ export default function FriendsList() {
 
     return (
       <View style={styles.container}>
-        {view ? ( <DeleteFriendAlert setView={setView}/>) : ( <></> )}
+        {view ? ( <DeleteFriendAlert setView={setView} selectedId={selectedId} />) : ( <></> )}
         <View style={styles.inputcontainer}>
           <View style={styles.search}>
         <SearchSvg />
@@ -46,7 +47,7 @@ export default function FriendsList() {
             <Text style={styles.label}>친구 목록</Text>
              <ScrollView style={styles.scrollbox} contentContainerStyle={{alignItems: 'center'}}>
              {data.friendList.map((value, index) => (
-            <DeleteFriend key={index} setView={setView} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId}/>
+            <DeleteFriend key={index} setView={setView} setSelectedId={setSelectedId} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId}/>
           ))}
              </ScrollView>
         </View>

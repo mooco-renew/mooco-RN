@@ -1,8 +1,9 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 
 // test용 스크린
-export default function DeleteFriend({setView, nickname, identifierId, profileImageUrl, userId}) {
+export default function DeleteFriend({setView, setSelectedId, nickname, identifierId, profileImageUrl, userId}) {
     const clickDelete = () => {
+      setSelectedId(userId); // 선택한 user의 id 저장하기
       setView(true);
     }
 
