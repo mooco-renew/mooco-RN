@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { LocaleConfig, Calendar } from "react-native-calendars";
 import { NativeBaseProvider, ScrollView } from "native-base";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
@@ -7,110 +7,159 @@ import {
   Box,
   HStack,
   VStack,
-  Center,
-  AlertDialog,
-  Button,
+  Image,
+  Actionsheet,
+  useDisclose,
 } from "native-base";
 import DailyImageView from "../../components/dailyImageView/DailyImageView";
 import { LinearGradient } from "expo-linear-gradient";
+import getDailyHomeData from "../../server/daily/getDailyHomeData";
+import getDailyCalendarData from "../../server/daily/getDailyCalendarData";
+import dailyHomeData from "../../data/daily/dailyHomeData";
 
-export default function Daily() {
-  // 날짜 배열
-  const datesArray = ["2024-02-03", "2024-02-07", "2024-02-15"];
-  const [isOpen, setIsOpen] = React.useState(true);
-  const Header =
-    "이번달은 몇개의 사진을 업로드했고 몇개의 날짜에 업로드를 했습니다!";
-  const Content = "더 노력하세요!";
-  const Btn1 = "닫기";
-  const Btn1Event = () => setIsOpen(false);
-  const cancelRef = React.useRef(null);
-  // 배열에서 객체로 변환
-  const markedDates = datesArray.reduce((acc, date) => {
-    acc[date] = {
-      customStyles: {
-        container: {
-          backgroundColor: "white",
-          borderRadius: 50,
-        },
-        text: {
-          color: "black",
-          fontWeight: "bold",
-        },
-      },
+export default function Daily({ navigation }) {
+  const [homeData, setHomeData] = useState(dailyHomeData.data);
+  useEffect(() => {
+    const getHomeData = async () => {
+      console.log("로드 홈데이터");
+      const result = await getDailyHomeData();
+      if (result !== null) {
+        // 결과가 null이 아닐 때만 상태 업데이트
+        setHomeData(result);
+      } else {
+        // result가 null일 때의 처리 로직, 필요한 경우
+      }
     };
-    return acc;
-  }, {});
+    getHomeData();
+  }, []);
+
+  //홈 데이터
+  const dailyImgList = homeData.dailyImgList;
+  const uploadCnt = homeData.uploadCnt;
+  const monthlyBarcodeInfo = homeData.monthlyBarcodeInfo;
+  const [isOpen, setIsOpen] = useState(homeData.isMonthlyModal);
+  const onClose = () => setIsOpen(false);
+  var barcodeUrl = null;
+  var fixedModalText = null;
+  var changedModalText = null;
+  if (monthlyBarcodeInfo !== null) {
+    barcodeUrl = homeData.monthlyBarcodeInfo.photoUrl;
+    fixedModalText = homeData.monthlyBarcodeInfo.fixedModalText;
+    changedModalText = homeData.monthlyBarcodeInfo.changedModalText;
+  }
+
+  //날짜 배열 객체로 변환
+  const [uploadDateList, setUploadDateList] = useState(
+    homeData.uploadDateList.reduce((acc, date) => {
+      acc[date] = {
+        customStyles: {
+          container: {
+            backgroundColor: "white",
+            borderRadius: 50,
+          },
+          text: {
+            color: "black",
+            fontWeight: "bold",
+          },
+        },
+      };
+      return acc;
+    }, {})
+  );
+
+  //캘린더 데이터
+  const [calendarData, setCalendarData] = useState({});
+  const getCalendarData = async (date) => {
+    const result = await getDailyCalendarData(date);
+    setCalendarData(result);
+    setUploadDateList(
+      calendarData.uploadDateList.reduce((acc, date) => {
+        acc[date] = {
+          customStyles: {
+            container: {
+              backgroundColor: "white",
+              borderRadius: 50,
+            },
+            text: {
+              color: "black",
+              fontWeight: "bold",
+            },
+          },
+        };
+        return acc;
+      }, {})
+    );
+  };
+
   return (
     <NativeBaseProvider>
-      {isOpen && (
-        <Center>
-          <AlertDialog
-            leastDestructiveRef={cancelRef}
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
+      <Actionsheet isOpen={isOpen} onClose={onClose}>
+        <Actionsheet.Content>
+          <Box
+            w="100%"
+            h={60}
+            px={4}
+            justifyContent="center"
+            alignItems="center"
           >
-            <AlertDialog.Content backgroundColor="black">
-              <AlertDialog.Header borderColor="black" bgColor="black">
-                <Text color="white" fontSize="18px" fontWeight="700">
-                  {Header}
-                </Text>
-              </AlertDialog.Header>
-              <AlertDialog.Body borderColor="black" bgColor="black">
-                <Text color="white" fontSize="16px" fontWeight="400">
-                  {Content}
-                </Text>
-              </AlertDialog.Body>
-              <AlertDialog.Footer borderColor="black" bgColor="black">
-                <Button.Group space={2}>
-                  <Button
-                    bgColor="#FFFFFF80"
-                    onPress={Btn1Event}
-                    ref={cancelRef}
-                  >
-                    <Text color="black" fontSize="16px" fontWeight="700">
-                      {Btn1}
-                    </Text>
-                  </Button>
-                </Button.Group>
-              </AlertDialog.Footer>
-            </AlertDialog.Content>
-          </AlertDialog>
-        </Center>
-      )}
+            <Text fontSize="16" color="black" fontWeight="bold">
+              {changedModalText}
+            </Text>
+          </Box>
+          <Box w="70%" px={4} mb={4}>
+            <Text fontSize="14" color="black">
+              {fixedModalText}
+            </Text>
+          </Box>
+          <Box
+            w="100%"
+            px={4}
+            justifyContent="center"
+            alignItems="center"
+            mb={4}
+          >
+            <Image
+              source={{ uri: barcodeUrl }}
+              style={{ width: 320, height: 120 }}
+            />
+          </Box>
+        </Actionsheet.Content>
+      </Actionsheet>
       <ScrollView backgroundColor="black" padding="16px">
         <VStack space={1} alignItems="center" safeArea>
-          <LinearGradient
-            colors={["#63495C", "#2C5665"]}
-            style={styles.gradientBox}
-          >
-            <VStack space={3} alignItems="center">
-              <Text color="white" fontSize="20px" marginTop="20px">
-                오늘의 일상을 기록하세요
+          {dailyImgList === null && (
+            <LinearGradient
+              colors={["#63495C", "#2C5665"]}
+              style={styles.gradientBox}
+            >
+              <VStack space={3} alignItems="center">
+                <Text color="white" fontSize="20px" marginTop="20px">
+                  오늘의 일상을 기록하세요
+                </Text>
+                <TouchableOpacity
+                  onPress={() => {
+                    console.log("데일리 기록으로 이동");
+                    navigation.navigate("DailyUpload");
+                  }}
+                  style={styles.navigateDailyContainer}
+                >
+                  <Box style={styles.navigateDailyBox}>
+                    <Text color="white" fontSize="14px">
+                      데일리 기록으로 이동하기
+                    </Text>
+                  </Box>
+                </TouchableOpacity>
+              </VStack>
+            </LinearGradient>
+          )}
+          {dailyImgList !== null && (
+            <>
+              <Text color="white" fontSize="81">
+                TODAY
               </Text>
-              <TouchableOpacity
-                onPress={() => {
-                  console.log("데일리 기록으로 이동");
-                }}
-                style={styles.navigateDailyContainer}
-              >
-                <Box style={styles.navigateDailyBox}>
-                  <Text color="white" fontSize="14px">
-                    데일리 기록으로 이동하기
-                  </Text>
-                </Box>
-              </TouchableOpacity>
-            </VStack>
-          </LinearGradient>
-          <Text color="white" fontSize="81">
-            TODAY
-          </Text>
-          <DailyImageView
-            images={[
-              "https://via.placeholder.com/150",
-              "https://via.placeholder.com/150",
-              "https://via.placeholder.com/150",
-            ]}
-          ></DailyImageView>
+              <DailyImageView images={dailyImgList}></DailyImageView>
+            </>
+          )}
           <Text color="white" fontSize="52">
             CALENDAR
           </Text>
@@ -133,14 +182,21 @@ export default function Daily() {
               // 캘린더 타이틀의 월 포맷
               monthFormat={"yyyy MMMM"}
               // 날짜를 눌렀을 때 실행되는 함수
-              onDayPress={(day) => {
-                console.log("선택된 날짜", day);
+              onDayPress={(date) => {
+                console.log("선택된 날짜", date.dateString);
+                {
+                  uploadDateList.includes(date.dateString) &&
+                    navigation.navigate("DailyPost", { date: date.dateString });
+                }
               }}
               // 보이는 월이 바뀔 때 실행되는 함수
-              onMonthChange={(month) => {
-                console.log("월 변경됨", month);
+              onMonthChange={(date) => {
+                console.log("월 변경됨", date);
+                const dateString =
+                  date.year.toString + "-" + date.month.toString + "-01";
+                getCalendarData(dateString);
               }}
-              markedDates={markedDates}
+              markedDates={uploadDateList}
               markingType={"custom"}
             />
           </View>
@@ -152,7 +208,7 @@ export default function Daily() {
             </Box>
             <Box style={styles.monthUploadCntBox}>
               <Text color="white" fontSize="14px">
-                9
+                {uploadCnt}
               </Text>
             </Box>
           </HStack>
