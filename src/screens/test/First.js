@@ -14,7 +14,6 @@ export default function First({ navigation }) {
         title="go KakaoLogin"
         onPress={() => navigation.navigate("KakaoLogin")}
       />
-      <Button title="go Daily" onPress={() => navigation.navigate("Daily")} />
       <Button
         title="go DailyPost"
         onPress={() => navigation.navigate("DailyPost")}

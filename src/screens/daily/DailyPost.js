@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   View,
@@ -9,29 +9,43 @@ import {
   SafeAreaView,
   Modal,
   Platform,
+  StatusBar,
 } from "react-native";
 import { NativeBaseProvider, HStack, VStack } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import DailyModal from "../../components/dailyModal/DailyModal";
+import getDailyImageData from "../../server/daily/getDailyImageData";
+import deleteDailyImageData from "../../server/daily/deleteDailyImageData";
 
-export default function DailyPost({ navigation }) {
+export default function DailyPost({ date, navigation }) {
+  //캘린더 데이터
+  const [data, setData] = useState({});
+  useEffect(() => {
+    const getData = async (date) => {
+      const result = await getDailyImageData(date);
+      if (result !== null) {
+        // 결과가 null이 아닐 때만 상태 업데이트
+        setData(result);
+      } else {
+        // result가 null일 때의 처리 로직, 필요한 경우
+      }
+    };
+    getData();
+  }, []);
+  const dateString = date.params.date;
+  const memo = data.memo;
+  const photos = data.photos;
+  const visible = data.visible;
+
   const [userPosts, setUserPosts] = useState({
-    date: "2023.12.1 목",
     profilePicture: "https://via.placeholder.com/150",
     username: "Yujin",
     userId: "@7ewmetfj86",
-    posts: [
-      "https://via.placeholder.com/150",
-      "https://via.placeholder.com/150",
-      "https://via.placeholder.com/150",
-
-      // ... 다른 이미지 URL 추가
-    ],
-    content:
-      "유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...유저가 작성한 글...",
-    visible: true,
   });
 
+  const deletePost = async (date) => {
+    await deleteDailyImageData(date);
+  };
   const [isOpen, setIsOpen] = React.useState(false);
   const [lockIsOpen, setLockIsOpen] = React.useState(false);
   const Header = "게시글 삭제";
@@ -42,6 +56,7 @@ export default function DailyPost({ navigation }) {
   const Btn2 = "삭제하기";
   const Btn2Event = () => {
     console.log("삭제하기");
+    deletePost(date);
     setIsOpen(false);
   };
 
@@ -50,13 +65,13 @@ export default function DailyPost({ navigation }) {
   const LockBtn1Event = () => setLockIsOpen(false);
   const renderGrid = () => {
     const grid = [];
-    for (let i = 0; i < userPosts.posts.length; i++) {
+    for (let i = 0; i < photos.length; i++) {
       if (i < 2) {
         //안드로이드 2*2 그리드 2행의 여백 문제로 인한 분기
         grid.push(
           <Image
             key={`post-${i}`}
-            source={{ uri: userPosts.posts[i] }}
+            source={{ uri: photos[i] }}
             style={styles.postImage}
           />
         );
@@ -65,19 +80,19 @@ export default function DailyPost({ navigation }) {
         grid.push(
           <Image
             key={`post-${i}`}
-            source={{ uri: userPosts.posts[i] }}
+            source={{ uri: photos[i] }}
             style={[styles.postImage, styles.marginTopT]}
           />
         );
       }
     }
-    if (userPosts.posts.length % 2) {
+    if (photos.length % 2) {
       //그리드 모양 유지를 위한 빈 뷰
       grid.push(
         <View
-          key={`empty-${userPosts.posts.length - 1}`}
+          key={`empty-${photos.length - 1}`}
           style={
-            userPosts.posts.length == 2
+            photos.length == 2
               ? [styles.voidImage, styles.marginTopT]
               : styles.voidImage
           }
@@ -89,14 +104,14 @@ export default function DailyPost({ navigation }) {
 
   const renderLockedGrid = () => {
     const grid = [];
-    for (let i = 0; i < userPosts.posts.length; i++) {
+    for (let i = 0; i < photos.length; i++) {
       if (i < 2) {
         //안드로이드 2*2 그리드 2행의 여백 문제로 인한 분기
         grid.push(
           <View style={styles.lockContainer}>
             <Image
               key={`post-${i}`}
-              source={{ uri: userPosts.posts[i] }}
+              source={{ uri: photos[i] }}
               style={styles.lockPostImage}
             />
             <View style={styles.overlay}>
@@ -110,7 +125,7 @@ export default function DailyPost({ navigation }) {
           <View style={[styles.lockContainer, styles.marginTopT]}>
             <Image
               key={`post-${i}`}
-              source={{ uri: userPosts.posts[i] }}
+              source={{ uri: photos[i] }}
               style={[styles.lockPostImage]}
             />
             <View style={styles.overlay}>
@@ -120,13 +135,13 @@ export default function DailyPost({ navigation }) {
         );
       }
     }
-    if (userPosts.posts.length % 2) {
+    if (photos.length % 2) {
       //그리드 모양 유지를 위한 빈 뷰
       grid.push(
         <View
-          key={`empty-${userPosts.posts.length - 1}`}
+          key={`empty-${photos.length - 1}`}
           style={
-            userPosts.posts.length == 2
+            photos.length == 2
               ? [styles.voidImage, styles.marginTopT]
               : styles.voidImage
           }
@@ -138,13 +153,14 @@ export default function DailyPost({ navigation }) {
   return (
     <NativeBaseProvider>
       <View style={styles.appBar}>
+        <StatusBar />
         <MaterialIcons
           name="navigate-before"
           size={24}
           color="white"
           onPress={() => navigation.pop()}
         />
-        <Text style={styles.dateText}>{userPosts.date}</Text>
+        <Text style={styles.dateText}>{dateString}</Text>
         <MaterialIcons
           name="delete-forever"
           size={24}
@@ -209,36 +225,36 @@ export default function DailyPost({ navigation }) {
                 </VStack>
               </HStack>
             </View>
-            {userPosts.visible ? (
+            {visible ? (
               <View style={styles.postsContainer}>{renderGrid()}</View>
             ) : (
               <TouchableOpacity onPress={() => setLockIsOpen(true)}>
                 <View style={styles.postsContainer}>{renderLockedGrid()}</View>
               </TouchableOpacity>
             )}
-            {!userPosts.visible && userPosts.posts.length > 2 && (
+            {!visible && photos.length > 2 && (
               <TouchableOpacity onPress={() => setLockIsOpen(true)}>
                 <View
-                  key={`empty-${userPosts.posts.length - 1}`}
+                  key={`empty-${photos.length - 1}`}
                   style={
-                    userPosts.posts.length == 2
+                    photos.length == 2
                       ? [styles.voidImage, styles.marginTopT]
                       : styles.voidImage
                   }
                 />
               </TouchableOpacity>
             )}
-            {userPosts.visible && userPosts.posts.length > 2 && (
+            {visible && photos.length > 2 && (
               <View
-                key={`empty-${userPosts.posts.length - 1}`}
+                key={`empty-${photos.length - 1}`}
                 style={
-                  userPosts.posts.length == 2
+                  photos.length == 2
                     ? [styles.voidImage, styles.marginTopT]
                     : styles.voidImage
                 }
               />
             )}
-            <Text style={styles.userContent}>{userPosts.content}</Text>
+            <Text style={styles.userContent}>{memo}</Text>
           </VStack>
         </ScrollView>
       </SafeAreaView>
