@@ -52,12 +52,15 @@ export default function ProfileImage({ setImage }) {
             quality: 0.2,
             aspect: [1, 1],
         });
-
-        if (!result.canceled) {
-            setImageUrl({ uri: result.uri });
-            setIsUploaded(true);
-            setShowOptions(false);
-        }
+        if(result.canceled) {
+          return null; // 이미지 업로드를 취소한 경우
+      }
+      setImage([result?.assets?.[0]?.fileName, result?.assets?.[0]?.type, result?.assets?.[0]?.uri]); // 내부 요소를 배열로 전달한다.
+      
+      // 이미지 업로드 결과 및 이미지 경로 업데이트
+      setImageUrl(result.assets[0].uri);
+      setIsUploaded(true);
+      setShowOptions(false);
     };
 
     return (

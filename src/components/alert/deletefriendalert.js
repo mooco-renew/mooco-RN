@@ -1,14 +1,14 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import deleteFriend from '../../server/friends/delete-friend';
 
 // test용 스크린
-export default function DeleteFriendAlert({ setView}) {
+export default function DeleteFriendAlert({ setView, selectedId}) {
     const handleCancel = () => {
-        // 취소 로직
         setView(false);
     }
 
-    const handleDelete = () => {
-        // 삭제 로직 추가
+    const handleDelete = async () => {
+        await deleteFriend(selectedId);
         setView(false);
     }
 
@@ -16,13 +16,13 @@ export default function DeleteFriendAlert({ setView}) {
       <View style={styles.container}>
         <View style={styles.box}>
         <Text style={styles.firsttext}>친구 삭제</Text> 
-        <Text style={styles.secondtext}>'밍밍밍밍'님의 게시글을 더 이상 볼 수 없으며, 나의 게시글도 표시되지 않습니다.</Text> 
+        <Text style={styles.secondtext}>'밍밍밍밍'님의 게시글을 더 이상 볼 수 없으며, 나의 게시글도 상대방이 열람할 수 없습니다.</Text> 
         <View style={styles.buttonbox}>
         <TouchableOpacity style={styles.firstbutton} onPress={() => handleCancel()}>
             <Text style={styles.firstbuttontext}>취소</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.secondbutton} onPress={() => handleDelete()}>
-            <Text style={styles.secondbuttontext}>삭제</Text>
+            <Text style={styles.secondbuttontext}>친구 삭제</Text>
         </TouchableOpacity>
         </View>
         </View>
@@ -41,7 +41,7 @@ export default function DeleteFriendAlert({ setView}) {
         backgroundColor: 'transparent',
     },
     box: {
-        width: '80%',
+        width: '76%',
         height: 207,
         backgroundColor: '#000000',
         borderRadius: 10,
@@ -69,10 +69,11 @@ export default function DeleteFriendAlert({ setView}) {
         right: 20,
     },
     firstbutton: {
-        backgroundColor: '#ffffff',
+        backgroundColor: '#8C8C8C',
         borderRadius: 5,
         paddingHorizontal: 9,
         paddingVertical: 6,
+        marginRight: 10,
     },
     firstbuttontext: {
         color: '#000000',
@@ -81,7 +82,7 @@ export default function DeleteFriendAlert({ setView}) {
         textAlign: 'center',
     },
     secondbutton: {
-        backgroundColor: '#f73b3b',
+        backgroundColor: '#B466C3',
         borderRadius: 5,
         paddingHorizontal: 9,
         paddingVertical: 6,

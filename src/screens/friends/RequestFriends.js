@@ -1,11 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView } from 'react-native';
+import { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import CustomSwitch from '../../components/switch/CustomSwitch';
 import GetFriend from '../../components/friends/GetFriend';
 import SendFriendAlert from '../../components/alert/sendfriendalert';
 import GetFriendAlert from '../../components/alert/getfriendalert';
 import SendFriend from '../../components/friends/SendFriend';
+import getReceviedList from '../../server/friends/recevied-list';
+import getSentList from '../../server/friends/sent-list';
+import receivedListData from '../../data/friends/received-list';
+import sentListData from '../../data/friends/sent-list';
+import SearchSvg from '../../assets/images/friends/search';
 
 
 // test용 스크린
@@ -14,8 +19,21 @@ export default function RequestFriends() {
     const [search, setSearch] = useState("");
     const [firstview, setFirstView] = useState(false);
     const [secondview, setSecondView] = useState(false);
-    const [firstindex, setFirstIndex] = useState(10);
-    const [secondindex, setSecondIndex] = useState(10);
+    const [requestId, setRequestId] = useState(null);
+    const [receiveId, setReceiveId] = useState(null);
+    const [receivedList, setReceivedList] = useState({ receiceRequestList: [] }); 
+    const [sentList, setSentList] = useState({ sendRequestDtoList: [] }); 
+
+    useEffect(() => {
+        const getList = async () => {
+            const received_result = await getReceviedList();
+            const sent_result = await getSentList();
+            setReceivedList(received_result);
+            setSentList(sent_result);
+        };
+        getList();
+    }, []); 
+
 
     const onSelectSwitch = () => {
         navigation.navigate('FriendsList');
@@ -24,25 +42,30 @@ export default function RequestFriends() {
     return (
       <View style={styles.container}>
          {firstview ? ( < SendFriendAlert setFirstView={setFirstView}/>) : ( <></> )}
-         {secondview ? ( < GetFriendAlert setSecondView={setSecondView}/>) : ( <></> )}
+         {secondview ? ( < GetFriendAlert setSecondView={setSecondView} receiveId={receiveId} />) : ( <></> )}
+         <KeyboardAvoidingView style={styles.inputcontainer}>
+          <KeyboardAvoidingView style={styles.search}>
+        <SearchSvg />
+        </KeyboardAvoidingView>
         <TextInput 
         value={search}
         style={styles.input}
         onChangeText={setSearch}
-        placeholder='요청하고 싶은 친구의 아이디를 검색해보세요!'
+        placeholder='추가하고 싶은 친구의 아이디를 검색해보세요!'
         placeholderTextColor={'rgba(0,0,0,0.5)'}/>
+        </KeyboardAvoidingView>
         <View style={styles.subcontainer}>
             <View style={styles.container}>
             <Text style={styles.label}>보낸 요청</Text>
             <ScrollView style={styles.firstscroll} contentContainerStyle={{alignItems: 'center'}}>
-            {[...Array(firstindex).keys()].map((value, index) => (
-            <SendFriend key={index} setFirstView={setFirstView} />
+            {receivedList.receiceRequestList.map((value, index) => (
+            <SendFriend key={index} setFirstView={setFirstView} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
           ))}
             </ScrollView>
             <Text style={styles.label}>빋은 요청</Text>
             <ScrollView style={styles.secondscroll} contentContainerStyle={{alignItems: 'center'}}>
-              {[...Array(secondindex).keys()].map((value, index) => (
-            <GetFriend key={index} setSecondView={setSecondView} />
+              {sentList.sendRequestDtoList.map((value, index) => (
+            <GetFriend key={index} setSecondView={setSecondView} setReceiveId={setReceiveId} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
           ))}
             </ScrollView>
             </View>
@@ -63,7 +86,18 @@ export default function RequestFriends() {
       width: '100%',
       height: '100%',
       alignItems: 'center',
-      backgroundColor: '#151515',
+      backgroundColor: '#000000',
+    },
+    inputcontainer: {
+      position: 'relative',
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    search: {
+      top: 15,
+      left: 35,
+      zIndex: 10,
     },
     subcontainer: {
         width: '100%',
@@ -94,8 +128,8 @@ export default function RequestFriends() {
       backgroundColor: '#ffffff',
       fontSize: 14,
       borderRadius: 10,
-      paddingHorizontal: 20,
-      paddingVertical: 7,
+      paddingHorizontal: 43,
+      paddingVertical: 14,
       marginTop: 30,
     },
     scrollbox: {

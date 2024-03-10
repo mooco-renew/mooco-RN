@@ -62,10 +62,10 @@ export default function KakaoLoginScreen({ navigation }) {
 		  const response = await axios.post(`${SERVER_HOST}/api/v1/auth/kakao`, data, config);
 		  console.log('성공 !: ', response.data);
 			storeData(response.data.data.accessToken); // store에 token 저장
-			if(!response.data.data.isExisted) {
-				navigation.navigate('GetProfile'); // 추가 정보 입력
+			if(response.data.data.isExisted) {
+				navigation.navigate('Daily'); // 임시로 daily
 			} else {
-				navigation.navigate('OnBoarding'); // 메인
+				navigation.navigate('GetProfile'); // 추가 정보 입력
 			}
 		} catch (error) {
 		  console.error('에러가 있습니다. ', error);

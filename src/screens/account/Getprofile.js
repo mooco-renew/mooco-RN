@@ -2,44 +2,17 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import ProfileImage from '../../components/getProfile/profileImage';
-import getToken from '../../server/getToken';
-import { SERVER_HOST } from "@env";
-import axios from 'axios';
-
+import postUserInfo from '../../server/getInfo/post-profile';
 
 // test용 스크린
 export default function GetProfile() {
-    const navigation = useNavigation();
-    const token = getToken();
-
+  const navigation = useNavigation();
     const [nickname, setNickname] = useState("");
     const [image, setImage] = useState([]);
 
-	const postUserInfo = async () => {
-    const formData = new FormData();
-    // 이미지 용량이 너무 커서 압축이 필요하다.
-    const file = {
-      name: image[0],
-      type: image[1],
-      uri: image[2],
-    }
-
-    formData.append('profileImage', file);
-    formData.append('nickname', nickname);
-
-		const config = {
-			headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${token}`,
-			}
-		};
-		
-		try {
-		  const response = await axios.post(`${SERVER_HOST}/api/v1/auth/user-info`, formData, config);
-		  console.log('성공 !: ', response.data);
-		} catch (error) {
-		  console.error('에러가 있습니다. ', error);
-		}
+    // 유저 정보 전송
+	const clickPost = async () => {
+    postUserInfo(image, nickname, navigation);
 	  };
 
     return (
@@ -53,7 +26,7 @@ export default function GetProfile() {
         placeholder='닉네임을 입력해주세요'
         placeholderTextColor='#ffffff' />
     </View>
-    <TouchableOpacity style={styles.button} onPress={postUserInfo}>
+    <TouchableOpacity style={styles.button} onPress={clickPost}>
         <Text style={styles.buttontext}>확인</Text>
     </TouchableOpacity>
       </View>
