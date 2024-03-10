@@ -4,10 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const getToken = () => {
     const navigation = useNavigation();
-
   const [data, setData] = useState(null);
 
-  useEffect(() => {
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('access_token');
@@ -24,7 +22,6 @@ const getToken = () => {
       }
     };
     getData();
-  }, []);
 
   return data; // 데이터와 에러를 반환합니다.
 };
