@@ -28,7 +28,12 @@ export default function FriendsList() {
     // 검색 함수
     const handleSearchChange = (text) => {
       setSearch(text);  // onChange 텍스트 업데이트
-      searchFriends(text); // text로 검색
+
+      if(text != "") {
+        searchFriends(text); // text로 검색
+      } else {
+        getFriendsList();
+      }
   };
 
     const onSelectSwitch = () => {
