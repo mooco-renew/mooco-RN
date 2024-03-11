@@ -36,3 +36,12 @@ yarn-error.*
 
 # env
 *.env
+
+# yarn.lock
+yarn.lock
+
+# package-lock
+package-lock.json
+
+#.idea
+.idea

@@ -4,7 +4,6 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 export default function GetFriendAlert({ setSecondView}) {
 
     const handleDelete = () => {
-        // 삭제 로직 추가
         setSecondView(false);
     }
 
@@ -15,7 +14,7 @@ export default function GetFriendAlert({ setSecondView}) {
         <Text style={styles.secondtext}>앞으로 밍밍밍밍님의 게시글을 확인할 수 있습니다. 또한, 밍밍밍밍님도 현서님의 게시글을 확인할 수 있습니다.</Text> 
         <View style={styles.buttonbox}>
         <TouchableOpacity style={styles.secondbutton} onPress={() => handleDelete()}>
-            <Text style={styles.secondbuttontext}>삭제</Text>
+            <Text style={styles.secondbuttontext}>확인</Text>
         </TouchableOpacity>
         </View>
         </View>
@@ -34,7 +33,7 @@ export default function GetFriendAlert({ setSecondView}) {
         backgroundColor: 'transparent',
     },
     box: {
-        width: '80%',
+        width: '75%',
         height: 207,
         backgroundColor: '#000000',
         borderRadius: 10,
@@ -58,12 +57,11 @@ export default function GetFriendAlert({ setSecondView}) {
     buttonbox: {
         position: 'absolute',
         flexDirection: 'row',
-        gap: 10,
         bottom: 20,
         right: 20,
     },
     secondbutton: {
-        backgroundColor: '#f73b3b',
+        backgroundColor: '#B466C3',
         borderRadius: 5,
         paddingHorizontal: 9,
         paddingVertical: 6,

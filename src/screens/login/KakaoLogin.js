@@ -1,72 +1,111 @@
 import React from "react";
-import {View, StyleSheet, Platform} from "react-native";
-import {WebView} from 'react-native-webview';
-import { REST_API_KEY, REDIRECT_URI } from "@env";
+import { View, StyleSheet, Platform } from "react-native";
+import { WebView } from "react-native-webview";
+import {
+  REST_API_KEY,
+  REDIRECT_URI,
+  INJECTED_JAVASCRIPT,
+  SERVER_HOST,
+} from "@env";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function KakaoLoginScreen({ navigation }) {
-	const getCode = (target) => {
-		const exp = 'code=';
-		const condition = target.indexOf(exp);
-        console.log('exp : ', exp);
-        console.log('condition: ', condition);
-		if (condition !== -1) {
-            // 인가 코드 발급
-			const requestCode = target.substring(condition + exp.length);
-			console.log('code = ', requestCode);
-			// requestToken(requestCode);
-		}
-	};
+  var _REDIRECT_URI = REDIRECT_URI;
 
-    /*
-	const requestToken = async (code) => {
-		const requestTokenUrl = 'https://lastdance.kr/api/members/kakao/login';
+  // 인가코드 발급
+  const getCode = (target) => {
+    const exp = "code=";
+    const condition = target.indexOf(exp);
+    console.log("exp : ", exp);
+    console.log("condition: ", condition);
+    if (condition !== -1) {
+      // 인가 코드 발급
+      const requestCode = target.substring(condition + exp.length);
+      console.log("code = ", requestCode);
+      getToken(requestCode);
+    }
+  };
 
-		try {
-			const body = {
-				code,
-			};
-			const response = await axios.post(requestTokenUrl, body);
+  // access token 받기
+  const getToken = async (code) => {
+    const requestTokenUrl = "https://kauth.kakao.com/oauth/token";
+    var accessToken = "none";
+    axios({
+      method: "post",
+      url: requestTokenUrl,
+      params: {
+        grant_type: "authorization_code",
+        client_id: REST_API_KEY,
+        redirect_uri: REDIRECT_URI,
+        code: code,
+      },
+    })
+      .then((response) => {
+        accessToken = response.data.access_token;
+        //서버 통신
+        postToken(accessToken);
+      })
+      .catch(function (error) {
+        console.log("error : ", error);
+      });
+  };
 
-			console.log(response.headers);
+  // 서버로 코드 전송 후 토큰 받아오기
+  const postToken = async (accessToken) => {
+    const data = {
+      accessToken: accessToken,
+      provider: "Kakao",
+    };
 
-			const accessToken = response.headers['authorization'];
-			const refreshToken = response.headers['authorization-refresh'];
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
 
-			if (accessToken) {
-				// AsyncStorage에 accessToken 저장
-				await AsyncStorage.setItem('accessToken', accessToken);
-			}
+    try {
+      const response = await axios.post(
+        `${SERVER_HOST}/api/v1/auth/kakao`,
+        data,
+        config
+      );
+      console.log("성공 !: ", response.data);
+      storeData(response.data.data.accessToken); // store에 token 저장
+      if (response.data.data.isExisted) {
+        navigation.navigate("Home"); // 임시로 daily
+      } else {
+        navigation.navigate("GetProfile"); // 추가 정보 입력
+      }
+    } catch (error) {
+      console.error("에러가 있습니다. ", error);
+    }
+  };
 
-			if (refreshToken) {
-				// AsyncStorage에 refreshToken 저장
-				await AsyncStorage.setItem('refreshToken', refreshToken);
-			}
+  const storeData = async (returnValue) => {
+    try {
+      await AsyncStorage.setItem("access_token", returnValue);
+    } catch (error) {
+      console.log("토큰 저장에 실패하였습니다. ", error);
+    }
+  };
 
-			console.log(response.data);
-
-			await navigation.navigate('가족선택');
-		} catch (e) {
-			console.log(e);
-		}
-	};
-    */
-
-	return Platform.OS === "web" ? (
-        <iframe src="https://www.somedomain.com/" height={'100%'} width={'100%'} />
-      ) : (
-		<View style={{ flex: 1 }}>
-			<WebView
-				style={{ flex: 1 }}
-				source={{
-					uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
-				}}
-				injectedJavaScript={INJECTED_JAVASCRIPT}
-				javaScriptEnabled
-				onMessage={(event) => {
-					const data = event.nativeEvent.url;
-					getCode(data);
-				}}
-			/>
-		</View>
-	);
+  return Platform.OS === "web" ? (
+    <iframe src="https://www.somedomain.com/" height={"100%"} width={"100%"} />
+  ) : (
+    <View style={{ flex: 1 }}>
+      <WebView
+        style={{ flex: 1 }}
+        source={{
+          uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${_REDIRECT_URI}`,
+        }}
+        injectedJavaScript={INJECTED_JAVASCRIPT}
+        javaScriptEnabled
+        onMessage={(event) => {
+          const data = event.nativeEvent.url;
+          getCode(data);
+        }}
+      />
+    </View>
+  );
 }
