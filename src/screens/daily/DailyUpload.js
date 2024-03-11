@@ -8,6 +8,7 @@ import {
   Image,
   ScrollView,
   SafeAreaView,
+  StatusBar,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -20,6 +21,7 @@ import {
   VStack,
   Center,
 } from "native-base";
+import postDailyImageData from "../../server/daily/postDailyImageData";
 
 export default function DailyUpload({ navigation }) {
   const [comment, setComment] = useState("");
@@ -36,6 +38,10 @@ export default function DailyUpload({ navigation }) {
   const Btn1Event = () => setIsOpen(false);
   const Btn2 = "취소하기";
   const Btn2Event = () => navigation.pop();
+
+  const uploadPost = async (date, images, memo) => {
+    await postDailyImageData(date, images, memo);
+  };
 
   useEffect(() => {}, []);
   const handleContentSizeChange = (event) => {
@@ -96,9 +102,11 @@ export default function DailyUpload({ navigation }) {
     setMenuVisible(false);
   };
 
+  /*
+  //이미지 삭제 기능
   const removeImage = (uri) => {
     setSelectedImages(selectedImages.filter((image) => image.uri !== uri));
-  };
+  };*/
 
   const renderGrid = () => {
     const grid = [];
@@ -124,6 +132,26 @@ export default function DailyUpload({ navigation }) {
       }
     }
     return grid;
+  };
+
+  const getFormattedDate = () => {
+    // 현재 날짜 및 시간
+    const now = new Date();
+
+    // 한국 시간대에 맞게 조정 (UTC+9)
+    const koreaTimeOffset = 9 * 60 * 60 * 1000; // 9시간을 밀리초로 변환
+    const koreaTime = new Date(now.getTime() + koreaTimeOffset);
+
+    // Intl.DateTimeFormat을 사용하여 'yyyy-MM-dd' 형식으로 날짜 포맷
+    const formattedDate = new Intl.DateTimeFormat("ko-KR", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      timeZone: "Asia/Seoul",
+    }).format(koreaTime);
+
+    // 'yyyy. MM. dd.' 형식을 'yyyy-MM-dd' 형식으로 변환
+    return formattedDate.replace(/\.\s/g, "-").slice(0, -1);
   };
 
   return (
@@ -153,6 +181,7 @@ export default function DailyUpload({ navigation }) {
             </View>
 
             <View style={styles.appBar}>
+              <StatusBar />
               <MaterialIcons
                 name="navigate-before"
                 size={24}
@@ -164,7 +193,10 @@ export default function DailyUpload({ navigation }) {
                 name="send"
                 size={24}
                 color="white"
-                onPress={() => setIsOpen(true)}
+                onPress={() => {
+                  uploadPost(getFormattedDate(), selectedImages, comment);
+                  navigation.pop();
+                }}
               />
             </View>
             <View style={styles.container}>
