@@ -1,6 +1,7 @@
 import { SERVER_HOST } from "@env";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import { Platform } from "react-native";
 
 const postDailyImageData = async (date, images, memo) => {
   const accessToken = await AsyncStorage.getItem("access_token");
@@ -38,7 +39,7 @@ const postDailyImageData = async (date, images, memo) => {
       alert("에러가 발생했습니다.");
     }*/
   } catch (error) {
-    console.error("Error get daily data", error);
+    console.error("Error post daily data", error);
   }
 };
 

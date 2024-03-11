@@ -2,15 +2,7 @@ import React, { useState, useEffect } from "react";
 import { LocaleConfig, Calendar } from "react-native-calendars";
 import { NativeBaseProvider, ScrollView } from "native-base";
 import { TouchableOpacity, StyleSheet, View } from "react-native";
-import {
-  Text,
-  Box,
-  HStack,
-  VStack,
-  Image,
-  Actionsheet,
-  useDisclose,
-} from "native-base";
+import { Text, Box, HStack, VStack, Image, Actionsheet } from "native-base";
 import DailyImageView from "../../components/dailyImageView/DailyImageView";
 import { LinearGradient } from "expo-linear-gradient";
 import getDailyHomeData from "../../server/daily/getDailyHomeData";
@@ -173,6 +165,7 @@ export default function Daily({ navigation }) {
                 arrowColor: "white",
                 dayTextColor: "white",
                 textSectionTitleColor: "white",
+                todayTextColor: "white",
                 // ... 다른 테마 관련 속성들을 추가
               }}
               // 기본 월 및 연도 타이틀을 사용자 정의 타이틀로 대체
