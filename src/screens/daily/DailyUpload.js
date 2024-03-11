@@ -9,6 +9,8 @@ import {
   ScrollView,
   SafeAreaView,
   StatusBar,
+  Modal,
+  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -166,7 +168,21 @@ export default function DailyUpload({ navigation }) {
                   : [styles.alertContiner, styles.alertContinerzIndexClose]
               }
             >
-              {isOpen && (
+              {isOpen && Platform.OS === "ios" && (
+                <Modal visible={isOpen} transparent={true}>
+                  <DailyModal
+                    isOpen={isOpen}
+                    onClose={Btn1Event}
+                    Header={Header}
+                    Content={Content}
+                    Btn1={Btn1}
+                    Btn1Event={Btn1Event}
+                    Btn2={Btn2}
+                    Btn2Event={Btn2Event}
+                  />
+                </Modal>
+              )}
+              {isOpen && Platform.OS === "android" && (
                 <DailyModal
                   isOpen={isOpen}
                   onClose={Btn1Event}

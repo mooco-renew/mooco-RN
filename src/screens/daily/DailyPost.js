@@ -16,10 +16,11 @@ import { MaterialIcons } from "@expo/vector-icons";
 import DailyModal from "../../components/dailyModal/DailyModal";
 import getDailyImageData from "../../server/daily/getDailyImageData";
 import deleteDailyImageData from "../../server/daily/deleteDailyImageData";
+import dailyImageData from "../../data/daily/dailyImageData";
 
 export default function DailyPost({ date, navigation }) {
   //캘린더 데이터
-  const [data, setData] = useState({});
+  const [data, setData] = useState(dailyImageData);
   useEffect(() => {
     const getData = async (date) => {
       const result = await getDailyImageData(date);
@@ -58,6 +59,7 @@ export default function DailyPost({ date, navigation }) {
     console.log("삭제하기");
     deletePost(date);
     setIsOpen(false);
+    navigation.pop();
   };
 
   const LockHeader = "일상 사진 열람";
