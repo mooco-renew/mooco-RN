@@ -6,12 +6,12 @@ const getDailyCalendarData = async (date) => {
   const accessToken = await AsyncStorage.getItem("access_token");
   try {
     const response = await axios.get(
-      `${SERVER_HOST}/api/v1/days/calender/${date}`,
+      `${SERVER_HOST}/api/v1/days/calendar/${date}`,
       {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
-    console.log(response.data.data);
+    console.log("데일리 캘린더 데이터 로드", response.data);
     /*if (response.data.success == true) {
       //처리
     } else {

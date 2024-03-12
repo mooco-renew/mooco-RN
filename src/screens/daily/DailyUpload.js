@@ -42,7 +42,12 @@ export default function DailyUpload({ navigation }) {
   const Btn2Event = () => navigation.pop();
 
   const uploadPost = async (date, images, memo) => {
-    await postDailyImageData(date, images, memo);
+    if (selectedImages.length !== 0 || memo !== "") {
+      await postDailyImageData(date, images, memo);
+      navigation.pop();
+    } else {
+      alert("메모 혹은 사진을 기록해주세요!");
+    }
   };
 
   useEffect(() => {}, []);
@@ -77,7 +82,6 @@ export default function DailyUpload({ navigation }) {
       }
       setSelectedImages(selectedImages);
       rendering();
-      console.log(selectedImages);
     }
   };
   const handlePickImage = async () => {
@@ -95,7 +99,6 @@ export default function DailyUpload({ navigation }) {
       }
       setSelectedImages(selectedImages);
       rendering();
-      console.log(selectedImages);
     }
   };
 
@@ -211,7 +214,6 @@ export default function DailyUpload({ navigation }) {
                 color="white"
                 onPress={() => {
                   uploadPost(getFormattedDate(), selectedImages, comment);
-                  navigation.pop();
                 }}
               />
             </View>

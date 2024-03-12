@@ -8,7 +8,7 @@ const deleteDailyImageData = async (date) => {
     const response = await axios.delete(`${SERVER_HOST}/api/v1/days/${date}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    console.log(response.data.data);
+    console.log("데일리 기록 삭제", response.data);
     /*if (response.data.success == true) {
       //처리
     } else {
