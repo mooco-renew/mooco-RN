@@ -5,7 +5,7 @@ import axios from "axios";
 const getDailyHomeData = async () => {
   const accessToken = await AsyncStorage.getItem("access_token");
   try {
-    const response = await axios.get(`${SERVER_HOST}/api/v1/days/calender`, {
+    const response = await axios.get(`${SERVER_HOST}/api/v1/days/calendar`, {
       headers: {
         Authorization: `Bearer ${accessToken};`,
       },

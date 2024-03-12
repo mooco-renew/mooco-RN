@@ -18,9 +18,9 @@ import getDailyImageData from "../../server/daily/getDailyImageData";
 import deleteDailyImageData from "../../server/daily/deleteDailyImageData";
 import dailyImageData from "../../data/daily/dailyImageData";
 
-export default function DailyPost({ date, navigation }) {
+export default function DailyPost({ route, navigation }) {
   //캘린더 데이터
-  const [data, setData] = useState(dailyImageData);
+  const [data, setData] = useState(dailyImageData.data);
   useEffect(() => {
     const getData = async (date) => {
       const result = await getDailyImageData(date);
@@ -33,7 +33,7 @@ export default function DailyPost({ date, navigation }) {
     };
     getData();
   }, []);
-  const dateString = date.params.date;
+  const dateString = route.params.date;
   const memo = data.memo;
   const photos = data.photos;
   const visible = data.visible;
@@ -66,91 +66,95 @@ export default function DailyPost({ date, navigation }) {
   const LockContent = "아직 이번 달의 사진을 볼 수 없습니다.";
   const LockBtn1Event = () => setLockIsOpen(false);
   const renderGrid = () => {
-    const grid = [];
-    for (let i = 0; i < photos.length; i++) {
-      if (i < 2) {
-        //안드로이드 2*2 그리드 2행의 여백 문제로 인한 분기
+    if (photos) {
+      const grid = [];
+      for (let i = 0; i < photos.length; i++) {
+        if (i < 2) {
+          //안드로이드 2*2 그리드 2행의 여백 문제로 인한 분기
+          grid.push(
+            <Image
+              key={`post-${i}`}
+              source={{ uri: photos[i] }}
+              style={styles.postImage}
+            />
+          );
+        } else {
+          //2행일 경우 상단 여백을 줌
+          grid.push(
+            <Image
+              key={`post-${i}`}
+              source={{ uri: photos[i] }}
+              style={[styles.postImage, styles.marginTopT]}
+            />
+          );
+        }
+      }
+      if (photos.length % 2) {
+        //그리드 모양 유지를 위한 빈 뷰
         grid.push(
-          <Image
-            key={`post-${i}`}
-            source={{ uri: photos[i] }}
-            style={styles.postImage}
-          />
-        );
-      } else {
-        //2행일 경우 상단 여백을 줌
-        grid.push(
-          <Image
-            key={`post-${i}`}
-            source={{ uri: photos[i] }}
-            style={[styles.postImage, styles.marginTopT]}
+          <View
+            key={`empty-${photos.length - 1}`}
+            style={
+              photos.length == 2
+                ? [styles.voidImage, styles.marginTopT]
+                : styles.voidImage
+            }
           />
         );
       }
+      return grid;
     }
-    if (photos.length % 2) {
-      //그리드 모양 유지를 위한 빈 뷰
-      grid.push(
-        <View
-          key={`empty-${photos.length - 1}`}
-          style={
-            photos.length == 2
-              ? [styles.voidImage, styles.marginTopT]
-              : styles.voidImage
-          }
-        />
-      );
-    }
-    return grid;
   };
 
   const renderLockedGrid = () => {
-    const grid = [];
-    for (let i = 0; i < photos.length; i++) {
-      if (i < 2) {
-        //안드로이드 2*2 그리드 2행의 여백 문제로 인한 분기
-        grid.push(
-          <View style={styles.lockContainer}>
-            <Image
-              key={`post-${i}`}
-              source={{ uri: photos[i] }}
-              style={styles.lockPostImage}
-            />
-            <View style={styles.overlay}>
-              <MaterialIcons name="lock-outline" size={24} color="white" />
+    if (photos) {
+      const grid = [];
+      for (let i = 0; i < photos.length; i++) {
+        if (i < 2) {
+          //안드로이드 2*2 그리드 2행의 여백 문제로 인한 분기
+          grid.push(
+            <View style={styles.lockContainer}>
+              <Image
+                key={`post-${i}`}
+                source={{ uri: photos[i] }}
+                style={styles.lockPostImage}
+              />
+              <View style={styles.overlay}>
+                <MaterialIcons name="lock-outline" size={24} color="white" />
+              </View>
             </View>
-          </View>
-        );
-      } else {
-        //2행일 경우 상단 여백을 줌
-        grid.push(
-          <View style={[styles.lockContainer, styles.marginTopT]}>
-            <Image
-              key={`post-${i}`}
-              source={{ uri: photos[i] }}
-              style={[styles.lockPostImage]}
-            />
-            <View style={styles.overlay}>
-              <MaterialIcons name="lock-outline" size={24} color="white" />
+          );
+        } else {
+          //2행일 경우 상단 여백을 줌
+          grid.push(
+            <View style={[styles.lockContainer, styles.marginTopT]}>
+              <Image
+                key={`post-${i}`}
+                source={{ uri: photos[i] }}
+                style={[styles.lockPostImage]}
+              />
+              <View style={styles.overlay}>
+                <MaterialIcons name="lock-outline" size={24} color="white" />
+              </View>
             </View>
-          </View>
+          );
+        }
+      }
+      if (photos.length % 2) {
+        //그리드 모양 유지를 위한 빈 뷰
+        grid.push(
+          <View
+            key={`empty-${photos.length - 1}`}
+            style={
+              photos.length == 2
+                ? [styles.voidImage, styles.marginTopT]
+                : styles.voidImage
+            }
+          />
         );
       }
+      return grid;
     }
-    if (photos.length % 2) {
-      //그리드 모양 유지를 위한 빈 뷰
-      grid.push(
-        <View
-          key={`empty-${photos.length - 1}`}
-          style={
-            photos.length == 2
-              ? [styles.voidImage, styles.marginTopT]
-              : styles.voidImage
-          }
-        />
-      );
-    }
-    return grid;
   };
   return (
     <NativeBaseProvider>
@@ -227,14 +231,15 @@ export default function DailyPost({ date, navigation }) {
                 </VStack>
               </HStack>
             </View>
-            {visible ? (
+            {photos && visible && (
               <View style={styles.postsContainer}>{renderGrid()}</View>
-            ) : (
+            )}
+            {photos && !visible && (
               <TouchableOpacity onPress={() => setLockIsOpen(true)}>
                 <View style={styles.postsContainer}>{renderLockedGrid()}</View>
               </TouchableOpacity>
             )}
-            {!visible && photos.length > 2 && (
+            {photos && !visible && photos.length > 2 && (
               <TouchableOpacity onPress={() => setLockIsOpen(true)}>
                 <View
                   key={`empty-${photos.length - 1}`}
@@ -246,7 +251,7 @@ export default function DailyPost({ date, navigation }) {
                 />
               </TouchableOpacity>
             )}
-            {visible && photos.length > 2 && (
+            {photos && visible && photos.length > 2 && (
               <View
                 key={`empty-${photos.length - 1}`}
                 style={

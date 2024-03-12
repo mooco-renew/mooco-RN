@@ -13,17 +13,38 @@ export default function Daily({ navigation }) {
   const [homeData, setHomeData] = useState(dailyHomeData.data);
   useEffect(() => {
     const getHomeData = async () => {
-      console.log("로드 홈데이터");
       const result = await getDailyHomeData();
       if (result !== null) {
         // 결과가 null이 아닐 때만 상태 업데이트
         setHomeData(result);
+        setUploadDateListArray(result.uploadDateList);
       } else {
         // result가 null일 때의 처리 로직, 필요한 경우
       }
     };
     getHomeData();
   }, []);
+
+  useEffect(() => {
+    setUploadDateList(
+      uploadDateListArray.reduce((acc, date) => {
+        // 여기서 uploadDateListArray 사용
+        acc[date] = {
+          customStyles: {
+            container: {
+              backgroundColor: "white",
+              borderRadius: 50,
+            },
+            text: {
+              color: "black",
+              fontWeight: "bold",
+            },
+          },
+        };
+        return acc;
+      }, {})
+    );
+  }, [uploadDateListArray]);
 
   //홈 데이터
   const dailyImgList = homeData.dailyImgList;
@@ -41,6 +62,9 @@ export default function Daily({ navigation }) {
   }
 
   //날짜 배열 객체로 변환
+  const [uploadDateListArray, setUploadDateListArray] = useState(
+    homeData.uploadDateList
+  );
   const [uploadDateList, setUploadDateList] = useState(
     homeData.uploadDateList.reduce((acc, date) => {
       acc[date] = {
@@ -63,24 +87,27 @@ export default function Daily({ navigation }) {
   const [calendarData, setCalendarData] = useState({});
   const getCalendarData = async (date) => {
     const result = await getDailyCalendarData(date);
-    setCalendarData(result);
-    setUploadDateList(
-      calendarData.uploadDateList.reduce((acc, date) => {
-        acc[date] = {
-          customStyles: {
-            container: {
-              backgroundColor: "white",
-              borderRadius: 50,
+    if (result !== null) {
+      setCalendarData(result);
+      setUploadDateListArray(calendarData.uploadDateList);
+      setUploadDateList(
+        calendarData.uploadDateList.reduce((acc, date) => {
+          acc[date] = {
+            customStyles: {
+              container: {
+                backgroundColor: "white",
+                borderRadius: 50,
+              },
+              text: {
+                color: "black",
+                fontWeight: "bold",
+              },
             },
-            text: {
-              color: "black",
-              fontWeight: "bold",
-            },
-          },
-        };
-        return acc;
-      }, {})
-    );
+          };
+          return acc;
+        }, {})
+      );
+    }
   };
 
   return (
@@ -130,7 +157,6 @@ export default function Daily({ navigation }) {
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    console.log("데일리 기록으로 이동");
                     navigation.navigate("DailyUpload");
                   }}
                   style={styles.navigateDailyContainer}
@@ -176,18 +202,33 @@ export default function Daily({ navigation }) {
               monthFormat={"yyyy MMMM"}
               // 날짜를 눌렀을 때 실행되는 함수
               onDayPress={(date) => {
-                console.log("선택된 날짜", date.dateString);
-                {
-                  uploadDateList.includes(date.dateString) &&
-                    navigation.navigate("DailyPost", { date: date.dateString });
+                if (
+                  uploadDateListArray &&
+                  uploadDateListArray.includes(date.dateString)
+                ) {
+                  navigation.navigate("DailyPost", { date: date.dateString });
                 }
               }}
               // 보이는 월이 바뀔 때 실행되는 함수
               onMonthChange={(date) => {
-                console.log("월 변경됨", date);
-                const dateString =
-                  date.year.toString + "-" + date.month.toString + "-01";
-                getCalendarData(dateString);
+                switch (date.month) {
+                  case 1:
+                  case 2:
+                  case 3:
+                  case 4:
+                  case 5:
+                  case 6:
+                  case 7:
+                  case 8:
+                  case 9:
+                    getCalendarData(date.year + "-" + "0" + date.month + "-01");
+                    break;
+                  case 10:
+                  case 11:
+                  case 12:
+                    getCalendarData(date.year + "-" + date.month + "-01");
+                    break;
+                }
               }}
               markedDates={uploadDateList}
               markingType={"custom"}
@@ -224,7 +265,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: "100%", // Set the image height accordingly
+    height: "100%",
     borderRadius: 20,
     overflow: "hidden",
   },
