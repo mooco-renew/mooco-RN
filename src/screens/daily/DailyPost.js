@@ -57,7 +57,7 @@ export default function DailyPost({ route, navigation }) {
   const Btn2 = "삭제하기";
   const Btn2Event = () => {
     console.log("삭제하기");
-    deletePost(date);
+    deletePost(dateString);
     setIsOpen(false);
     navigation.pop();
   };
