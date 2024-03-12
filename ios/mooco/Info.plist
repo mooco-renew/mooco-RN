@@ -7,7 +7,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>moocotest</string>
+    <string>mooco</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -27,7 +27,8 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.anonymous.moocotest</string>
+          <string>mooco</string>
+          <string>com.anonymous.mooco</string>
         </array>
       </dict>
     </array>
@@ -42,7 +43,7 @@
       <key>NSAllowsLocalNetworking</key>
       <true/>
     </dict>
-        <key>NSCameraUsageDescription</key>
+    <key>NSCameraUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to access your camera</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to access your microphone</string>
