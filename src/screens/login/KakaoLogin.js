@@ -1,14 +1,13 @@
 import React from "react";
-import { View, StyleSheet, Platform } from "react-native";
+import { View, Platform } from "react-native";
 import { WebView } from "react-native-webview";
 import {
   REST_API_KEY,
   REDIRECT_URI,
   INJECTED_JAVASCRIPT,
-  SERVER_HOST,
 } from "@env";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import postToken from "../../server/auth/postToken";
 
 export default function KakaoLoginScreen({ navigation }) {
   var _REDIRECT_URI = REDIRECT_URI;
@@ -44,50 +43,11 @@ export default function KakaoLoginScreen({ navigation }) {
       .then((response) => {
         accessToken = response.data.access_token;
         //서버 통신
-        postToken(accessToken);
+        postToken(accessToken, navigation);
       })
       .catch(function (error) {
         console.log("error : ", error);
       });
-  };
-
-  // 서버로 코드 전송 후 토큰 받아오기
-  const postToken = async (accessToken) => {
-    const data = {
-      accessToken: accessToken,
-      provider: "Kakao",
-    };
-
-    const config = {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-
-    try {
-      const response = await axios.post(
-        `${SERVER_HOST}/api/v1/auth/kakao`,
-        data,
-        config
-      );
-      console.log("성공 !: ", response.data);
-      storeData(response.data.data.accessToken); // store에 token 저장
-      if (response.data.data.isExisted) {
-        navigation.navigate("Home"); // 임시로 daily
-      } else {
-        navigation.navigate("GetProfile"); // 추가 정보 입력
-      }
-    } catch (error) {
-      console.error("에러가 있습니다. ", error);
-    }
-  };
-
-  const storeData = async (returnValue) => {
-    try {
-      await AsyncStorage.setItem("access_token", returnValue);
-    } catch (error) {
-      console.log("토큰 저장에 실패하였습니다. ", error);
-    }
   };
 
   return Platform.OS === "web" ? (
