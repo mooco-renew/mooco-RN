@@ -123,6 +123,7 @@ export default function DailyUpload({ navigation }) {
             key={`post-${i}`}
             source={{ uri: selectedImages[i] }}
             style={styles.postImage}
+            alt="업로드 이미지"
           />
         );
       } else {
@@ -132,6 +133,7 @@ export default function DailyUpload({ navigation }) {
             key={`post-${i}`}
             source={{ uri: selectedImages[i] }}
             style={[styles.postImage, styles.marginTopT]}
+            alt="업로드 이미지"
           />
         );
       }

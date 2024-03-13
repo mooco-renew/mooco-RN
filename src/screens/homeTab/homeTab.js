@@ -34,6 +34,7 @@ const HomeTab = ({ navigation }) => {
               alignItems="center"
               p="3"
               cursor="pointer"
+              key={i}
             >
               <Pressable
                 onPress={() => {

@@ -138,8 +138,10 @@ export default function Daily({ navigation }) {
             mb={4}
           >
             <Image
+              key="barcodeImage"
               source={{ uri: barcodeUrl }}
               style={{ width: 320, height: 120 }}
+              alt="바코드 이미지"
             />
           </Box>
         </Actionsheet.Content>

@@ -9,6 +9,7 @@ export default function DailyImageView({ images }) {
         source={{ uri: image }}
         style={getImageStyle(images.length, index)}
         resizeMode="cover"
+        alt="업로드 이미지"
       />
     ));
     if (imageViews.length !== 3) {

@@ -76,6 +76,7 @@ export default function DailyPost({ route, navigation }) {
               key={`post-${i}`}
               source={{ uri: photos[i] }}
               style={styles.postImage}
+              alt="업로드 이미지"
             />
           );
         } else {
@@ -85,6 +86,7 @@ export default function DailyPost({ route, navigation }) {
               key={`post-${i}`}
               source={{ uri: photos[i] }}
               style={[styles.postImage, styles.marginTopT]}
+              alt="업로드 이미지"
             />
           );
         }
@@ -118,6 +120,7 @@ export default function DailyPost({ route, navigation }) {
                 key={`post-${i}`}
                 source={{ uri: photos[i] }}
                 style={styles.lockPostImage}
+                alt="업로드 이미지"
               />
               <View style={styles.overlay}>
                 <MaterialIcons name="lock-outline" size={24} color="white" />
@@ -132,6 +135,7 @@ export default function DailyPost({ route, navigation }) {
                 key={`post-${i}`}
                 source={{ uri: photos[i] }}
                 style={[styles.lockPostImage]}
+                alt="업로드 이미지"
               />
               <View style={styles.overlay}>
                 <MaterialIcons name="lock-outline" size={24} color="white" />
@@ -224,6 +228,7 @@ export default function DailyPost({ route, navigation }) {
                 <Image
                   source={{ uri: userPosts.profilePicture }}
                   style={styles.profilePicture}
+                  alt="업로드 이미지"
                 />
                 <VStack space={1} justifyContent="center">
                   <Text style={styles.username}>{userPosts.username}</Text>
