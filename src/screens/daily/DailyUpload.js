@@ -16,6 +16,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import DailyModal from "../../components/dailyModal/DailyModal";
+import { CommonActions } from "@react-navigation/native";
 import {
   Menu,
   NativeBaseProvider,
@@ -25,7 +26,7 @@ import {
 } from "native-base";
 import postDailyImageData from "../../server/daily/postDailyImageData";
 
-export default function DailyUpload({ navigation }) {
+export default function DailyUpload({ route, navigation }) {
   const [comment, setComment] = useState("");
   const [inputHeight, setInputHeight] = useState(0);
   const [selectedImages, setSelectedImages] = useState([]);
@@ -33,6 +34,7 @@ export default function DailyUpload({ navigation }) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [render, setRender] = useState();
   const [cameraPermission, setCameraPermission] = useState(null);
+  const dateString = route.params.date;
 
   const Header = "글 작성 취소하기";
   const Content = "글 작성을 그만두시겠습니까?";
@@ -44,9 +46,12 @@ export default function DailyUpload({ navigation }) {
   const uploadPost = async (date, images, memo) => {
     if (selectedImages.length !== 0 || memo !== "") {
       await postDailyImageData(date, images, memo);
-      navigation.pop();
-    } else {
-      alert("메모 혹은 사진을 기록해주세요!");
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: "Home" }],
+        })
+      );
     }
   };
 
@@ -141,26 +146,6 @@ export default function DailyUpload({ navigation }) {
     return grid;
   };
 
-  const getFormattedDate = () => {
-    // 현재 날짜 및 시간
-    const now = new Date();
-
-    // 한국 시간대에 맞게 조정 (UTC+9)
-    const koreaTimeOffset = 9 * 60 * 60 * 1000; // 9시간을 밀리초로 변환
-    const koreaTime = new Date(now.getTime() + koreaTimeOffset);
-
-    // Intl.DateTimeFormat을 사용하여 'yyyy-MM-dd' 형식으로 날짜 포맷
-    const formattedDate = new Intl.DateTimeFormat("ko-KR", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      timeZone: "Asia/Seoul",
-    }).format(koreaTime);
-
-    // 'yyyy. MM. dd.' 형식을 'yyyy-MM-dd' 형식으로 변환
-    return formattedDate.replace(/\.\s/g, "-").slice(0, -1);
-  };
-
   return (
     <>
       <NativeBaseProvider>
@@ -210,14 +195,18 @@ export default function DailyUpload({ navigation }) {
                 onPress={() => setIsOpen(true)}
               />
               <Text style={styles.appBarTitle}>데일리 기록</Text>
-              <Ionicons
-                name="send"
-                size={24}
-                color="white"
-                onPress={() => {
-                  uploadPost(getFormattedDate(), selectedImages, comment);
-                }}
-              />
+              {selectedImages.length !== 0 || comment !== "" ? (
+                <Ionicons
+                  name="send"
+                  size={24}
+                  color="white"
+                  onPress={() => {
+                    uploadPost(dateString, selectedImages, comment);
+                  }}
+                />
+              ) : (
+                <Ionicons name="send" size={24} color="grey" />
+              )}
             </View>
             <View style={styles.container}>
               <VStack space={3}>

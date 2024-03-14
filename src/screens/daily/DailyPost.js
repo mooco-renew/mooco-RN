@@ -11,17 +11,39 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
+import { CommonActions } from "@react-navigation/native";
 import { NativeBaseProvider, HStack, VStack } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import DailyModal from "../../components/dailyModal/DailyModal";
 import getDailyImageData from "../../server/daily/getDailyImageData";
 import deleteDailyImageData from "../../server/daily/deleteDailyImageData";
 import dailyImageData from "../../data/daily/dailyImageData";
+import getDailyImageUserData from "../../server/daily/getDailyImageUserData";
+import dailyImageUserData from "../../data/daily/dailyImageUserData";
 
 export default function DailyPost({ route, navigation }) {
-  //캘린더 데이터
+  //유저 프로필 정보
+  const [userData, setUserData] = useState(dailyImageUserData.data);
+  const profilePicture = userData.profileImgUrl;
+  const nickname = userData.nickname;
+  const identifierId = userData.identifierId;
   const [data, setData] = useState(dailyImageData.data);
+  const dateString = route.params.date;
+  const memo = data.memo;
+  const photos = data.photos;
+  const visible = data.visible;
+
   useEffect(() => {
+    const getUserData = async () => {
+      const result = await getDailyImageUserData();
+      if (result !== null) {
+        // 결과가 null이 아닐 때만 상태 업데이트
+        setUserData(result);
+      } else {
+        // result가 null일 때의 처리 로직, 필요한 경우
+      }
+    };
+    getUserData();
     const getData = async (date) => {
       const result = await getDailyImageData(date);
       if (result !== null) {
@@ -31,21 +53,17 @@ export default function DailyPost({ route, navigation }) {
         // result가 null일 때의 처리 로직, 필요한 경우
       }
     };
-    getData();
+    getData(dateString);
   }, []);
-  const dateString = route.params.date;
-  const memo = data.memo;
-  const photos = data.photos;
-  const visible = data.visible;
-
-  const [userPosts, setUserPosts] = useState({
-    profilePicture: "https://via.placeholder.com/150",
-    username: "Yujin",
-    userId: "@7ewmetfj86",
-  });
 
   const deletePost = async (date) => {
     await deleteDailyImageData(date);
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 1,
+        routes: [{ name: "Home" }],
+      })
+    );
   };
   const [isOpen, setIsOpen] = React.useState(false);
   const [lockIsOpen, setLockIsOpen] = React.useState(false);
@@ -57,9 +75,10 @@ export default function DailyPost({ route, navigation }) {
   const Btn2 = "삭제하기";
   const Btn2Event = () => {
     console.log("삭제하기");
-    deletePost(dateString);
-    setIsOpen(false);
-    navigation.pop();
+    if (photos.length !== null) {
+      deletePost(dateString);
+      setIsOpen(false);
+    }
   };
 
   const LockHeader = "일상 사진 열람";
@@ -168,15 +187,19 @@ export default function DailyPost({ route, navigation }) {
           name="navigate-before"
           size={24}
           color="white"
-          onPress={() => navigation.pop()}
+          onPress={() => navigation.navigate("Home")}
         />
         <Text style={styles.dateText}>{dateString}</Text>
-        <MaterialIcons
-          name="delete-forever"
-          size={24}
-          color="white"
-          onPress={() => setIsOpen(true)}
-        />
+        {photos.length !== 0 ? (
+          <MaterialIcons
+            name="delete-forever"
+            size={24}
+            color="white"
+            onPress={() => setIsOpen(true)}
+          />
+        ) : (
+          <MaterialIcons name="delete-forever" size={24} color="grey" />
+        )}
       </View>
       <SafeAreaView style={styles.safeContainer}>
         <ScrollView style={styles.container}>
@@ -226,25 +249,25 @@ export default function DailyPost({ route, navigation }) {
             <View style={styles.profileContainer}>
               <HStack space={3} justifyContent="center">
                 <Image
-                  source={{ uri: userPosts.profilePicture }}
+                  source={{ uri: profilePicture }}
                   style={styles.profilePicture}
                   alt="업로드 이미지"
                 />
                 <VStack space={1} justifyContent="center">
-                  <Text style={styles.username}>{userPosts.username}</Text>
-                  <Text style={styles.userId}>{userPosts.userId}</Text>
+                  <Text style={styles.username}>{nickname}</Text>
+                  <Text style={styles.userId}>{identifierId}</Text>
                 </VStack>
               </HStack>
             </View>
-            {photos && visible && (
+            {photos.length !== 0 && visible && (
               <View style={styles.postsContainer}>{renderGrid()}</View>
             )}
-            {photos && !visible && (
+            {photos.length !== 0 && !visible && (
               <TouchableOpacity onPress={() => setLockIsOpen(true)}>
                 <View style={styles.postsContainer}>{renderLockedGrid()}</View>
               </TouchableOpacity>
             )}
-            {photos && !visible && photos.length > 2 && (
+            {photos.length !== 0 && !visible && photos.length > 2 && (
               <TouchableOpacity onPress={() => setLockIsOpen(true)}>
                 <View
                   key={`empty-${photos.length - 1}`}
@@ -256,7 +279,7 @@ export default function DailyPost({ route, navigation }) {
                 />
               </TouchableOpacity>
             )}
-            {photos && visible && photos.length > 2 && (
+            {photos.length !== 0 && visible && photos.length > 2 && (
               <View
                 key={`empty-${photos.length - 1}`}
                 style={

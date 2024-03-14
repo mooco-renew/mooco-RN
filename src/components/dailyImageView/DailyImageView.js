@@ -17,9 +17,6 @@ export default function DailyImageView({ images }) {
         <>
           {
             <>
-              <Text color="white" fontSize="81px">
-                TODAY
-              </Text>
               <View style={styles.container}>
                 <View
                   style={imageViews.length === 2 ? styles.row2 : styles.row}
