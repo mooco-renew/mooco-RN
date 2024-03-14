@@ -1,12 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
-import {
-  GoogleSignin,
-} from '@react-native-google-signin/google-signin';
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions  } from 'react-native';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image  } from 'react-native';
 import { WEBCLIENTID, IOSCLIENTID } from "@env";
-import BarcordSvg from '../../assets/images/onboarding/barcord';
-import GoogleSvg from '../../assets/images/sign/google';
-import KakaoSvg from '../../assets/images/sign/kakao';
+import GoogleButtonSvg from '../../assets/images/sign/googlebutton';
+import KakaoButtonSvg from '../../assets/images/sign/kakaobutton';
 import getToken from '../../server/getToken';
 import postGoogleToken from '../../server/auth/postGoogleToken';
 
@@ -20,33 +17,37 @@ export default function OnBoarding() {
     GoogleSignin.configure({
       webClientId: WEBCLIENTID, // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
       iosClientId: IOSCLIENTID,
-      scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
     });
 
     return (
       <View style={styles.container}>
         <View style={styles.center}>
-        <BarcordSvg />
+        <Image source={require('../../assets/images/onboarding/mooco.gif')} style={{ width: 300, height: 290 }} />
         <Text style={styles.firsttext}>
             나만의 무드 바코드
         </Text>
         </View>
-    <TouchableOpacity style={styles.firstbutton} onPress={() => navigation.navigate('KakaoLogin')}>
-        <KakaoSvg />
+        <TouchableOpacity style={styles.firstbutton} onPress={() => navigation.navigate('Login')}>
+        <Text style={styles.buttontext}>일반 로그인</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.button} onPress={
+    <TouchableOpacity style={styles.secondbutton} onPress={() => navigation.navigate('KakaoLogin')}>
+        <KakaoButtonSvg />
+    </TouchableOpacity>
+    <TouchableOpacity style={styles.thirdbutton} onPress={
       async () => {
         try {
           await GoogleSignin.hasPlayServices();
+          const data_ = await GoogleSignin.signIn();
           const data = await GoogleSignin.getTokens();
-          console.log('token : ', data.accessToken);
+          console.log('token : ', data.accessToken, '기타 데이터 : ', data_);
           postGoogleToken(data.accessToken, navigation);
+          // postGoogle(data.accessToken); // google api userinfo 발급용
         } catch (error) {
           console.log('실패 ', error);
         }
       }
     }>
-        <GoogleSvg />
+        <GoogleButtonSvg />
     </TouchableOpacity>
       </View>
     );
@@ -60,7 +61,7 @@ export default function OnBoarding() {
       height: '100%',
       alignItems: 'center',
       justifyContent: 'center',
-      backgroundColor: '#151515',
+      backgroundColor: '#000000',
     },
     center: {
       justifyContent: 'center',
@@ -72,15 +73,30 @@ export default function OnBoarding() {
       fontWeight: '700',
       color: '#ffffff',
       textAlign: 'center',
-      marginTop: 5,
+      marginTop: -90,
     },
     firstbutton: {
-      top: 100,
+      top: 80,
+      backgroundColor: '#151515',
+      width: 254,
+      height: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderRadius: 5,
+      borderColor: '#ffffff',
+      borderWidth: 1,
+    },
+    buttontext: {
+      color: '#ffffff',
+      fontSize: 14,
+    },
+    secondbutton: {
+      top: 90,
       alignItems: 'center',
       justifyContent: 'center',
     },
-    button: {
-      top: 115,
+    thirdbutton: {
+      top: 100,
       alignItems: 'center',
       justifyContent: 'center',
     },
