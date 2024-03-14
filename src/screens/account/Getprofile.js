@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import ProfileImage from '../../components/getProfile/profileImage';
 import postUserInfo from '../../server/getInfo/post-profile';
@@ -7,12 +7,24 @@ import postUserInfo from '../../server/getInfo/post-profile';
 // test용 스크린
 export default function GetProfile() {
   const navigation = useNavigation();
-    const [nickname, setNickname] = useState("");
+    const [nickname, setNickname] = useState(null);
     const [image, setImage] = useState([]);
+    const [isAvail, setIsAvail] = useState(false);
+
+    // 유효성 검사(빈 값 검사 중)
+    useEffect(() => {
+      if(nickname != null && nickname != "" && image.length > 0) {
+        setIsAvail(true);
+      } else {
+        setIsAvail(false);
+      }
+    }, [nickname, image])
 
     // 유저 정보 전송
 	const clickPost = async () => {
-    postUserInfo(image, nickname, navigation);
+    if(nickname != null && nickname != "" && image.length > 0 && isAvail != false) {
+      postUserInfo(image, nickname, navigation);
+    }
 	  };
 
     return (
@@ -26,7 +38,7 @@ export default function GetProfile() {
         placeholder='닉네임을 입력해주세요'
         placeholderTextColor='#ffffff' />
     </View>
-    <TouchableOpacity style={styles.button} onPress={clickPost}>
+    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={clickPost} disabled={!isAvail}>
         <Text style={styles.buttontext}>확인</Text>
     </TouchableOpacity>
       </View>
@@ -72,6 +84,10 @@ export default function GetProfile() {
       paddingVertical: 18, // 상하 패딩 
       borderRadius: 10,
       marginTop: 110,
+    },
+    buttondisable: {
+      backgroundColor: 'rgba(217, 217, 217, 0.5)',
+      color: 'rgba(21, 21, 21, 0.5)',
     },
     buttontext: {
       color: '#ffffff',
