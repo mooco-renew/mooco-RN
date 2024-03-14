@@ -22,8 +22,8 @@ const logo = `
 `;
 
 const svg = () => {
-  const GoogleSvg = () => <SvgXml xml={logo} width="284px" height="50px" />;
-  return <GoogleSvg />;
+  const GoogleButtonSvg = () => <SvgXml xml={logo} width="284px" height="50px" />;
+  return <GoogleButtonSvg />;
 };
 
 export default svg;

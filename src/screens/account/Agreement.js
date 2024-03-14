@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import Checkbox from 'expo-checkbox';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 
-export default function Agreement() {
+export default function Agreement({ route }) {
   const navigation = useNavigation();
 
   const [allchecked, setAllchecked] = useState(false);
@@ -11,6 +11,10 @@ export default function Agreement() {
     const [secondchecked, setSecondChecked] = useState(false);
     const [thirdchecked, setThirdChecked] = useState(false);
     const [fourchecked, setFourChecked] = useState(false);
+    const [isAvail, setIsAvail] = useState(false);
+
+    // navigation으로 보낸 params 받기
+    const { email, pw } = route.params;
 
     const AllChecked = () => {
       if(firstchecked == true && secondchecked == true && thirdchecked == true && fourchecked == true) {
@@ -28,14 +32,16 @@ export default function Agreement() {
       }
     }
 
-    // 모든 선택지를 true로 한다면, allchecked도 true로 변경한다.
+    // 모든 선택지를 true로 한다면, allchecked도 true로 변경한다. ++ 유효성 검사
     useEffect(() => {
       if(firstchecked == true && secondchecked == true && thirdchecked == true && fourchecked == true) {
         setAllchecked(true);
+        setIsAvail(true);
       } else {
         setAllchecked(false);
+        setIsAvail(false);
       }
-    }, [firstchecked, secondchecked, thirdchecked, fourchecked]);
+    }, [firstchecked, secondchecked, thirdchecked, fourchecked, allchecked]);
 
   return (
     <View style={styles.container}>
@@ -84,7 +90,7 @@ export default function Agreement() {
         />
     <Text style={styles.checktext}>약관4)</Text>
     </View>
-    <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GetProfile')}>
+    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => navigation.navigate('Account', { _email: email, _pw: pw, _checked: true })} disabled={!isAvail}>
         <Text style={styles.buttontext}>완료</Text>
     </TouchableOpacity>
     </View>
@@ -106,6 +112,10 @@ const styles = StyleSheet.create({
       paddingVertical: 18, // 상하 패딩 
       borderRadius: 10,
       marginTop: 40,
+    },
+    buttondisable: {
+      backgroundColor: 'rgba(217, 217, 217, 0.5)',
+      color: 'rgba(21, 21, 21, 0.5)',
     },
     buttontext: {
       color: '#ffffff',
