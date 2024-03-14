@@ -31,11 +31,16 @@ const postToken = async (accessToken, navigation) => {
         config
       );
       console.log("성공 !: ", response.data);
-      storeData(response.data.data.accessToken, response.data.data.refreshToken); // store에 token 저장
-      if (response.data.data.isExisted) {
-        navigation.navigate("Home"); // 임시로 daily
+      if(response.data.success == true) {
+        storeData(response.data.data.accessToken, response.data.data.refreshToken); 
+        if (response.data.data.isExisted) {
+          navigation.navigate("Home"); // 임시로 daily
+        } else {
+          navigation.navigate("GetProfile"); // 추가 정보 입력
+        }
       } else {
-        navigation.navigate("GetProfile"); // 추가 정보 입력
+        alert("로그인에 실패하였습니다.");
+        navigation.navigate("OnBoarding"); 
       }
     } catch (error) {
       console.error("에러가 있습니다. ", error);
