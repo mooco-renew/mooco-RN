@@ -14,7 +14,7 @@ export default function Agreement({ route }) {
     const [isAvail, setIsAvail] = useState(false);
 
     // navigation으로 보낸 params 받기
-    const { email, pw } = route.params;
+    const { id, pw } = route.params;
 
     const AllChecked = () => {
       if(firstchecked == true && secondchecked == true && thirdchecked == true && fourchecked == true) {
@@ -90,7 +90,7 @@ export default function Agreement({ route }) {
         />
     <Text style={styles.checktext}>약관4)</Text>
     </View>
-    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => navigation.navigate('Account', { _email: email, _pw: pw, _checked: true })} disabled={!isAvail}>
+    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => navigation.navigate('Account', { _id: id, _pw: pw, _checked: true })} disabled={!isAvail}>
         <Text style={styles.buttontext}>완료</Text>
     </TouchableOpacity>
     </View>

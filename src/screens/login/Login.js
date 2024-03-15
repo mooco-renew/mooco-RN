@@ -6,12 +6,12 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-nativ
 import GoogleLogoSvg from '../../assets/images/sign/googlelogo';
 import KakaoLogoSvg from '../../assets/images/sign/kakaologo';
 import postGoogleToken from '../../server/auth/postGoogleToken';
-import { validateEmail, validatePassword } from '../../util/sign/validate';
+import { validatePassword } from '../../util/sign/validate';
 
 // test용 스크린
 export default function Login() {
     const navigation = useNavigation();
-    const [email, setEmail] = useState("");
+    const [id, setId] = useState("");
     const [pw, setPw] = useState("");
     const [isAvail, setIsAvail] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -23,17 +23,16 @@ export default function Login() {
 
         // 유효성 검사
         useEffect(() => {
-          if(email != "" && pw != "" && validateEmail(email) && validatePassword(pw)) {
+          if(id != "" && pw != "" && validatePassword(pw)) {
             setIsAvail(true)
             setErrorMessage('');
           } else {
-            if(email != "" || pw != "") {
-              if(!validateEmail(email)) setErrorMessage('유효하지 않은 이메일 형식입니다.');
-              else if(!validatePassword(pw)) setErrorMessage('알파벳, 숫자, 특수문자를 포함하여 8자리 이상 작성해주세요.');
+            if(id != "" || pw != "") {
+              if(!validatePassword(pw)) setErrorMessage('알파벳, 숫자, 특수문자를 포함하여 8자리 이상 작성해주세요.');
             }
             setIsAvail(false);
           }
-        }, [email, pw]);
+        }, [id, pw]);
 
         // 유저가 맞는 지 검사
     const isUser = () => {
@@ -45,9 +44,9 @@ export default function Login() {
     <View style={styles.inputbox}>
         <Text style={styles.firstlabel}>이메일</Text>
         <TextInput 
-        value={email}
+        value={id}
         style={styles.input}
-        onChangeText={setEmail}/>
+        onChangeText={setId}/>
         <Text style={styles.secondlabel}>비밀번호</Text>
         <TextInput 
         value={pw}

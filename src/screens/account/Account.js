@@ -7,12 +7,12 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-nativ
 import GoogleLogoSvg from '../../assets/images/sign/googlelogo';
 import KakaoLogoSvg from '../../assets/images/sign/kakaologo';
 import postGoogleToken from '../../server/auth/postGoogleToken';
-import { validateEmail, validatePassword } from '../../util/sign/validate';
+import { validatePassword } from '../../util/sign/validate';
 
 // test용 스크린
 export default function Account({ route }) {
     const navigation = useNavigation();
-    const [email, setEmail] = useState("");
+    const [id, setId] = useState("");
     const [pw, setPw] = useState("");
     const [checked, setChecked] = useState(false);
     const [isAvail, setIsAvail] = useState(false);
@@ -26,8 +26,8 @@ export default function Account({ route }) {
     // navigation으로 보낸 params 받기
     useEffect(() => {
       if(route.params != undefined) {
-        const { _email, _pw, _checked } = route.params;
-        setEmail(_email);
+        const { _id, _pw, _checked } = route.params;
+        setId(_id);
         setPw(_pw);
         setChecked(_checked);
       }
@@ -35,27 +35,26 @@ export default function Account({ route }) {
 
     // 유효성 검사
     useEffect(() => {
-      if(email != "" && pw != "" && checked && validateEmail(email) && validatePassword(pw)) {
+      if(id != "" && pw != "" && checked && validatePassword(pw)) {
         setIsAvail(true)
         setErrorMessage('');
       } else {
-        if(email != "" || pw != "") {
-          if(!validateEmail(email)) setErrorMessage('유효하지 않은 이메일 형식입니다.');
-          else if(!validatePassword(pw)) setErrorMessage('알파벳, 숫자, 특수문자를 포함하여 8자리 이상 작성해주세요.');
+        if(id != "" || pw != "") {
+          if(!validatePassword(pw)) setErrorMessage('알파벳, 숫자, 특수문자를 포함하여 8자리 이상 작성해주세요.');
           else if(!checked) setErrorMessage("이용 약관 및 개인정보 처리방침에 동의해주세요.");
         }
         setIsAvail(false);
       }
-    }, [email, pw, checked]);
+    }, [id, pw, checked]);
 
     return (
       <View style={styles.container}>
        <View style={styles.inputbox}>
         <Text style={styles.firstlabel}>이메일</Text>
         <TextInput 
-        value={email}
+        value={id}
         style={styles.input}
-        onChangeText={setEmail}/>
+        onChangeText={setId}/>
         <Text style={styles.secondlabel}>비밀번호</Text>
         <TextInput 
         value={pw}
@@ -71,7 +70,7 @@ export default function Account({ route }) {
     <Checkbox
           style={[styles.checkbox, checked && styles.checkboxdisble]}
           value={checked}
-          onValueChange={() => navigation.navigate('Agreement', { email: email, pw: pw })}
+          onValueChange={() => navigation.navigate('Agreement', { id: id, pw: pw })}
           color={checked ? '#000000' : undefined}
           disabled={checked}
         />
