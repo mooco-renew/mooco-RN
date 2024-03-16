@@ -7,7 +7,6 @@ import { backbtncolorbar } from "./src/components/navigation/bar/BackBtnColorBar
 
 /* screens */
 import Daily from "./src/screens/daily/Daily";
-import Agreement from "./src/screens/account/Agreement";
 import KakaoLoginScreen from "./src/screens/login/KakaoLogin";
 import GoogleLoginScreen from "./src/screens/login/GoogleLogin";
 import GetProfile from "./src/screens/account/Getprofile";
@@ -19,6 +18,7 @@ import DailyUpload from "./src/screens/daily/DailyUpload";
 import AppBar from "./src/components/navigation/bar/AppBar";
 import { NativeBaseProvider } from "native-base";
 import HomeTab from "./src/screens/homeTab/homeTab";
+import { useFonts } from "expo-font";
 // rn navigatior로 stack 생성, rn은 stack으로 사용자의 이동을 확인한다.
 const Stack = createNativeStackNavigator();
 
@@ -29,6 +29,10 @@ screen 숨기고 싶으면 아래 코드로 변경(스크린 옵션 추가)
 
 // 맨 위 코드가 첫 번째 스크린
 function App() {
+  const [fontsLoaded] = useFonts({
+    "Plaster-Regular": require("./src/assets/fonts/Plaster-Regular.ttf"),
+  });
+  if (!fontsLoaded) return null;
   return (
     <NavigationContainer>
       <NativeBaseProvider>

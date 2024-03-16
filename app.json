@@ -41,7 +41,8 @@
         {
           "photosPermission": "이미지 업로드 권한을 허용하시겠습니까?"
         }
-      ]
+      ],
+      "expo-font"
     ]
   }
 }
