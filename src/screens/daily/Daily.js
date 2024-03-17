@@ -199,13 +199,13 @@ export default function Daily({ navigation }) {
           )}
           {dailyImgList && dailyImgList.length !== 0 && (
             <>
-              <Text color="white" fontSize="81">
+              <Text color="white" fontFamily="Plaster-Regular" fontSize="81">
                 TODAY
               </Text>
               <DailyImageView images={dailyImgList}></DailyImageView>
             </>
           )}
-          <Text color="white" fontSize="52">
+          <Text color="white" fontFamily="Plaster-Regular" fontSize="52">
             CALENDAR
           </Text>
           <View style={styles.calendarContainer}>
