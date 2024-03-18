@@ -9,11 +9,8 @@ import SecureIcon from '../../components/sign/secureIcon';
 export default function Login() {
     const [id, setId] = useState(""); // 유저 정보
     const [pw, setPw] = useState("");
-
     const [isAvail, setIsAvail] = useState(false); // 전체 확인
-
     const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
-
     const [isSecure, setIsSecure] = useState(true); // 비밀번호 숨기기/보이기 여부
 
         // 유효성 검사
