@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-nativ
 import { validatePassword } from '../../util/sign/validate';
 import { useNavigation } from '@react-navigation/native';
 import Checkbox from 'expo-checkbox';
+import SecureIcon from '../sign/secureIcon';
 
 // test용 스크린
 export default function NewPw() {
@@ -10,8 +11,9 @@ export default function NewPw() {
     const [pw, setPw] = useState("");
     const [newPw, setNewPw] = useState("");
     const [checked, setChecked] = useState(false); // 동일 비밀번호 체크용
-    const [isAvail, setIsAvail] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+    const [isAvail, setIsAvail] = useState(false); // 비밀번호 통일 여부
+    const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
+    const [isSecure, setIsSecure] = useState(true); // 비밀번호 숨기기/보이기 여부
 
         // 유효성 검사
         useEffect(() => {
@@ -32,12 +34,16 @@ export default function NewPw() {
       <View style={styles.container}>
     <View style={styles.inputbox}>
         <Text style={styles.firstlabel}>새 비밀번호</Text>
-        <TextInput 
-        value={pw}
-        style={styles.input}
-        onChangeText={setPw}
-        secureTextEntry={true}
-        />
+        <View style={styles.passwordcontainer}>
+          <TextInput 
+          value={pw}
+          style={styles.input}
+          onChangeText={setPw}
+          placeholder='비밀번호를 입력해주세요.'
+          placeholderTextColor='rgba(0, 0, 0, 0.3)'
+          secureTextEntry={isSecure}/>
+          <SecureIcon isSecure={isSecure} setIsSecure={setIsSecure}/>
+          </View>
         <View style={styles.checkcontainer}>
         <Text style={styles.secondlabel}>비밀번호 확인</Text>
         <Checkbox
@@ -46,11 +52,16 @@ export default function NewPw() {
           color={checked ? '#000000' : 'rgba(255,255,255,0.3)'}
         />
         </View>
+        <View style={styles.passwordcontainer}>
         <TextInput 
         value={newPw}
         style={styles.input}
         onChangeText={setNewPw}
-        secureTextEntry={true}/>
+        placeholder='비밀번호를 다시 입력해주세요.'
+        placeholderTextColor='rgba(0, 0, 0, 0.3)'
+        secureTextEntry={isSecure}/>
+        <SecureIcon isSecure={isSecure} setIsSecure={setIsSecure}/>
+        </View>
     </View>
     <Text style={styles.errortext}>{errorMessage}</Text>
     <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail} onPress={() => navigation.navigate('OnBoarding')}>
@@ -94,6 +105,10 @@ export default function NewPw() {
       padding: 10,
       borderRadius: 100,
       backgroundColor: '#ffffff',
+    },
+    passwordcontainer: {
+      display: 'flex',
+      flexDirection: 'row',
     },
     button: {
       backgroundColor: '#151515',

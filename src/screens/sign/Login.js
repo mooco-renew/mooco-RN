@@ -3,13 +3,18 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-nativ
 import { validatePassword } from '../../util/sign/validate';
 import HelpBox from '../../components/sign/helpBox';
 import SocialButton from '../../components/sign/socialButton';
+import SecureIcon from '../../components/sign/secureIcon';
 
 // test용 스크린
 export default function Login() {
-    const [id, setId] = useState("");
+    const [id, setId] = useState(""); // 유저 정보
     const [pw, setPw] = useState("");
-    const [isAvail, setIsAvail] = useState(false);
-    const [errorMessage, setErrorMessage] = useState('');
+
+    const [isAvail, setIsAvail] = useState(false); // 전체 확인
+
+    const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
+
+    const [isSecure, setIsSecure] = useState(true); // 비밀번호 숨기기/보이기 여부
 
         // 유효성 검사
         useEffect(() => {
@@ -31,13 +36,21 @@ export default function Login() {
         <TextInput 
         value={id}
         style={styles.input}
-        onChangeText={setId}/>
+        onChangeText={setId}
+        placeholder='아이디를 입력해주세요.'
+        placeholderTextColor='rgba(0, 0, 0, 0.3)'
+        />
         <Text style={styles.secondlabel}>비밀번호</Text>
-        <TextInput 
-        value={pw}
-        style={styles.input}
-        onChangeText={setPw}
-        secureTextEntry={true}/>
+        <View style={styles.passwordcontainer}>
+          <TextInput 
+          value={pw}
+          style={styles.input}
+          onChangeText={setPw}
+          placeholder='비밀번호를 입력해주세요.'
+          placeholderTextColor='rgba(0, 0, 0, 0.3)'
+          secureTextEntry={isSecure}/>
+          <SecureIcon isSecure={isSecure} setIsSecure={setIsSecure}/>
+          </View>
     </View>
     <Text style={styles.errortext}>{errorMessage}</Text>
     <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail}>
@@ -91,6 +104,10 @@ export default function Login() {
       padding: 10,
       borderRadius: 100,
       backgroundColor: '#ffffff',
+    },
+    passwordcontainer: {
+      display: 'flex',
+      flexDirection: 'row',
     },
     button: {
       backgroundColor: '#151515',

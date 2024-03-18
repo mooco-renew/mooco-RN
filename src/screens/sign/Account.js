@@ -8,18 +8,22 @@ import { validateEmail, validatePassword } from '../../util/sign/validate';
 import SocialButton from '../../components/sign/socialButton';
 import EmailAuth from '../../components/auth/emailAuth';
 import { allTrue, firstTrue, lastFalse, secondTrue, thirdTrue } from '../../util/auth/authStep';
+import SecureIcon from '../../components/sign/secureIcon';
 
 // test용 스크린
 export default function Account({ route }) {
     const navigation = useNavigation();
-    const [email, setEmail] = useState("");
+
+    const [email, setEmail] = useState(""); // 유저 정보들
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
-    const [newPw, setNewPw] = useState("");
+
     const [auth, setAuth] = useState([false, false]); // 이용약관, 이메일 인증, 전체
     const [isShow, setIsShow] = useState(false); // 인증 화면 열고 닫기
     const [isAvail, setIsAvail] = useState(false); // 회원가입 가능 여부
-    const [errorMessage, setErrorMessage] = useState('');
+    const [isSecure, setIsSecure] = useState(true); // 비밀번호 숨기기/보이기 여부
+
+    const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
 
     GoogleSignin.configure({
       webClientId: WEBCLIENTID, // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
@@ -48,7 +52,7 @@ export default function Account({ route }) {
       if(auth[1] === true) { // 이메일 인증 후 돌아올 시, 인증 화면 닫기
         setIsShow(false);
       }
-    }, [id, pw, newPw, auth]);
+    }, [id, pw, auth]);
 
      // 배열 true로 변환, 다른 find id, find pw와 함께 사용해서 index가 포함되어 있음.
 
@@ -72,7 +76,10 @@ export default function Account({ route }) {
           <TextInput 
           value={email}
           style={styles.emailinput}
-          onChangeText={setEmail}/>
+          onChangeText={setEmail}
+          placeholder='이메일을 입력해주세요.'
+          placeholderTextColor='rgba(0, 0, 0, 0.3)'
+          />
       <TouchableOpacity style={[styles.emailbutton, (!validateEmail(email) || secondTrue(auth)) && styles.buttondisable]} onPress={() => setIsShow(true)} disabled={!validateEmail(email) || secondTrue(auth)}>
           <Text style={styles.emailbuttontext}>{secondTrue(auth) ? "완료" : "인증"}</Text>
       </TouchableOpacity>
@@ -81,13 +88,21 @@ export default function Account({ route }) {
           <TextInput 
           value={id}
           style={styles.input}
-          onChangeText={setId}/>
+          onChangeText={setId}
+          placeholder='아이디를 입력해주세요.'
+          placeholderTextColor='rgba(0, 0, 0, 0.3)'
+          />
           <Text style={styles.secondlabel}>비밀번호</Text>
+          <View style={styles.passwordcontainer}>
           <TextInput 
           value={pw}
           style={styles.input}
           onChangeText={setPw}
-          secureTextEntry={true}/>
+          placeholder='비밀번호를 입력해주세요.'
+          placeholderTextColor='rgba(0, 0, 0, 0.3)'
+          secureTextEntry={isSecure}/>
+          <SecureIcon isSecure={isSecure} setIsSecure={setIsSecure}/>
+          </View>
       </View>
       <Text style={styles.errortext}>{errorMessage}</Text>
       <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => navigation.navigate('GetProfile')} disabled={!isAvail}>
@@ -161,6 +176,10 @@ export default function Account({ route }) {
       padding: 10,
       borderRadius: 100,
       backgroundColor: '#ffffff',
+    },
+    passwordcontainer: {
+      display: 'flex',
+      flexDirection: 'row',
     },
     emailinput: {
       width: '85%',

@@ -46,7 +46,10 @@ export default function FindId() {
               <TextInput 
               value={email}
               style={styles.input}
-              onChangeText={setEmail}/>
+              onChangeText={setEmail}
+              placeholder='이메일을 입력해주세요.'
+              placeholderTextColor='rgba(0, 0, 0, 0.3)'
+              />
               </View>
           <Text style={styles.errortext}>{errorMessage}</Text>
           <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail} onPress={() => setNewArray(0)}>
