@@ -7,9 +7,9 @@ import { backbtncolorbar } from "./src/components/navigation/bar/BackBtnColorBar
 
 /* screens */
 import Daily from "./src/screens/daily/Daily";
-import Agreement from "./src/screens/account/Agreement";
-import KakaoLoginScreen from "./src/screens/login/KakaoLogin";
-import GetProfile from "./src/screens/account/Getprofile";
+import Agreement from "./src/screens/sign/Agreement";
+import KakaoLoginScreen from "./src/screens/sign/KakaoLogin";
+import GetProfile from "./src/screens/sign/Getprofile";
 import OnBoarding from "./src/screens/onboarding/OnBoarding";
 import FriendsList from "./src/screens/friends/FriendsList";
 import RequestFriends from "./src/screens/friends/RequestFriends";
@@ -18,8 +18,10 @@ import DailyUpload from "./src/screens/daily/DailyUpload";
 import AppBar from "./src/components/navigation/bar/AppBar";
 import { NativeBaseProvider } from "native-base";
 import HomeTab from "./src/screens/homeTab/homeTab";
-import Account from "./src/screens/account/Account";
-import Login from "./src/screens/login/Login";
+import Account from "./src/screens/sign/Account";
+import Login from "./src/screens/sign/Login";
+import FindPw from "./src/screens/auth/findPw";
+import FindId from "./src/screens/auth/findId";
 // rn navigatior로 stack 생성, rn은 stack으로 사용자의 이동을 확인한다.
 const Stack = createNativeStackNavigator();
 
@@ -53,6 +55,16 @@ function App() {
             name="Login"
             component={Login}
             options={{ ...backbtncolorbar, title: "로그인" }}
+          />
+          <Stack.Screen
+            name="FindPw"
+            component={FindPw}
+            options={{ ...backbtncolorbar, title: "비밀번호 찾기" }}
+          />
+          <Stack.Screen
+            name="FindId"
+            component={FindId}
+            options={{ ...backbtncolorbar, title: "아이디 찾기" }}
           />
           <Stack.Screen
             name="GetProfile"

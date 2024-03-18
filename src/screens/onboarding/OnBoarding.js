@@ -5,7 +5,7 @@ import { WEBCLIENTID, IOSCLIENTID } from "@env";
 import GoogleButtonSvg from '../../assets/images/sign/googlebutton';
 import KakaoButtonSvg from '../../assets/images/sign/kakaobutton';
 import getToken from '../../server/getToken';
-import postGoogleToken from '../../server/auth/postGoogleToken';
+import postGoogleToken from '../../server/sign/postGoogleToken';
 
 // gif code
 // <Image source={require('../../assets/images/test.gif')} style={{ width: 200, height: 200 }} />
@@ -37,13 +37,14 @@ export default function OnBoarding() {
       async () => {
         try {
           await GoogleSignin.hasPlayServices();
-          const data_ = await GoogleSignin.signIn();
-          const data = await GoogleSignin.getTokens();
-          console.log('token : ', data.accessToken, '기타 데이터 : ', data_);
-          postGoogleToken(data.accessToken, navigation);
+          await GoogleSignin.signIn();
           // postGoogle(data.accessToken); // google api userinfo 발급용
         } catch (error) {
           console.log('실패 ', error);
+        } finally {
+          const data = await GoogleSignin.getTokens();
+          console.log('token : ', data.accessToken);
+          postGoogleToken(data.accessToken, navigation);
         }
       }
     }>

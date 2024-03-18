@@ -1,25 +1,15 @@
-import { useNavigation } from '@react-navigation/native';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { useEffect, useState } from 'react';
-import { WEBCLIENTID, IOSCLIENTID } from "@env";
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
-import GoogleLogoSvg from '../../assets/images/sign/googlelogo';
-import KakaoLogoSvg from '../../assets/images/sign/kakaologo';
-import postGoogleToken from '../../server/auth/postGoogleToken';
 import { validatePassword } from '../../util/sign/validate';
+import HelpBox from '../../components/sign/helpBox';
+import SocialButton from '../../components/sign/socialButton';
 
 // test용 스크린
 export default function Login() {
-    const navigation = useNavigation();
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
     const [isAvail, setIsAvail] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-
-    GoogleSignin.configure({
-      webClientId: WEBCLIENTID, // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
-      iosClientId: IOSCLIENTID,
-    });
 
         // 유효성 검사
         useEffect(() => {
@@ -27,22 +17,17 @@ export default function Login() {
             setIsAvail(true)
             setErrorMessage('');
           } else {
-            if(id != "" || pw != "") {
+            if(pw != "") {
               if(!validatePassword(pw)) setErrorMessage('알파벳, 숫자, 특수문자를 포함하여 8자리 이상 작성해주세요.');
             }
             setIsAvail(false);
           }
         }, [id, pw]);
 
-        // 유저가 맞는 지 검사
-    const isUser = () => {
-
-    }
-
     return (
       <View style={styles.container}>
     <View style={styles.inputbox}>
-        <Text style={styles.firstlabel}>이메일</Text>
+        <Text style={styles.firstlabel}>아이디</Text>
         <TextInput 
         value={id}
         style={styles.input}
@@ -64,37 +49,9 @@ export default function Login() {
       <Text style={styles.hrboxtext}>
         또는
       </Text>
-      <View style={styles.socialcontainer}>
-      <TouchableOpacity onPress={
-        async () => {
-          try {
-            await GoogleSignin.hasPlayServices();
-            const data_ = await GoogleSignin.signIn();
-            const data = await GoogleSignin.getTokens();
-            console.log('token : ', data.accessToken, '기타 데이터 : ', data_);
-            postGoogleToken(data.accessToken, navigation);
-            // postGoogle(data.accessToken); // google api userinfo 발급용
-          } catch (error) {
-            console.log('실패 ', error);
-          }
-        }
-      }>
-          <GoogleLogoSvg />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('KakaoLogin')}>
-          <KakaoLogoSvg />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.helptextbox}>
-      <Text style={styles.helptext}>
-        아이디 찾기
-      </Text>
-      <Text style={styles.helptextline}>|</Text>
-      <Text style={styles.helptext}>
-        비밀번호 찾기
-      </Text>
-      </View>
     </View>
+    <SocialButton />
+    <HelpBox />
       </View>
     );
   }
@@ -116,7 +73,7 @@ export default function Login() {
       textAlign: 'left',
       color: '#ffffff',
       fontWeight: '800',
-      marginBottom: 10,
+      marginBottom: 5,
       fontSize: 14,
       marginTop: 40,
     },
@@ -125,7 +82,7 @@ export default function Login() {
       textAlign: 'left',
       color: '#ffffff',
       fontWeight: '800',
-      marginBottom: 10,
+      marginBottom: 5,
       fontSize: 14,
       marginTop: 15,
     },
@@ -171,30 +128,6 @@ export default function Login() {
       backgroundColor: '#000000',
       marginTop: -10,
       paddingHorizontal: 15,
-    },
-    helptextbox: {
-      alignItems: 'center',
-      marginTop: 10,
-      display: 'flex',
-      flexDirection: 'row',
-    },
-    helptext: {
-      fontSize: 12,
-      color: '#ffffff',
-      marginTop: 15,
-    },
-    helptextline: {
-      marginHorizontal: 7,
-      fontSize: 12,
-      color: '#ffffff',
-      marginTop: 15,
-    },
-    socialcontainer: {
-      flexDirection: 'row',
-      width: '32%',
-      alignItems: 'center',
-      marginTop: 20,
-      justifyContent: 'space-between',
     },
     errortext: {
       width: '90%',

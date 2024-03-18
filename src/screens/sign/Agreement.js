@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigation } from '@react-navigation/native';
 import Checkbox from 'expo-checkbox';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function Agreement({ route }) {
   const navigation = useNavigation();
@@ -90,7 +90,7 @@ export default function Agreement({ route }) {
         />
     <Text style={styles.checktext}>약관4)</Text>
     </View>
-    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => navigation.navigate('Account', { _id: id, _pw: pw, _checked: true })} disabled={!isAvail}>
+    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => navigation.navigate('Account', { _checked: true })} disabled={!isAvail}>
         <Text style={styles.buttontext}>완료</Text>
     </TouchableOpacity>
     </View>
