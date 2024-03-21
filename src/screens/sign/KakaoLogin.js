@@ -7,7 +7,7 @@ import {
   INJECTED_JAVASCRIPT,
 } from "@env";
 import axios from "axios";
-import postToken from "../../server/sign/postToken";
+import postKakaoToken from "../../server/sign/postKakaoToken";
 
 export default function KakaoLoginScreen({ navigation }) {
   console.log(REDIRECT_URI, REST_API_KEY);
@@ -43,7 +43,7 @@ export default function KakaoLoginScreen({ navigation }) {
       .then((response) => {
         accessToken = response.data.access_token;
         //서버 통신
-        postToken(accessToken, navigation);
+        postKakaoToken(accessToken, navigation);
       })
       .catch(function (error) {
         console.log("error : ", error);
