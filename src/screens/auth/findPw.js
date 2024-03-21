@@ -5,11 +5,14 @@ import { validateEmail } from '../../util/sign/validate';
 import NewPw from '../../components/auth/newPw';
 import { allFalse, allTrue, firstTrue, firstTrueOnly, secondTrueOnly } from '../../util/auth/authStep';
 import EmailAuth from '../../components/auth/emailAuth';
+import { setNewTrueArray } from '../../util/array/newTrueArray';
+import requestEmail from '../../server/auth/emailAuth';
 
 // test용 스크린
 export default function FindPw() {
     const navigation = useNavigation();
     const [email, setEmail] = useState("");
+    const [code, setCode] = useState(0);
     const [isAvail, setIsAvail] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [showAuth, setShowAuth] = useState([false, false]);
@@ -27,14 +30,12 @@ export default function FindPw() {
               }
             }, [email]);
 
-                   // 배열 true로 변환
-                   const setNewArray = index => {
-                    setShowAuth((prevShowAuth) => {
-                      const newShowAuth = [...prevShowAuth]; // 배열 복사
-                      newShowAuth[index] = true; // 특정 인덱스의 값을 true로 설정
-                      return newShowAuth; // 업데이트된 배열 반환
-                    });
-                  }
+            const sendEmail = async () => {
+              let data = await requestEmail(email);
+              if(data == true) {
+                setNewTrueArray(setShowAuth, 0); // 코드 입력 창 열기
+              }
+            }
 
     return (
       <View style={styles.container}>
@@ -52,13 +53,13 @@ export default function FindPw() {
             />
             </View>
         <Text style={styles.errortext}>{errorMessage}</Text>
-        <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail} onPress={() => setNewArray(0)}>
+        <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail} onPress={() => sendEmail()}>
             <Text style={styles.buttontext}>다음</Text>
         </TouchableOpacity>
           </View>
       )}
-      {firstTrueOnly(showAuth) && (<EmailAuth email={email} setNewArray={setNewArray}/>)}
-      {allTrue(showAuth) && (<NewPw />)}
+      {firstTrueOnly(showAuth) && (<EmailAuth email={email} setShowAuth={setShowAuth} setCode={setCode}/>)}
+      {allTrue(showAuth) && (<NewPw email={email} />)}
     </View>
     );
   }

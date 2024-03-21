@@ -1,8 +1,11 @@
 import React, { useState, createRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { setNewTrueArray } from '../../util/array/newTrueArray';
+import checkCode from '../../server/auth/checkCode';
+import requestEmail from '../../server/auth/emailAuth';
 
-export default function EmailAuth({ email , setNewArray }) {
+export default function EmailAuth({ email , setShowAuth, setCode }) {
   const navigation = useNavigation();
   const [inputs, setInputs] = useState(["", "", "", "", "", ""]);
   const [isAvail, setIsAvail] = useState(false);
@@ -12,7 +15,6 @@ export default function EmailAuth({ email , setNewArray }) {
     const newInputs = [...inputs];
     newInputs[index] = text;
     setInputs(newInputs);
-
     // OTP input 알고리즘 
     if (text && index < 5) {
       inputRefs[index + 1].current.focus();
@@ -32,8 +34,17 @@ export default function EmailAuth({ email , setNewArray }) {
     setIsAvail(false); 
   }
   }, [inputs]);
-  
 
+  const sendCode = async () => {
+    const combinedString = inputs.join("");   // inputs 배열의 모든 요소를 하나의 문자열로 합친다.
+    const resultInt = parseInt(combinedString, 10);  // 문자열을 정수형으로 변환한다.
+    let data = await checkCode(email, resultInt); // 코드 인증 api
+    if(data == true) { // 성공이라면
+      setCode(resultInt); // code 업데이트
+      setNewTrueArray(setShowAuth, 1) // 화면 전환
+    }
+  }
+  
   return (
     <View style={styles.container}>
       <View style={styles.center}>
@@ -53,10 +64,10 @@ export default function EmailAuth({ email , setNewArray }) {
         />
       ))}
     </View>
-    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail} onPress={() => setNewArray(1)} >
+    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail} onPress={() => sendCode()} >
         <Text style={styles.buttontext}>확인</Text>
     </TouchableOpacity>
-    <TouchableOpacity >
+    <TouchableOpacity onPress={() => requestEmail(email)}>
     <Text style={styles.retext}>이메일 인증이 안 왔다면 여기를 클릭해주세요. </Text>
     </TouchableOpacity>
     </View>

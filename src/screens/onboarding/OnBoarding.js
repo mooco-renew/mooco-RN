@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions, Image  } from 're
 import { WEBCLIENTID, IOSCLIENTID } from "@env";
 import GoogleButtonSvg from '../../assets/images/sign/googlebutton';
 import KakaoButtonSvg from '../../assets/images/sign/kakaobutton';
-import getToken from '../../server/getToken';
+import isThereToken from '../../server/token/isThereToken';
 import postGoogleToken from '../../server/sign/postGoogleToken';
 
 // gif code
@@ -12,7 +12,7 @@ import postGoogleToken from '../../server/sign/postGoogleToken';
 
 export default function OnBoarding() {
     const navigation = useNavigation();
-    const data = getToken();
+    const data = isThereToken();
 
     GoogleSignin.configure({
       webClientId: WEBCLIENTID, // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.

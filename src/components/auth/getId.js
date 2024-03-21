@@ -1,13 +1,22 @@
 import { useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import findId from '../../server/auth/findId';
 
 // test용 스크린
-export default function GetId() {
+export default function GetId({email, code}) {
     const navigation = useNavigation();
+    const [id, setId] = useState("");
+
+    useEffect(async () => {
+      let data = await findId(email, code);
+      console.log(data);
+      setId(data);
+    }, [])
 
     return (
       <View style={styles.container}>
-        <Text style={styles.firstlabel}>이메일의 id는 rrrr입니다.</Text>
+        <Text style={styles.firstlabel}>{email} 계정의 id는 {id}입니다.</Text>
         <View style={styles.helptextbox}>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
     <Text style={styles.helptext}>

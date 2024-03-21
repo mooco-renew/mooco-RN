@@ -9,6 +9,10 @@ import SocialButton from '../../components/sign/socialButton';
 import EmailAuth from '../../components/auth/emailAuth';
 import { allTrue, firstTrue, lastFalse, secondTrue, thirdTrue } from '../../util/auth/authStep';
 import SecureIcon from '../../components/sign/secureIcon';
+import originAccount from '../../server/sign/account';
+import { setNewTrueArray } from '../../util/array/newTrueArray';
+import requestEmail from '../../server/auth/emailAuth';
+import CustomAlert from '../../components/alert/\bcustomAlert';
 
 // test용 스크린
 export default function Account({ route }) {
@@ -18,6 +22,7 @@ export default function Account({ route }) {
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
 
+    const [code, setCode] = useState(0); // 인증 코드용
     const [auth, setAuth] = useState([false, false]); // 이용약관, 이메일 인증, 전체
     const [isShow, setIsShow] = useState(false); // 인증 화면 열고 닫기
     const [isAvail, setIsAvail] = useState(false); // 회원가입 가능 여부
@@ -34,7 +39,7 @@ export default function Account({ route }) {
     useEffect(() => {
       if(route.params != undefined) {
         const { _checked } = route.params;
-        if(_checked === true) {setNewArray(0);} // 이용약관에 동의 했다면
+        if(_checked === true) {setNewTrueArray(setAuth, 0)} // 이용약관에 동의 했다면
       }
     }, [route.params])
 
@@ -44,9 +49,9 @@ export default function Account({ route }) {
         setErrorMessage('');
         setIsAvail(true);
       } else {
-          if(!validatePassword(pw)) setErrorMessage('알파벳, 숫자, 특수문자를 포함하여 8자리 이상 작성해주세요.');
-          else if(!secondTrue(auth)) setErrorMessage("이메일 인증을 완료해주세요.");
-          else if(!firstTrue(auth)) setErrorMessage("이용약관에 동의해주세요.");
+          if(email != "" && !secondTrue(auth)) setErrorMessage("이메일 인증을 완료해주세요.");
+          else if(pw != "" && !validatePassword(pw)) setErrorMessage('알파벳, 숫자, 특수문자를 포함하여 8자리 이상 작성해주세요.');
+          else if(pw != "" && email != "" && !firstTrue(auth)) setErrorMessage("이용약관에 동의해주세요.");
           setIsAvail(false);
       }
       if(auth[1] === true) { // 이메일 인증 후 돌아올 시, 인증 화면 닫기
@@ -54,17 +59,19 @@ export default function Account({ route }) {
       }
     }, [id, pw, auth]);
 
-     // 배열 true로 변환, 다른 find id, find pw와 함께 사용해서 index가 포함되어 있음.
+// 회원가입 클릭
+    const cilckAccount = async () => {
+      let data = await originAccount(email, id, pw, navigation);
+      if(data.success == false) {
 
-    // 배열 true로 변환
-    const setNewArray = index => {
-          setAuth((prevAuth) => {
-          const newAuth = [...prevAuth]; // 배열 복사
-          newAuth[index] = true; // 특정 인덱스의 값을 true로 설정
-          return newAuth; // 업데이트된 배열 반환
-      });
+      }
     }
 
+    // 인증번호 전송
+    const sendEmail = async () => {
+      let data = await requestEmail(email); // 이메일 인증 코드 발송 api
+      if(data == true) { setIsShow(true); } // 화면 표사
+    }
 
     return (
       <View style={styles.container}>
@@ -80,7 +87,7 @@ export default function Account({ route }) {
           placeholder='이메일을 입력해주세요.'
           placeholderTextColor='rgba(0, 0, 0, 0.3)'
           />
-      <TouchableOpacity style={[styles.emailbutton, (!validateEmail(email) || secondTrue(auth)) && styles.buttondisable]} onPress={() => setIsShow(true)} disabled={!validateEmail(email) || secondTrue(auth)}>
+      <TouchableOpacity style={[styles.emailbutton, (!validateEmail(email) || secondTrue(auth)) && styles.buttondisable]} onPress={() => sendEmail()} disabled={!validateEmail(email) || secondTrue(auth)}>
           <Text style={styles.emailbuttontext}>{secondTrue(auth) ? "완료" : "인증"}</Text>
       </TouchableOpacity>
           </View>
@@ -105,7 +112,7 @@ export default function Account({ route }) {
           </View>
       </View>
       <Text style={styles.errortext}>{errorMessage}</Text>
-      <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => navigation.navigate('GetProfile')} disabled={!isAvail}>
+      <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => cilckAccount()} disabled={!isAvail}>
           <Text style={styles.buttontext}>확인</Text>
       </TouchableOpacity>
     <View style={styles.checkcontainer}>
@@ -129,7 +136,7 @@ export default function Account({ route }) {
       </View>
         </View>
         )}
-        {isShow && <EmailAuth email={email} setNewArray={setNewArray}/>}
+        {isShow && <EmailAuth email={email} setShowAuth={setAuth} setCode={setCode}/>}
         </View>
     );
   }

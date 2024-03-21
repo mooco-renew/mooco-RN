@@ -1,41 +1,38 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SERVER_HOST } from "@env";
 import axios from 'axios';
+import storeData from "../token/storeToken";
+import ErrorMessageModal from "../../components/alert/\bcustomAlert";
 
 // 서버로 코드 전송 후 토큰 받아오기
-const originAccount = async (id, pw, name, image) => {
-    const value = await AsyncStorage.getItem('access_token');
-  const formData = new FormData();
+const originAccount = async (email, id, pw, navigation) => {
 
-  const file = {
-    name: image[0],
-    type: Platform.OS === "android" ? "image/jpeg" : "image/jpg",
-    uri: image[2],
-  };
-
-  formData.append("id", id);
-  formData.append("pw", pw);
-  formData.append("profileImage", file);
-  formData.append("nickname", nickname);
-
-  const config = {
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${value}`,
-    },
-  };
+    const data = {
+      email: email,
+      id: id,
+      password: pw,
+    };
+    const config = {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    };
 
     try {
       const response = await axios.post(
-        `${SERVER_HOST}/api/v1/user/account`,
-        formData,
+        `${SERVER_HOST}/api/v1/auth/default`,
+        data,
         config
       );
-      console.log("성공 !: ", response.data);
-      return response.data;
+
+      if(response.data.success == true) {
+        console.log('회원가입 성공!');
+        navigation.navigate("GetProfile"); // true라면 추가 정보 기입으로 이동)
+      } else {
+        console.log('회원가입 실패!');
+       return response.data; 
+      }
     } catch (error) {
-      console.error("에러가 있습니다. ", error);
-      throw error;
+      console.error("회원가입 에러가 있습니다. ", error);
     }
   };
 

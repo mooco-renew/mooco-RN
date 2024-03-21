@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 /* 네비게이션 스타일 */
 import { backbtncolorbar } from "./src/components/navigation/bar/BackBtnColorBar";
+import { nonebackbtncolorbar } from "./src/components/navigation/bar/NoneBackButton";
 
 /* screens */
 import Daily from "./src/screens/daily/Daily";
@@ -49,7 +50,8 @@ function App() {
           <Stack.Screen
             name="Agreement"
             component={Agreement}
-            options={{ ...backbtncolorbar, title: "이용 약관 동의서" }}
+            options={{ ...nonebackbtncolorbar, title: "이용 약관 동의서" }}
+            headerShown
           />
            <Stack.Screen
             name="Login"

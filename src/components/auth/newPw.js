@@ -4,9 +4,10 @@ import { validatePassword } from '../../util/sign/validate';
 import { useNavigation } from '@react-navigation/native';
 import Checkbox from 'expo-checkbox';
 import SecureIcon from '../sign/secureIcon';
+import changePw from '../../server/auth/changePw';
 
 // test용 스크린
-export default function NewPw() {
+export default function NewPw(email) {
   const navigation = useNavigation();
     const [pw, setPw] = useState("");
     const [newPw, setNewPw] = useState("");
@@ -29,6 +30,13 @@ export default function NewPw() {
             setChecked(false);
           }
         }, [pw, newPw]);
+        
+        const clickPw = async () => {
+          let data = await changePw(email, pw); // 이메일로 새로운 pw로 변경
+          if(data == true) {
+            navigation.navigate('OnBoarding'); // 성공한다면
+          }
+        }
 
     return (
       <View style={styles.container}>
@@ -64,7 +72,7 @@ export default function NewPw() {
         </View>
     </View>
     <Text style={styles.errortext}>{errorMessage}</Text>
-    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail} onPress={() => navigation.navigate('OnBoarding')}>
+    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail} onPress={() => clickPw()}>
         <Text style={styles.buttontext}>변경 완료</Text>
     </TouchableOpacity>
       </View>
