@@ -34,23 +34,27 @@ const GroupList = () => {
         <TouchableOpacity onPress={handleImagePress}>
           <Image source={EventPlusBtn} style={styles.image} />
         </TouchableOpacity>
-      </View>
-      <Text style={styles.containerTitle}>그룹 목록</Text>
-      <View style={styles.calendarContainer}>
-        <View style={styles.CalendarList}>
-          <ScrollView
-            style={styles.scrollView}
-            contentContainerStyle={styles.scrollViewContent}
-            showsVerticalScrollIndicator={false}
-          >
-            <EventList />
-            {/* <OpenCalendar /> */}
-            {/* <EventList />
-            <EventList />
-            <EventList />
-            <EventList />
-            <EventList /> */}
-          </ScrollView>
+        <View>
+          <View style={styles.GroupListContainer}>
+            <Text style={styles.containerTitle}>그룹 목록</Text>
+            <View style={styles.calendarContainer}>
+              <View style={styles.CalendarList}>
+                <ScrollView
+                  style={styles.scrollView}
+                  contentContainerStyle={styles.scrollViewContent}
+                  showsVerticalScrollIndicator={false}
+                >
+                  <EventList />
+                  {/* <OpenCalendar /> */}
+                  <EventList />
+                  <EventList />
+                  <EventList />
+                  <EventList />
+                  <EventList />
+                </ScrollView>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
     </View>
@@ -61,8 +65,7 @@ export default GroupList;
 
 const styles = StyleSheet.create({
   container: {
-    top: 60,
-    // flex: 1,
+    top: 100,
   },
   imageContainer: {
     justifyContent: "center",
@@ -73,25 +76,32 @@ const styles = StyleSheet.create({
     height: 130,
     borderRadius: 10,
   },
+  GroupListContainer: {
+    width: "100%",
+    flex: 1,
+  },
+
   calendarContainer: {
     top: 20,
     alignItems: "center",
+    flex: 1,
   },
   containerTitle: {
     fontSize: 15,
     fontWeight: "600",
-    left: 25,
     marginTop: 30,
   },
 
   CalendarList: {
     borderColor: "red",
-    height: "auto",
+    height: 450,
     marginBottom: 20,
-    width: "85%",
   },
   scrollView: {
     marginBottom: 20,
-    height: 450,
+    flex: 1,
+  },
+  scrollViewContent: {
+    flexGrow: 1,
   },
 });

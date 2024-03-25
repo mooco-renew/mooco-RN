@@ -11,9 +11,16 @@ import {
 //image import
 import catImg from "../../assets/images/eventpage/cat.jpeg";
 import EventgroupList from "../../data/eventpage/eventgroupList";
+import OpenCalendar from "./OpenCalendar";
 
 const EventList = () => {
   const [calendarTitle, setCalendarTitle] = useState(EventgroupList.data);
+  const [showCalendar, setShowCalendar] = useState(false); // 캘린더를 보여줄지 여부 상태 추가
+
+  const handleOpenCalendar = () => {
+    setShowCalendar((prevState) => !prevState);
+  };
+
   // 가짜 사용자 데이터
   const users = [
     { id: 1, name: "User 1", image: catImg },
@@ -55,16 +62,21 @@ const EventList = () => {
           )}
         </View>
       </View>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={handleOpenCalendar}>
         <View
           style={styles.calendarOpenContainer}
           onPress={() => handleCalendarSelection(item.id)}
         >
           <View style={styles.calendarOpen}>
-            <Text>캘린더 열람하기</Text>
+            <Text>{showCalendar ? "캘린더 닫기" : "캘린더 열람하기"}</Text>
           </View>
         </View>
       </TouchableOpacity>
+      {showCalendar && (
+        <View style={styles.openCalendar}>
+          <OpenCalendar />
+        </View>
+      )}
     </View>
   );
 };
@@ -72,12 +84,13 @@ const EventList = () => {
 const styles = StyleSheet.create({
   EventListContainer: {
     marginBottom: 40,
-    width: "100%",
+    width: 350,
   },
 
   calendarTitle: {
     fontSize: 25,
     fontWeight: "600",
+    alignItems: "flex-start",
   },
 
   calendarContainer: {
@@ -123,6 +136,10 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 5,
     alignItems: "center",
+  },
+
+  openCalendar: {
+    marginBottom: 30,
   },
 });
 

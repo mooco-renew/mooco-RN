@@ -67,7 +67,7 @@ export default function GroupCreate() {
   return (
     <View style={styles.container}>
       <View style={styles.nameContainer}>
-        <Text style={styles.contentText}>캘린더 이름</Text>
+        <Text style={styles.contentText}>그룹 이름</Text>
         <View style={styles.inputContainer}>
           <TextInput
             multiline={false}

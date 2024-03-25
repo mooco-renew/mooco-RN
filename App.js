@@ -40,12 +40,6 @@ function App() {
       <NativeBaseProvider>
         <Stack.Navigator>
           <Stack.Screen
-            name="EventPage"
-            component={EventPage}
-            options={{ ...backbtncolorbar, title: "EventPage" }}
-          />
-
-          <Stack.Screen
             name="OnBoarding"
             component={OnBoarding}
             options={{ headerShown: false }}
@@ -72,7 +66,7 @@ function App() {
             component={HomeTab}
             options={({ navigation }) => AppBar({ navigation })}
           />
-          {/* <Stack.Screen name="Daily" component={Daily} /> */}
+          <Stack.Screen name="Daily" component={Daily} />
           <Stack.Screen
             name="DailyPost"
             component={DailyPost}
@@ -84,16 +78,16 @@ function App() {
             options={{ headerShown: false }}
           />
 
-          {/* <Stack.Screen
+          <Stack.Screen
             name="EventPage"
             component={EventPage}
             options={{ ...backbtncolorbar, title: "EventPage" }}
-          /> */}
+          />
 
           <Stack.Screen
             name="GroupCreatePage"
             component={GroupCreate}
-            options={{ ...backbtncolorbar, title: "새 캘린더 생성" }}
+            options={{ ...backbtncolorbar, title: "새 그룹 생성" }}
           />
         </Stack.Navigator>
       </NativeBaseProvider>
