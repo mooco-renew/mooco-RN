@@ -1,19 +1,22 @@
 import React from "react";
 import { TouchableOpacity, View } from "react-native";
-import { Icon, Text } from "native-base";
+import { Text } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 
-// 각 아이콘 및 텍스트 컴포넌트를 생성합니다.
-const LeftIcon = () => <MaterialIcons name="group" size={24} color="white" />;
-const TitleText = () => <Text color="white">MOOCO</Text>;
-const RightIcon1 = () => (
-  <MaterialIcons name="notifications" size={24} color="white" />
-);
-const RightIcon2 = () => (
-  <MaterialIcons name="account-circle" size={24} color="white" />
-);
-
 const AppBar = ({ navigation }) => {
+  const LeftIcon = () => <MaterialIcons name="group" size={24} color="white" />;
+  const TitleText = () => (
+    <Text color="white" fontFamily="Plaster-Regular">
+      MOOCO
+    </Text>
+  );
+  const RightIcon1 = () => (
+    <MaterialIcons name="notifications" size={24} color="white" />
+  );
+  const RightIcon2 = () => (
+    <MaterialIcons name="account-circle" size={24} color="white" />
+  );
+
   return {
     headerBackVisible: false,
     headerLeft: () => (

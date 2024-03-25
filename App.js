@@ -23,6 +23,9 @@ import Account from "./src/screens/sign/Account";
 import Login from "./src/screens/sign/Login";
 import FindPw from "./src/screens/auth/findPw";
 import FindId from "./src/screens/auth/findId";
+import EventPage from "./src/screens/eventpage/FirstEventpage";
+import GroupCreate from "./src/screens/eventpage/GroupCreate";
+import { useFonts } from "expo-font";
 // rn navigatior로 stack 생성, rn은 stack으로 사용자의 이동을 확인한다.
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +36,10 @@ screen 숨기고 싶으면 아래 코드로 변경(스크린 옵션 추가)
 
 // 맨 위 코드가 첫 번째 스크린
 function App() {
+  const [fontsLoaded] = useFonts({
+    "Plaster-Regular": require("./src/assets/fonts/Plaster-Regular.ttf"),
+  });
+  if (!fontsLoaded) return null;
   return (
     <NavigationContainer>
       <NativeBaseProvider>
@@ -99,6 +106,18 @@ function App() {
             name="DailyUpload"
             component={DailyUpload}
             options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="EventPage"
+            component={EventPage}
+            options={{ ...backbtncolorbar, title: "EventPage" }}
+          />
+
+          <Stack.Screen
+            name="GroupCreatePage"
+            component={GroupCreate}
+            options={{ ...backbtncolorbar, title: "새 그룹 생성" }}
           />
         </Stack.Navigator>
       </NativeBaseProvider>

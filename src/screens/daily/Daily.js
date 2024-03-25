@@ -10,27 +10,12 @@ import getDailyCalendarData from "../../server/daily/getDailyCalendarData";
 import dailyHomeData from "../../data/daily/dailyHomeData";
 
 export default function Daily({ navigation }) {
+  //홈 데이터 저장
   const [homeData, setHomeData] = useState(dailyHomeData.data);
-  useEffect(() => {
-    const getHomeData = async () => {
-      console.log("로드 홈데이터");
-      const result = await getDailyHomeData();
-      if (result !== null) {
-        // 결과가 null이 아닐 때만 상태 업데이트
-        setHomeData(result);
-      } else {
-        // result가 null일 때의 처리 로직, 필요한 경우
-      }
-    };
-    getHomeData();
-  }, []);
-
-  //홈 데이터
   const dailyImgList = homeData.dailyImgList;
   const uploadCnt = homeData.uploadCnt;
   const monthlyBarcodeInfo = homeData.monthlyBarcodeInfo;
-  const [isOpen, setIsOpen] = useState(homeData.isMonthlyModal);
-  const onClose = () => setIsOpen(false);
+  const isUploadToday = homeData.isUploadToday;
   var barcodeUrl = null;
   var fixedModalText = null;
   var changedModalText = null;
@@ -39,8 +24,13 @@ export default function Daily({ navigation }) {
     fixedModalText = homeData.monthlyBarcodeInfo.fixedModalText;
     changedModalText = homeData.monthlyBarcodeInfo.changedModalText;
   }
-
-  //날짜 배열 객체로 변환
+  const [isOpen, setIsOpen] = useState(homeData.isMonthlyModal);
+  const onClose = () => setIsOpen(false);
+  //업로드한 날짜 문자열 배열
+  const [uploadDateListArray, setUploadDateListArray] = useState(
+    homeData.uploadDateList
+  );
+  //업로드한 날짜 캘린더 marked 스타일 적용을 위한 배열
   const [uploadDateList, setUploadDateList] = useState(
     homeData.uploadDateList.reduce((acc, date) => {
       acc[date] = {
@@ -59,13 +49,48 @@ export default function Daily({ navigation }) {
     }, {})
   );
 
-  //캘린더 데이터
-  const [calendarData, setCalendarData] = useState({});
-  const getCalendarData = async (date) => {
-    const result = await getDailyCalendarData(date);
-    setCalendarData(result);
+  //오늘 날짜 - 데일리 업로드에서 사용
+  var today = new Date();
+  var year = today.getFullYear();
+  var month = ("0" + (today.getMonth() + 1)).slice(-2);
+  var day = ("0" + today.getDate()).slice(-2);
+  var dateString = year + "-" + month + "-" + day;
+
+  useEffect(() => {
+    const getHomeData = async () => {
+      const result = await getDailyHomeData();
+      if (result !== null) {
+        // 결과가 null이 아닐 때만 상태 업데이트
+        setHomeData(result);
+        setUploadDateListArray(result.uploadDateList);
+        setUploadDateList(
+          (result.uploadDateList || []).reduce((acc, date) => {
+            acc[date] = {
+              customStyles: {
+                container: {
+                  backgroundColor: "white",
+                  borderRadius: 50,
+                },
+                text: {
+                  color: "black",
+                  fontWeight: "bold",
+                },
+              },
+            };
+            return acc;
+          }, {})
+        );
+      } else {
+        // result가 null일 때의 처리 로직, 필요한 경우
+      }
+    };
+    getHomeData();
+  }, []);
+
+  //캘린더를 넘길때 업로드
+  useEffect(() => {
     setUploadDateList(
-      calendarData.uploadDateList.reduce((acc, date) => {
+      (uploadDateListArray || []).reduce((acc, date) => {
         acc[date] = {
           customStyles: {
             container: {
@@ -81,6 +106,33 @@ export default function Daily({ navigation }) {
         return acc;
       }, {})
     );
+  }, [uploadDateListArray]);
+
+  //캘린더 데이터
+  const [calendarData, setCalendarData] = useState({});
+  const getCalendarData = async (date) => {
+    const result = await getDailyCalendarData(date);
+    if (result !== null) {
+      setCalendarData(result);
+      setUploadDateListArray(result.uploadDateList);
+      setUploadDateList(
+        (result.uploadDateList || []).reduce((acc, date) => {
+          acc[date] = {
+            customStyles: {
+              container: {
+                backgroundColor: "white",
+                borderRadius: 50,
+              },
+              text: {
+                color: "black",
+                fontWeight: "bold",
+              },
+            },
+          };
+          return acc;
+        }, {})
+      );
+    }
   };
 
   return (
@@ -111,15 +163,17 @@ export default function Daily({ navigation }) {
             mb={4}
           >
             <Image
+              key="barcodeImage"
               source={{ uri: barcodeUrl }}
               style={{ width: 320, height: 120 }}
+              alt="바코드 이미지"
             />
           </Box>
         </Actionsheet.Content>
       </Actionsheet>
       <ScrollView backgroundColor="black" padding="16px">
         <VStack space={1} alignItems="center" safeArea>
-          {dailyImgList === null && (
+          {!isUploadToday && (
             <LinearGradient
               colors={["#63495C", "#2C5665"]}
               style={styles.gradientBox}
@@ -130,8 +184,7 @@ export default function Daily({ navigation }) {
                 </Text>
                 <TouchableOpacity
                   onPress={() => {
-                    console.log("데일리 기록으로 이동");
-                    navigation.navigate("DailyUpload");
+                    navigation.navigate("DailyUpload", { date: dateString });
                   }}
                   style={styles.navigateDailyContainer}
                 >
@@ -144,15 +197,15 @@ export default function Daily({ navigation }) {
               </VStack>
             </LinearGradient>
           )}
-          {dailyImgList !== null && (
+          {dailyImgList && dailyImgList.length !== 0 && (
             <>
-              <Text color="white" fontSize="81">
+              <Text color="white" fontFamily="Plaster-Regular" fontSize="81">
                 TODAY
               </Text>
               <DailyImageView images={dailyImgList}></DailyImageView>
             </>
           )}
-          <Text color="white" fontSize="52">
+          <Text color="white" fontFamily="Plaster-Regular" fontSize="52">
             CALENDAR
           </Text>
           <View style={styles.calendarContainer}>
@@ -176,18 +229,33 @@ export default function Daily({ navigation }) {
               monthFormat={"yyyy MMMM"}
               // 날짜를 눌렀을 때 실행되는 함수
               onDayPress={(date) => {
-                console.log("선택된 날짜", date.dateString);
-                {
-                  uploadDateList.includes(date.dateString) &&
-                    navigation.navigate("DailyPost", { date: date.dateString });
+                if (
+                  uploadDateListArray &&
+                  uploadDateListArray.includes(date.dateString)
+                ) {
+                  navigation.navigate("DailyPost", { date: date.dateString });
                 }
               }}
               // 보이는 월이 바뀔 때 실행되는 함수
               onMonthChange={(date) => {
-                console.log("월 변경됨", date);
-                const dateString =
-                  date.year.toString + "-" + date.month.toString + "-01";
-                getCalendarData(dateString);
+                switch (date.month) {
+                  case 1:
+                  case 2:
+                  case 3:
+                  case 4:
+                  case 5:
+                  case 6:
+                  case 7:
+                  case 8:
+                  case 9:
+                    getCalendarData(date.year + "-" + "0" + date.month + "-01");
+                    break;
+                  case 10:
+                  case 11:
+                  case 12:
+                    getCalendarData(date.year + "-" + date.month + "-01");
+                    break;
+                }
               }}
               markedDates={uploadDateList}
               markingType={"custom"}
@@ -224,7 +292,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: "100%",
-    height: "100%", // Set the image height accordingly
+    height: "100%",
     borderRadius: 20,
     overflow: "hidden",
   },

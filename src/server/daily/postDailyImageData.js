@@ -26,13 +26,10 @@ const postDailyImageData = async (date, images, memo) => {
   try {
     const response = await axios.post(
       `${SERVER_HOST}/api/v1/days/${date}`,
-      {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      },
       formData,
       config
     );
-    console.log(response.data.data);
+    console.log("데일리 업로드", response.data);
     /*if (response.data.success == true) {
       //처리
     } else {
