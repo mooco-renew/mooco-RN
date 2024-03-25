@@ -1,9 +1,8 @@
 import { SERVER_HOST } from "@env";
 import axios from 'axios';
 import storeData from "../token/storeToken";
-import ErrorMessageModal from "../../components/alert/\bcustomAlert";
 
-// 서버로 코드 전송 후 토큰 받아오기
+// 일반 회원가입
 const originAccount = async (email, id, pw, navigation) => {
 
     const data = {
@@ -26,6 +25,7 @@ const originAccount = async (email, id, pw, navigation) => {
 
       if(response.data.success == true) {
         console.log('회원가입 성공!');
+        storeData(response.data.data.accessToken, response.data.data.refreshToken);
         navigation.navigate("GetProfile"); // true라면 추가 정보 기입으로 이동)
       } else {
         console.log('회원가입 실패!');
