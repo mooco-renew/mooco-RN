@@ -17,6 +17,8 @@ import DailyUpload from "./src/screens/daily/DailyUpload";
 import AppBar from "./src/components/navigation/bar/AppBar";
 import { NativeBaseProvider } from "native-base";
 import HomeTab from "./src/screens/homeTab/homeTab";
+import EventPage from "./src/screens/eventpage/FirstEventpage";
+import GroupCreate from "./src/screens/eventpage/GroupCreate";
 import { useFonts } from "expo-font";
 // rn navigatior로 stack 생성, rn은 stack으로 사용자의 이동을 확인한다.
 const Stack = createNativeStackNavigator();
@@ -72,6 +74,18 @@ function App() {
             name="DailyUpload"
             component={DailyUpload}
             options={{ headerShown: false }}
+          />
+
+          <Stack.Screen
+            name="EventPage"
+            component={EventPage}
+            options={{ ...backbtncolorbar, title: "EventPage" }}
+          />
+
+          <Stack.Screen
+            name="GroupCreatePage"
+            component={GroupCreate}
+            options={{ ...backbtncolorbar, title: "새 그룹 생성" }}
           />
         </Stack.Navigator>
       </NativeBaseProvider>
