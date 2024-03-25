@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "mooco",
-    "slug": "mooco",
-    "owner": "mooco",
+    "slug": "moocotest",
+    "owner": "bian87",
     "version": "1.0.0",
     "scheme": "mooco",
     "orientation": "portrait",
@@ -18,14 +18,14 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.moocotest"
+      "bundleIdentifier": "com.anonymous.mooco"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.idog.googlelogin"
+      "package": "com.anonymous.mooco"
     },
     "web": {
       "favicon": "./assets/favicon.png"

@@ -1,4 +1,4 @@
-package com.idog.googlelogin
+package com.anonymous.mooco
 
 import android.os.Build
 import android.os.Bundle
