@@ -22,8 +22,8 @@ const logo = `
 `;
 
 const svg = () => {
-  const KakaoSvg = () => <SvgXml xml={logo} width="254px" height="50px" />;
-  return <KakaoSvg />;
+  const KakaoButtonSvg = () => <SvgXml xml={logo} width="254px" height="50px" />;
+  return <KakaoButtonSvg />;
 };
 
 export default svg;

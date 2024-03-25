@@ -1,18 +1,24 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-// LeftArrowSvg 컴포넌트를 적절한 경로에서 임포트하세요.
 import LeftArrowSvg from '../../../assets/images/navigation/leftarrow';
 
 const CustomBackButton = () => {
   const navigation = useNavigation();
 
   return (
-    <TouchableOpacity onPress={() => navigation.goBack()}>
+    <TouchableOpacity style={styles.buttoncontainer} onPress={() => navigation.goBack()}>
       <LeftArrowSvg />
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  buttoncontainer: {
+    width: 50,
+    height: '100%',
+  }
+});
 
 export const backbtncolorbar = {
   headerStyle: {
