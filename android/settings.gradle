@@ -1,4 +1,4 @@
-rootProject.name = 'moocotest'
+rootProject.name = 'mooco'
 
 dependencyResolutionManagement {
   versionCatalogs {

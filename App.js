@@ -8,7 +8,6 @@ import { backbtncolorbar } from "./src/components/navigation/bar/BackBtnColorBar
 /* screens */
 import Daily from "./src/screens/daily/Daily";
 import KakaoLoginScreen from "./src/screens/login/KakaoLogin";
-import GoogleLoginScreen from "./src/screens/login/GoogleLogin";
 import GetProfile from "./src/screens/account/Getprofile";
 import OnBoarding from "./src/screens/onboarding/OnBoarding";
 import FriendsList from "./src/screens/friends/FriendsList";
@@ -50,7 +49,6 @@ function App() {
             options={{ ...backbtncolorbar, title: "프로필 편집" }}
           />
           <Stack.Screen name="KakaoLogin" component={KakaoLoginScreen} />
-          <Stack.Screen name="GoogleLogin" component={GoogleLoginScreen} />
           <Stack.Screen
             name="FriendsList"
             component={FriendsList}
