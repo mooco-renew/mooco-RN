@@ -7,10 +7,10 @@ import {
   INJECTED_JAVASCRIPT,
 } from "@env";
 import axios from "axios";
-import postToken from "../../server/auth/postToken";
+import postKakaoToken from "../../server/sign/postKakaoToken";
 
 export default function KakaoLoginScreen({ navigation }) {
-  var _REDIRECT_URI = REDIRECT_URI;
+  console.log(REDIRECT_URI, REST_API_KEY);
 
   // 인가코드 발급
   const getCode = (target) => {
@@ -43,7 +43,7 @@ export default function KakaoLoginScreen({ navigation }) {
       .then((response) => {
         accessToken = response.data.access_token;
         //서버 통신
-        postToken(accessToken, navigation);
+        postKakaoToken(accessToken, navigation);
       })
       .catch(function (error) {
         console.log("error : ", error);
@@ -57,7 +57,7 @@ export default function KakaoLoginScreen({ navigation }) {
       <WebView
         style={{ flex: 1 }}
         source={{
-          uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${_REDIRECT_URI}`,
+          uri: `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`,
         }}
         injectedJavaScript={INJECTED_JAVASCRIPT}
         javaScriptEnabled

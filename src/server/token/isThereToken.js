@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const getToken = () => {
+const isThereToken = () => {
     const navigation = useNavigation();
   const [data, setData] = useState(null);
 
@@ -26,4 +26,4 @@ const getToken = () => {
   return data; // 데이터와 에러를 반환합니다.
 };
 
-export default getToken;
+export default isThereToken;

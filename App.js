@@ -4,11 +4,13 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 /* 네비게이션 스타일 */
 import { backbtncolorbar } from "./src/components/navigation/bar/BackBtnColorBar";
+import { nonebackbtncolorbar } from "./src/components/navigation/bar/NoneBackButton";
 
 /* screens */
 import Daily from "./src/screens/daily/Daily";
-import KakaoLoginScreen from "./src/screens/login/KakaoLogin";
-import GetProfile from "./src/screens/account/Getprofile";
+import Agreement from "./src/screens/sign/Agreement";
+import KakaoLoginScreen from "./src/screens/sign/KakaoLogin";
+import GetProfile from "./src/screens/sign/Getprofile";
 import OnBoarding from "./src/screens/onboarding/OnBoarding";
 import FriendsList from "./src/screens/friends/FriendsList";
 import RequestFriends from "./src/screens/friends/RequestFriends";
@@ -17,6 +19,10 @@ import DailyUpload from "./src/screens/daily/DailyUpload";
 import AppBar from "./src/components/navigation/bar/AppBar";
 import { NativeBaseProvider } from "native-base";
 import HomeTab from "./src/screens/homeTab/homeTab";
+import Account from "./src/screens/sign/Account";
+import Login from "./src/screens/sign/Login";
+import FindPw from "./src/screens/auth/findPw";
+import FindId from "./src/screens/auth/findId";
 import EventPage from "./src/screens/eventpage/FirstEventpage";
 import GroupCreate from "./src/screens/eventpage/GroupCreate";
 import { useFonts } from "expo-font";
@@ -43,10 +49,36 @@ function App() {
             component={OnBoarding}
             options={{ headerShown: false }}
           />
+           <Stack.Screen
+            name="Account"
+            component={Account}
+            options={{ ...backbtncolorbar, title: "회원가입" }}
+          />
+          <Stack.Screen
+            name="Agreement"
+            component={Agreement}
+            options={{ ...nonebackbtncolorbar, title: "이용 약관 동의서" }}
+            headerShown
+          />
+           <Stack.Screen
+            name="Login"
+            component={Login}
+            options={{ ...backbtncolorbar, title: "로그인" }}
+          />
+          <Stack.Screen
+            name="FindPw"
+            component={FindPw}
+            options={{ ...backbtncolorbar, title: "비밀번호 찾기" }}
+          />
+          <Stack.Screen
+            name="FindId"
+            component={FindId}
+            options={{ ...backbtncolorbar, title: "아이디 찾기" }}
+          />
           <Stack.Screen
             name="GetProfile"
             component={GetProfile}
-            options={{ ...backbtncolorbar, title: "프로필 편집" }}
+            options={{ ...backbtncolorbar, title: "프로필 등록" }}
           />
           <Stack.Screen name="KakaoLogin" component={KakaoLoginScreen} />
           <Stack.Screen

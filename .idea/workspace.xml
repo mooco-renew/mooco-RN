@@ -6,39 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="0baf66ed-3085-4e75-a060-1928bc18caeb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/AndroidManifest.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/anonymous/moocotest/MainActivity.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/anonymous/moocotest/MainApplication.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/idog/googlelogin/MainActivity.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/com/idog/googlelogin/MainApplication.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/app/src/main/res/values/strings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/res/values/strings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/settings.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/Podfile" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Podfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest.xcodeproj/project.pbxproj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest.xcodeproj/xcshareddata/xcschemes/moocotest.xcscheme" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/AppDelegate.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/AppDelegate.mm" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/Images.xcassets/AppIcon.appiconset/App-Icon-1024x1024@1x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/Images.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/Images.xcassets/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/Images.xcassets/SplashScreen.imageset/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/Images.xcassets/SplashScreen.imageset/image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/Images.xcassets/SplashScreenBackground.imageset/Contents.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/Images.xcassets/SplashScreenBackground.imageset/image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/Info.plist" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/SplashScreen.storyboard" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/Supporting/Expo.plist" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/main.m" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/moocotest-Bridging-Header.h" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/moocotest.entitlements" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ios/moocotest/noop-file.swift" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/login/GoogleLogin.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/login/KakaoLogin.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/login/KakaoLogin.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/account/Account.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/account/Agreement.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/account/Getprofile.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/login/KakaoLogin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/login/Login.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/onboarding/OnBoarding.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/OnBoarding.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/auth/postGoogleToken.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/auth/postToken.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/util/sign/validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/sign/validate.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,20 +37,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/Users/eunji/Desktop/github-repo/mooco-RN",
-    "settings.editor.selected.configurable": "AndroidSdkUpdater",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/sign&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/eunji/Desktop/github-repo/mooco-RN&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
