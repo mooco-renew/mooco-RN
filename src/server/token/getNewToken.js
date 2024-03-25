@@ -12,19 +12,19 @@ const getNewToken = async () => {
         `${SERVER_HOST}/api/v1/auth/reissue`,
         {
           headers: { 
-          'Authorization': `Bearer ${value}`
+          'ReAuthorization': `Bearer ${value}`
           }
       },
       );
 
       if(response.data.success == true) {
+        console.log('새 토큰 발급 성공!', response.data);
         storeData(response.data.data.accessToken, response.data.data.refreshToken); 
       } else {
-        return response.data.error;
+        console.log('새 토큰 발급 실패', response.data);
       }
     } catch (error) {
       console.error("에러가 있습니다. ", error);
-      return null;
     }
   };
 
