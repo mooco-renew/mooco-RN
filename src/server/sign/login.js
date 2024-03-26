@@ -1,29 +1,27 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SERVER_HOST } from "@env";
 import axios from 'axios';
 import storeData from '../token/storeToken';
 
 // 서버로 코드 전송 후 토큰 받아오기
 const originLogin = async (id, pw, navigation) => {
-    const value = await AsyncStorage.getItem('access_token');
-
     const data = {
-      id: id,
-      pw: pw,
+      serial_id: id,
+      password: pw,
     };
     const config = {
       headers: {
-        'Authorization': `Bearer ${value}`
+        'Content-Type': 'application/json'
       },
     };
 
     try {
       const response = await axios.post(
-        `${SERVER_HOST}/api/v1/user/login`,
+        `${SERVER_HOST}/api/v1/auth/sign-in`,
         data,
         config
       );
 
+      co
       if(response.data.success = true) {
         console.log("로그인 성공 !: ", response.data);
         storeData(response.data.data.accessToken, response.data.data.refreshToken);
