@@ -14,6 +14,6 @@ export const removeWhitespace = text => {
 // 8-20 사이 알파벳, 숫자, 특수문자 포함
 export const validatePassword = password => {
     if (password === "") return false; // 빈 값 검사 추가
-    const regex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/;
+    const regex = /^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\W).{8,20}$/;
     return regex.test(password);
 };
