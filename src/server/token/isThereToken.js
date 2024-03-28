@@ -4,16 +4,12 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const isThereToken = () => {
     const navigation = useNavigation();
-  const [data, setData] = useState(null);
-
     const getData = async () => {
       try {
         const value = await AsyncStorage.getItem('access_token');
         if (value !== null) {
           console.log('value : ', value);
-          setData(value);
         } else {
-          setData(null);
           alert('로그인이 필요합니다.');
         }
       } catch (e) {
@@ -22,8 +18,6 @@ const isThereToken = () => {
       }
     };
     getData();
-
-  return data; // 데이터와 에러를 반환합니다.
 };
 
 export default isThereToken;
