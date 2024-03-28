@@ -14,7 +14,12 @@ const sendRequest = async (userId) => {
                 }
             },
           );
+          if(response.data.success = true) {
           console.log('친구 요청 성공! : ', response);
+          return response.data.success;
+          } else {
+            return response.data;
+          }
         } catch (error) {
 		  console.log('친구 요청 에러', error);
 		}

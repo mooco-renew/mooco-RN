@@ -16,8 +16,13 @@ import axios from 'axios';
                 'Authorization': `Bearer ${value}`
               },
           });
+          if(response.data.success = true) {
 		  console.log('친구 목록 조회 성공! : ', response.data.data);
-          return response.data.data;
+      return response.data.data;
+          }
+          else {
+          return response.data;
+          }
 		} catch (error) {
 		  console.error('친구 목록 조회 에러 ', error);
           return [];

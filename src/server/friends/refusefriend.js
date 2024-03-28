@@ -15,7 +15,12 @@ const refuseFriend = async (userId) => {
                 userId: userId, 
             },
         });
+        if(response.data.success = true) {
         console.log('요청 거절 성공!: ', response);
+        return response.data.success;
+        } else {
+            return response.data;
+        }
     } catch (error) {
         console.error('요청 거절 에러: ', error);
     }

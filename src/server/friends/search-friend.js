@@ -17,8 +17,13 @@ import axios from 'axios';
                 'Authorization': `Bearer ${value}`
               },
           });
+          if(response.data.success = true) {
 		  console.log('검색 성공 !: ', response.data.data);
-          return response.data.data;
+      return response.data.data;
+          }
+          else {
+            return response.data;
+          }
 		} catch (error) {
 		  console.error('검색 에러 ', error);
           return [];

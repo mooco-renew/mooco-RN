@@ -14,7 +14,12 @@ const receiveFriend = async (userId) => {
                 }
             },
           );
+          if(response.data.success = true) {
           console.log('요청 수락 성공! : ', response);
+          return response.data.success;
+          } else {
+            return response.data;
+          }
         } catch (error) {
 		  console.log('요청 수락 에러', error);
 		}

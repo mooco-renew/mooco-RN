@@ -16,8 +16,12 @@ import axios from 'axios';
                 'Authorization': `Bearer ${value}`
               },
           });
+          if(response.data.success = true) {
 		  console.log('보낸 요청 조회 성공! ', response.data.data);
-          return response.data.data;
+      return response.data.data;
+          } else {
+            return response.data;
+          }
 		} catch (error) {
 		  console.error('보낸 요청 조회 에러', error);
           return [];
