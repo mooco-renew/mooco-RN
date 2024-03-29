@@ -10,9 +10,10 @@ import {
   Modal,
   Platform,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { CommonActions } from "@react-navigation/native";
-import { NativeBaseProvider, HStack, VStack } from "native-base";
+import { NativeBaseProvider, HStack, VStack, Center } from "native-base";
 import { MaterialIcons } from "@expo/vector-icons";
 import DailyModal from "../../components/dailyModal/DailyModal";
 import getDailyImageData from "../../server/daily/getDailyImageData";
@@ -32,6 +33,7 @@ export default function DailyPost({ route, navigation }) {
   const memo = data.memo;
   const photos = data.photos;
   const visible = data.visible;
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -58,6 +60,7 @@ export default function DailyPost({ route, navigation }) {
 
   const deletePost = async (date) => {
     await deleteDailyImageData(date);
+    setIsLoading(false);
     navigation.dispatch(
       CommonActions.reset({
         index: 1,
@@ -76,6 +79,7 @@ export default function DailyPost({ route, navigation }) {
   const Btn2Event = () => {
     console.log("삭제하기");
     if (photos.length !== null) {
+      setIsLoading(true);
       deletePost(dateString);
       setIsOpen(false);
     }
@@ -202,27 +206,35 @@ export default function DailyPost({ route, navigation }) {
         )}
       </View>
       <SafeAreaView style={styles.safeContainer}>
-        <ScrollView style={styles.container}>
-          <View
-            style={
-              isOpen
-                ? [styles.alertContiner, styles.alertContinerzIndexOpen]
-                : [styles.alertContiner, styles.alertContinerzIndexClose]
-            }
-          >
-            {lockIsOpen && Platform.OS === "ios" && (
-              <Modal visible={lockIsOpen} transparent={true}>
-                <DailyModal
-                  isOpen={lockIsOpen}
-                  onClose={LockBtn1Event}
-                  Header={LockHeader}
-                  Content={LockContent}
-                  Btn1={Btn1}
-                  Btn1Event={LockBtn1Event}
-                />
-              </Modal>
-            )}
-            {lockIsOpen && Platform.OS === "android" && (
+        <View
+          style={
+            isLoading
+              ? [styles.alertContiner, styles.alertContinerzIndexOpen]
+              : [styles.alertContiner, styles.alertContinerzIndexClose]
+          }
+        >
+          {isLoading && Platform.OS === "ios" && (
+            <Modal visible={isLoading} transparent={true}>
+              <Center>
+                <ActivityIndicator size="large" color="#FFFFFF" />
+              </Center>
+            </Modal>
+          )}
+          {isLoading && Platform.OS === "android" && (
+            <Center>
+              <ActivityIndicator size="large" color="#FFFFFF" />
+            </Center>
+          )}
+        </View>
+        <View
+          style={
+            isOpen
+              ? [styles.alertContiner, styles.alertContinerzIndexOpen]
+              : [styles.alertContiner, styles.alertContinerzIndexClose]
+          }
+        >
+          {lockIsOpen && Platform.OS === "ios" && (
+            <Modal visible={lockIsOpen} transparent={true}>
               <DailyModal
                 isOpen={lockIsOpen}
                 onClose={LockBtn1Event}
@@ -231,20 +243,32 @@ export default function DailyPost({ route, navigation }) {
                 Btn1={Btn1}
                 Btn1Event={LockBtn1Event}
               />
-            )}
-            {isOpen && (
-              <DailyModal
-                isOpen={isOpen}
-                onClose={Btn1Event}
-                Header={Header}
-                Content={Content}
-                Btn1={Btn1}
-                Btn1Event={Btn1Event}
-                Btn2={Btn2}
-                Btn2Event={Btn2Event}
-              />
-            )}
-          </View>
+            </Modal>
+          )}
+          {lockIsOpen && Platform.OS === "android" && (
+            <DailyModal
+              isOpen={lockIsOpen}
+              onClose={LockBtn1Event}
+              Header={LockHeader}
+              Content={LockContent}
+              Btn1={Btn1}
+              Btn1Event={LockBtn1Event}
+            />
+          )}
+          {isOpen && (
+            <DailyModal
+              isOpen={isOpen}
+              onClose={Btn1Event}
+              Header={Header}
+              Content={Content}
+              Btn1={Btn1}
+              Btn1Event={Btn1Event}
+              Btn2={Btn2}
+              Btn2Event={Btn2Event}
+            />
+          )}
+        </View>
+        <ScrollView style={styles.container}>
           <VStack space={3} flex="1">
             <View style={styles.profileContainer}>
               <HStack space={3} justifyContent="center">
@@ -401,6 +425,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   alertContinerzIndexOpen: {
     zIndex: 999,
