@@ -11,6 +11,7 @@ import {
   StatusBar,
   Modal,
   Platform,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -31,6 +32,7 @@ export default function DailyUpload({ route, navigation }) {
   const [inputHeight, setInputHeight] = useState(0);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isOpen, setIsOpen] = React.useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [menuVisible, setMenuVisible] = useState(false);
   const [render, setRender] = useState();
   const [cameraPermission, setCameraPermission] = useState(null);
@@ -53,6 +55,7 @@ export default function DailyUpload({ route, navigation }) {
         })
       );
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {}, []);
@@ -150,6 +153,26 @@ export default function DailyUpload({ route, navigation }) {
     <>
       <NativeBaseProvider>
         <SafeAreaView style={styles.safeContainer}>
+          <View
+            style={
+              isLoading
+                ? [styles.alertContiner, styles.alertContinerzIndexOpen]
+                : [styles.alertContiner, styles.alertContinerzIndexClose]
+            }
+          >
+            {isLoading && Platform.OS === "ios" && (
+              <Modal visible={isLoading} transparent={true}>
+                <Center>
+                  <ActivityIndicator size="large" color="#FFFFFF" />
+                </Center>
+              </Modal>
+            )}
+            {isLoading && Platform.OS === "android" && (
+              <Center>
+                <ActivityIndicator size="large" color="#FFFFFF" />
+              </Center>
+            )}
+          </View>
           <ScrollView backgroundColor="black">
             <View
               style={
@@ -201,6 +224,7 @@ export default function DailyUpload({ route, navigation }) {
                   size={24}
                   color="white"
                   onPress={() => {
+                    setIsLoading(true);
                     uploadPost(dateString, selectedImages, comment);
                   }}
                 />
@@ -297,6 +321,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   alertContinerzIndexOpen: {
     zIndex: 99,
