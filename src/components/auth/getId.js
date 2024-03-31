@@ -11,7 +11,11 @@ export default function GetId({email, code}) {
     useEffect(async () => {
       let data = await findId(email, code);
       console.log(data);
-      setId(data);
+      if(data.success == false) {
+        alert(data.error.message);
+        navigation.navigate("Login");
+      }
+      // setId(data || "id");
     }, [])
 
     return (

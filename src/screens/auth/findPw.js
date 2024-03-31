@@ -15,7 +15,7 @@ export default function FindPw() {
     const [code, setCode] = useState(0);
     const [isAvail, setIsAvail] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
-    const [showAuth, setShowAuth] = useState([false, false]);
+    const [step, setStep] = useState(1);
 
             // 유효성 검사
             useEffect(() => {
@@ -33,13 +33,13 @@ export default function FindPw() {
             const sendEmail = async () => {
               let data = await requestEmail(email);
               if(data == true) {
-                setNewTrueArray(setShowAuth, 0); // 코드 입력 창 열기
+                setStep(2); // 이메일 인증코드 입력 페이지로 이동
               }
             }
 
     return (
       <View style={styles.container}>
-      {allFalse(showAuth) && (
+      {step == 1 && (
             <View style={styles.container}>
             <Text style={styles.title}>비밀번호 찾기</Text>
             <Text style={styles.firstlabel}>이메일을 입력해주세요.</Text>
@@ -58,8 +58,8 @@ export default function FindPw() {
         </TouchableOpacity>
           </View>
       )}
-      {firstTrueOnly(showAuth) && (<EmailAuth email={email} setShowAuth={setShowAuth} setCode={setCode}/>)}
-      {allTrue(showAuth) && (<NewPw email={email} />)}
+      {step == 2 && (<EmailAuth by="findpw" email={email} id="" pw="pw" setStep={setStep}/>)}
+      {step == 3 && (<NewPw email={email} />)}
     </View>
     );
   }

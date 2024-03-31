@@ -8,7 +8,6 @@ import { nonebackbtncolorbar } from "./src/components/navigation/bar/NoneBackBut
 
 /* screens */
 import Daily from "./src/screens/daily/Daily";
-import Agreement from "./src/screens/sign/Agreement";
 import KakaoLoginScreen from "./src/screens/sign/KakaoLogin";
 import GetProfile from "./src/screens/sign/Getprofile";
 import OnBoarding from "./src/screens/onboarding/OnBoarding";
@@ -46,12 +45,6 @@ function App() {
             name="Account"
             component={Account}
             options={{ ...backbtncolorbar, title: "회원가입" }}
-          />
-          <Stack.Screen
-            name="Agreement"
-            component={Agreement}
-            options={{ ...nonebackbtncolorbar, title: "이용 약관 동의서" }}
-            headerShown
           />
            <Stack.Screen
             name="Login"

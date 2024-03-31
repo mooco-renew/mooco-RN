@@ -17,9 +17,10 @@ const findId = async (email, code) => {
           );
           if(response.data.success == true) {
             console.log('아이디 찾기 성공!');
-            return response.data.data;
+            return response.data;
           } else {
-            return response.data.error;
+            console.log(response.data);
+            return response.data;
           }
         } catch (error) {
 		  console.log('아이디 찾기 에러', error);

@@ -1,33 +1,30 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import Checkbox from 'expo-checkbox';
 import { WEBCLIENTID, IOSCLIENTID } from "@env";
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import { validateEmail, validatePassword } from '../../util/sign/validate';
 import SocialButton from '../../components/sign/socialButton';
 import EmailAuth from '../../components/auth/emailAuth';
-import { allTrue, firstTrue, lastFalse, secondTrue, thirdTrue } from '../../util/auth/authStep';
 import SecureIcon from '../../components/sign/secureIcon';
 import originAccount from '../../server/sign/account';
-import { setNewTrueArray } from '../../util/array/newTrueArray';
 import requestEmail from '../../server/auth/emailAuth';
-import CustomAlert from '../../components/alert/\bcustomAlert';
+import CustomActionSheet from '../../components/sheet/actionSheet';
+import Term from '../../components/sheet/term';
 
 // test용 스크린
-export default function Account({ route }) {
+export default function Account() {
     const navigation = useNavigation();
 
     const [email, setEmail] = useState(""); // 유저 정보들
     const [id, setId] = useState("");
     const [pw, setPw] = useState("");
-
-    const [code, setCode] = useState(0); // 인증 코드용
-    const [auth, setAuth] = useState([false, false]); // 이용약관, 이메일 인증, 전체
-    const [isShow, setIsShow] = useState(false); // 인증 화면 열고 닫기
-    const [isAvail, setIsAvail] = useState(false); // 회원가입 가능 여부
     const [isSecure, setIsSecure] = useState(true); // 비밀번호 숨기기/보이기 여부
 
+    const [isAvail, setIsAvail] = useState(true); // 인증번호 클릭 허가 상태
+    const [step, setStep] = useState(1); // 페이지 전환, 1 : id,pw,email 입력, 2 : 약관 동의, 3 : 이메일 인증 
+    const [terms, setTerms] = useState(0); // 약관동의 페이지 전환, 1 : 이용 약관, 2 : 개인정보 약관
+    const [check, setCheck] = useState([false, false]); // 이용약관 동의 현황
     const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
 
     GoogleSignin.configure({
@@ -35,62 +32,38 @@ export default function Account({ route }) {
       iosClientId: IOSCLIENTID,
     });
 
-    // navigation으로 보낸 params 받기
-    useEffect(() => {
-      if(route.params != undefined) {
-        const { _checked } = route.params;
-        if(_checked === true) {setNewTrueArray(setAuth, 0)} // 이용약관에 동의 했다면
-      }
-    }, [route.params])
-
     // 유효성 검사
     useEffect(() => {
-      if(validatePassword(pw) && validateEmail(email) && firstTrue(auth) && secondTrue(auth)) {
+      if(validatePassword(pw) && validateEmail(email)) {
         setErrorMessage('');
         setIsAvail(true);
       } else {
-          if(email != "" && !secondTrue(auth)) setErrorMessage("이메일 인증을 완료해주세요.");
+        setIsAvail(false);
+          if(email != "" && !validateEmail(email)) setErrorMessage("올바른 이메일 형식으로 작성해주세요.");
           else if(pw != "" && !validatePassword(pw)) setErrorMessage('알파벳, 숫자, 특수문자를 포함하여 8자리 이상 작성해주세요.');
-          else if(pw != "" && email != "" && !firstTrue(auth)) setErrorMessage("이용약관에 동의해주세요.");
-          setIsAvail(false);
+          else {
+            setErrorMessage("");
+          }
       }
-      if(auth[1] === true) { // 이메일 인증 후 돌아올 시, 인증 화면 닫기
-        setIsShow(false);
-      }
-    }, [id, pw, auth]);
-
-// 회원가입 클릭
-    const cilckAccount = async () => {
-      let data = await originAccount(email, id, pw, navigation);
-      if(data.success == false) {
-
-      }
-    }
-
-    // 인증번호 전송
-    const sendEmail = async () => {
-      let data = await requestEmail(email); // 이메일 인증 코드 발송 api
-      if(data == true) { setIsShow(true); } // 화면 표사
-    }
+    }, [pw, email]);
 
     return (
       <View style={styles.container}>
-        {!isShow && (
+        {terms == 1 && <Term id={1} setTerm={setTerms} setCheck={setCheck}/>}
+        {terms == 2 && <Term id={2} setTerm={setTerms} setCheck={setCheck}/>}
+        {terms == 0 && <CustomActionSheet isOpen={step == 2} setStep={setStep} setTerm={setTerms} check={check} email={email}/>}
+        {(step == 1 || step == 2)&& (
           <View style={styles.container}>
+            <Text style={styles.introduce}>정보가 맞다면{'\n'}인증하기 버튼을 눌러주세요.</Text>
          <View style={styles.inputbox}>
          <Text style={styles.firstlabel}>이메일</Text>
-          <View style={styles.authcontainer}>
           <TextInput 
           value={email}
-          style={styles.emailinput}
+          style={styles.input}
           onChangeText={setEmail}
           placeholder='이메일을 입력해주세요.'
           placeholderTextColor='rgba(0, 0, 0, 0.3)'
           />
-      <TouchableOpacity style={[styles.emailbutton, (!validateEmail(email) || secondTrue(auth)) && styles.buttondisable]} onPress={() => sendEmail()} disabled={!validateEmail(email) || secondTrue(auth)}>
-          <Text style={styles.emailbuttontext}>{secondTrue(auth) ? "완료" : "인증"}</Text>
-      </TouchableOpacity>
-          </View>
           <Text style={styles.secondlabel}>아이디</Text>
           <TextInput 
           value={id}
@@ -112,19 +85,9 @@ export default function Account({ route }) {
           </View>
       </View>
       <Text style={styles.errortext}>{errorMessage}</Text>
-      <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => cilckAccount()} disabled={!isAvail}>
-          <Text style={styles.buttontext}>확인</Text>
+      <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => setStep(2)} disabled={!isAvail}>
+          <Text style={styles.buttontext}>인증하기</Text>
       </TouchableOpacity>
-    <View style={styles.checkcontainer}>
-      <Checkbox
-            style={[styles.checkbox, secondTrue(auth) && styles.checkboxdisble]}
-            value={firstTrue(auth)}
-            onValueChange={() => navigation.navigate('Agreement', { id: id, pw: pw })}
-            color={firstTrue(auth) ? '#000000' : undefined}
-            disabled={firstTrue(auth)}
-          />
-      <Text style={styles.checktext}>가입과 동시에 이용 약관 및 개인정보 처리방침에 동의합니다.</Text>
-      </View>
       <Text style={styles.socialtext}>소셜 계정으로 가입하기</Text>
       <SocialButton />
       <View style={styles.helptextbox}>
@@ -136,7 +99,7 @@ export default function Account({ route }) {
       </View>
         </View>
         )}
-        {isShow && <EmailAuth email={email} setShowAuth={setAuth} setCode={setCode}/>}
+        {step == 3 && <EmailAuth by='account' email={email} id={id} pw={pw} setStep={setStep}/>}
         </View>
     );
   }
@@ -148,12 +111,13 @@ export default function Account({ route }) {
       alignItems: 'center',
       backgroundColor: '#000000',
     },
-    authcontainer: {
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'row',
+    introduce: {
       width: '90%',
-      justifyContent: 'space-between',
+      textAlign: 'left',
+      color: '#ffffff',
+      fontWeight: '800',
+      fontSize: 20,
+      marginTop: 20,
     },
     inputbox: {
       width: '100%',
@@ -167,7 +131,7 @@ export default function Account({ route }) {
       fontWeight: '800',
       marginBottom: 5,
       fontSize: 14,
-      marginTop: 40,
+      marginTop: 30,
     },
     secondlabel: {
       width: '90%',
@@ -188,12 +152,6 @@ export default function Account({ route }) {
       display: 'flex',
       flexDirection: 'row',
     },
-    emailinput: {
-      width: '85%',
-      padding: 10,
-      borderRadius: 100,
-      backgroundColor: '#ffffff',
-    },
     button: {
       backgroundColor: '#151515',
       alignItems: 'center',
@@ -201,20 +159,7 @@ export default function Account({ route }) {
       width: '90%', 
       paddingVertical: 18, // 상하 패딩 
       borderRadius: 10,
-      marginTop: 25,
-    },
-    emailbutton: {
-      backgroundColor: '#151515',
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 10, // 상하 패딩 
-      paddingHorizontal: 10,
-      borderRadius: 10,
-    },
-    emailbuttontext: {
-      color: '#ffffff',
-      fontSize: 16,
-      fontWeight: '600',
+      marginTop: 30,
     },
     buttondisable: {
       backgroundColor: 'rgba(217, 217, 217, 0.5)',
@@ -225,33 +170,8 @@ export default function Account({ route }) {
       fontSize: 16,
       fontWeight: '600',
     },
-    checkcontainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      width: '90%',
-      marginTop: 10,
-    },
-    checktext: {
-      fontSize: 12,
-      textAlign: 'center',
-      color: '#ffffff',
-      fontWeight: '600',
-      marginLeft: 5,
-    },
-    checkbox: {
-      width: 20,
-      height: 20,
-      marginRight: 5,
-      borderRadius: 10,
-    },
-    checkboxdisble: {
-      width: 20,
-      height: 20,
-      marginRight: 5,
-      borderRadius: 10,
-    },
     socialtext: {
-      marginTop: 20,
+      marginTop: 40,
       fontSize: 14,
       fontWeight: '600',
       color: '#ffffff',
