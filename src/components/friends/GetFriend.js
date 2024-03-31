@@ -1,16 +1,40 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import receiveFriend from '../../server/friends/accept-friend';
 import refuseFriend from '../../server/friends/refusefriend';
+import getReceviedList from '../../server/friends/recevied-list';
 
 // test용 스크린
-export default function GetFriend({setSecondView, setReceiveId, nickname, identifierId, profileImageUrl, userId}) {
+export default function GetFriend({setReceivedList, nickname, identifierId, profileImageUrl, userId}) {
 
-    const clickRefuse = () => {
-       refuseFriend(userId); // 요청 거절
+    const clickRefuse = async () => {
+       let data = await refuseFriend(userId); // 요청 거절
+       if(data.success == true) {
+        const received_result = await getReceviedList();
+        if(received_result.success == true) {
+          setReceivedList(received_result.data.receiceRequestList);
+        } else if(received_result.success == false){
+          alert(received_result.error.message);
+        }
+       } else if(data.success == false) {
+        alert(data.error.message);
+       } else {
+        alert("서버 에러");
+       }
     }
-    const clickReceive = () => {
-      receiveFriend(userId); // 요청 수락
-        setSecondView(true);
+    const clickReceive = async () => {
+      let data = await receiveFriend(userId); // 요청 수락
+      if(data.success == true) {
+        const received_result = await getReceviedList();
+        if(received_result.success == true) {
+          setReceivedList(received_result.data.receiceRequestList);
+        } else if(received_result.success == false){
+          alert(received_result.error.message);
+        }
+      } else if(data.success == false) {
+        alert(data.error.message);
+      } else {
+       alert("서버 에러");
+      }
     }
 
     return (

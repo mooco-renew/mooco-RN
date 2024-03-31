@@ -20,7 +20,9 @@ const AppBar = ({ navigation }) => {
   return {
     headerBackVisible: false,
     headerLeft: () => (
-      <TouchableOpacity onPress={() => {}}>
+      <TouchableOpacity onPress={() => {
+        navigation.navigate('FriendsList');
+      }}>
         <LeftIcon />
       </TouchableOpacity>
     ),

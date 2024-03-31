@@ -7,7 +7,7 @@ import axios from 'axios';
         const value = await AsyncStorage.getItem('access_token');
 		
 		try {
-		  const response = await axios.get(`${SERVER_HOST}/api/v1/users/friends/request-received`, {
+		  const response = await axios.get(`${SERVER_HOST}/api/v1/users/info`, {
             params: {
                 page: 0,
                 size: 10,
@@ -18,10 +18,11 @@ import axios from 'axios';
               },
           });
           if(response.data.success = true) {
-		  console.log('검색 성공 !: ', response.data.data);
-      return response.data.data;
+		  console.log('검색 성공 !: ', response.data);
+      return response.data;
           }
           else {
+            console.log('검색 실패 !: ', response.data);
             return response.data;
           }
 		} catch (error) {

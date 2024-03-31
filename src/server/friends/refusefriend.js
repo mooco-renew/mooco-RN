@@ -16,9 +16,10 @@ const refuseFriend = async (userId) => {
             },
         });
         if(response.data.success = true) {
-        console.log('요청 거절 성공!: ', response);
-        return response.data.success;
+        console.log('요청 거절 성공!: ', response.data);
+        return response.data;
         } else {
+            console.log('요청 거절 실패! : ', response.data);
             return response.data;
         }
     } catch (error) {

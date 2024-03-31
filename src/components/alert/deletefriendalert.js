@@ -2,14 +2,24 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import deleteFriend from '../../server/friends/delete-friend';
 
 // test용 스크린
-export default function DeleteFriendAlert({ setView, selectedId}) {
+export default function DeleteFriendAlert({ setView, selectedId, setData}) {
     const handleCancel = () => {
         setView(false);
     }
 
     const handleDelete = async () => {
-        await deleteFriend(selectedId);
-        setView(false);
+        let data = await deleteFriend(selectedId);
+        if(data.success == true) { // 삭제 성공 시
+            const result = await getFriendsList(); // 친구 목록 새로고침
+            if(result.success == true) {
+            setData(result.data.friendList); 
+            } else if(result.success == false) {
+              alert(result.error.message);
+            }
+            setView(false);
+        } else if(data.success == false) {
+            alert(data.error.message);
+        }
     }
 
     return (

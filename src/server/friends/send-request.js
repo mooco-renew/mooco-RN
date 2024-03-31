@@ -15,9 +15,10 @@ const sendRequest = async (userId) => {
             },
           );
           if(response.data.success = true) {
-          console.log('친구 요청 성공! : ', response);
-          return response.data.success;
+          console.log('친구 요청 성공! : ', response.data);
+          return response.data;
           } else {
+            console.log('친구 요청 실패! : ', response.data);
             return response.data;
           }
         } catch (error) {

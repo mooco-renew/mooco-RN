@@ -1,15 +1,15 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 // test용 스크린
-export default function SendFriendAlert({ setFirstView }) {
+export default function SendFriendAlert({ setView }) {
     const handleCancel = () => {
         // 취소 로직
-        setFirstView(false);
+        setView(false);
     }
 
     const handleDelete = () => {
         // 삭제 로직 추가
-        setFirstView(false);
+        setView(false);
     }
 
     return (
