@@ -9,6 +9,7 @@ export default function DailyImageView({ images }) {
         source={{ uri: image }}
         style={getImageStyle(images.length, index)}
         resizeMode="cover"
+        alt="업로드 이미지"
       />
     ));
     if (imageViews.length !== 3) {
@@ -16,9 +17,6 @@ export default function DailyImageView({ images }) {
         <>
           {
             <>
-              <Text color="white" fontSize="81px">
-                TODAY
-              </Text>
               <View style={styles.container}>
                 <View
                   style={imageViews.length === 2 ? styles.row2 : styles.row}
