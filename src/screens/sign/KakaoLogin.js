@@ -42,6 +42,7 @@ export default function KakaoLoginScreen({ navigation }) {
     })
       .then((response) => {
         accessToken = response.data.access_token;
+        console.log('토큰 발급 : ', accessToken);
         //서버 통신
         postKakaoToken(accessToken, navigation);
       })

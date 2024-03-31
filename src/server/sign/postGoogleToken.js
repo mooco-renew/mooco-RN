@@ -25,19 +25,19 @@ const postGoogleToken = async (accessToken, navigation) => {
       accessToken: accessToken,
       provider: "Google",
     };
-
     const config = {
       headers: {
         "Content-Type": "application/json",
       },
     };
-
     try {
+      console.log('구글 로그인 시도 중');
       const response = await axios.post(
         `${SERVER_HOST}/api/v1/auth/google`,
         data,
         config
       );
+      console.log(response.data);
       if(response.data.success == true) {
         console.log('구글 로그인 성공!');
         storeData(response.data.data.accessToken, response.data.data.refreshToken); 
@@ -47,9 +47,11 @@ const postGoogleToken = async (accessToken, navigation) => {
           navigation.navigate("GetProfile"); // 존재하지 않는다면 추가정보 입력
         }
       } else {
+        console.log(response.data);
         return response.data.error;
       }
     } catch (error) {
+      console.log(error);
       return null;
     }
   };
