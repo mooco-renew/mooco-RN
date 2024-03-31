@@ -11,7 +11,7 @@ const logo = `
 `;
 
 const svg = () => {
-  const BarcordSvg = () => <SvgXml xml={logo} width="83px" height="70px" />;
+  const BarcordSvg = () => <SvgXml xml={logo} width="183px" height="70px" />;
   return <BarcordSvg />;
 };
 
