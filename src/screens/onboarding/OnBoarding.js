@@ -15,7 +15,18 @@ import postGoogleToken from '../../server/sign/postGoogleToken';
 
 export default function OnBoarding() {
     const navigation = useNavigation();
-    const data = isThereToken();
+
+    const location = async () => {
+      let data = await isThereToken();
+      if(data == true) {
+        navigation.navigate('Home');
+      } else if(data == false) {
+
+      } else {
+        
+      }
+    }
+    
     const first = new Animated.Value(1);
     const second = new Animated.Value(0);
     const third = new Animated.Value(0);
@@ -60,6 +71,7 @@ export default function OnBoarding() {
   // 세 번째 애니메이션 (병렬 실행): step 3
   useEffect(() => {
     if (step === 3) {
+      location();
       Animated.parallel([
         Animated.timing(third, {
           toValue: 1,
