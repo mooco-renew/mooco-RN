@@ -19,6 +19,7 @@ import searchList from '../../data/friends/search-list';
 export default function RequestFriends() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
+    const [selectedId, setSelectedId] = useState(null);
     const [receivedList, setReceivedList] = useState(receivedListData.receiceRequestList); 
     const [sentList, setSentList] = useState(sentListData.sendRequestDtoList); 
     const [searchData, setSearchData] = useState(searchList.userInfoList);
