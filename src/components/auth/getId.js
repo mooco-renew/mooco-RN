@@ -1,27 +1,10 @@
 import { useNavigation } from '@react-navigation/native';
-import { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import findId from '../../server/auth/findId';
 
 // test용 스크린
-export default function GetId({email, code}) {
+export default function GetId({email, id}) {
+  console.log(id);
     const navigation = useNavigation();
-    const [id, setId] = useState("");
-
-    useEffect(async () => {
-      const fetchData = async () => {
-        let data = await findId(email, code);
-        console.log(data);
-        if (data.success === false) {
-          alert(data.error.message);
-          navigation.navigate("Login");
-        } else if (data.success === true) {
-          setId(data.data.id);
-        }
-      };
-    
-      fetchData();
-    }, [])
 
     return (
       <View style={styles.container}>

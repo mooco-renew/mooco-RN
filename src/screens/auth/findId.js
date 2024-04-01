@@ -4,8 +4,6 @@ import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-nativ
 import { validateEmail } from '../../util/sign/validate';
 import EmailAuth from '../../components/auth/emailAuth';
 import GetId from '../../components/auth/getId';
-import { allFalse, allTrue, firstTrue, firstTrueOnly, secondTrueOnly } from '../../util/auth/authStep';
-import { setNewTrueArray } from '../../util/array/newTrueArray';
 import requestEmail from '../../server/auth/emailAuth';
 
 // test용 스크린
@@ -16,6 +14,7 @@ export default function FindId() {
     const [isAvail, setIsAvail] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [step, setStep] = useState(1);
+    const [id, setId] = useState("");
 
             // 유효성 검사
             useEffect(() => {
@@ -58,8 +57,8 @@ export default function FindId() {
           </TouchableOpacity>
             </View>
         )}
-        {step == 2 && (<EmailAuth by="findid" email={email} id="" pw="pw" setStep={setStep} setCode={setCode}/>)}
-        {step == 3 && (<GetId email={email} code={code}/>)}
+        {step == 2 && (<EmailAuth by="findid" email={email} id="" pw="pw" setStep={setStep} setCode={setCode} setId={setId}/>)}
+        {step == 3 && (<GetId email={email} id={id}/>)}
       </View>
     );
   }

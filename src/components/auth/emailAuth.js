@@ -7,7 +7,7 @@ import originAccount from '../../server/sign/account';
 import GetId from './getId';
 import findId from '../../server/auth/findId';
 
-export default function EmailAuth({ by, email, id, pw, setStep, setCode }) {
+export default function EmailAuth({ by, email, id, pw, setStep, setCode, setId }) {
   const navigation = useNavigation();
   const [inputs, setInputs] = useState(["", "", "", "", "", ""]);
   const [isAvail, setIsAvail] = useState(false);
@@ -41,12 +41,22 @@ export default function EmailAuth({ by, email, id, pw, setStep, setCode }) {
   const sendCode = async () => {
     const combinedString = inputs.join("");   // inputs 배열의 모든 요소를 하나의 문자열로 합친다.
     const resultInt = parseInt(combinedString, 10);  // 문자열을 정수형으로 변환한다.
-    let data = await checkCode(email, resultInt); // 코드 인증 api
-    let nextdata;
-    if(data.success === true) { // 성공이라면
+    if(by == 'findid') {
+      let data = await findId(email, resultInt);
+      if(data.success == true) {
+        setId(data.data);
+        setStep(3); // 아이디 찾기 페이지로 이동
+      } else if(data.success == false) {
+        alert(data.error.message);
+      }
+    }
+    else {
+      let data = await checkCode(email, resultInt); // 코드 인증 api
+
+      if(data.success === true) { // 성공이라면
       console.log(data);
       if(by == 'account') {
-        nextdata = await originAccount(email, id, pw, navigation);
+        let nextdata = await originAccount(email, id, pw, navigation);
               // console.log(nextdata);
       if(nextdata.success == false) {
         alert(nextdata.error.message);
@@ -54,9 +64,6 @@ export default function EmailAuth({ by, email, id, pw, setStep, setCode }) {
          navigation.navigate('Account');
      }, 2000); // 2초 후에 'Account'로 이동
     } 
-      } else if(by == 'findid') {
-        setCode(resultInt); // 코드 저장
-        setStep(3); // 아이디 찾기 페이지로 이동
       } else if(by =='findpw') {
         setStep(3); // 비밀번호 변경 페이지로 이동
       }
@@ -68,6 +75,7 @@ export default function EmailAuth({ by, email, id, pw, setStep, setCode }) {
     } else {
       alert("서버 에러");
     }
+  }
   }
   
   return (
