@@ -28,9 +28,11 @@ axiosInstance.interceptors.response.use(response => {
     const refreshToken = await AsyncStorage.getItem('refresh_token');
     console.log('refresh : ', refreshToken);
     try {
-        const response = await axios.post(`${SERVER_HOST}/api/v1/auth/reissue`, {
-          refreshToken: refreshToken,
-        });
+      const headers = {
+        'ReAuthorization': `Bearer ${refreshToken}`
+      };
+
+        const response = await axios.post(`${SERVER_HOST}/api/v1/auth/reissue`, { headers });
   
         if (response.data.success === 200) {
           console.log('새 토큰 발급 성공');
