@@ -2,15 +2,19 @@ import { Platform } from "react-native";
 import axiosInstance from "../axios/axiosInstance";
 
 const postUserInfo = async (image, nickname, navigation) => {
-  console.log("image : ", image, "nickname : ", nickname);
   const formData = new FormData();
   // 이미지 용량이 너무 커서 압축이 필요하다.
   // 안드는 jpeg, ios는 jpg로 고정
-  const file = {
-    name: image[0] || 'default',
-    type: Platform.OS === "android" ? "image/jpeg" : "image/jpg",
-    uri: image[2] || null,
-  };
+
+  if(image != null) {
+    file = {
+      name: image[0],
+      type: Platform.OS === "android" ? "image/jpeg" : "image/jpg",
+      uri: image[2],
+    };
+  } else {
+    file = null;
+  }
 
   formData.append("profileImage", file);
   formData.append("nickname", nickname);
