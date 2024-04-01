@@ -24,6 +24,7 @@ const findId = async (email, code) => {
           }
         } catch (error) {
 		  console.log('아이디 찾기 에러', error);
+      alert("error");
           return null;
 		}
 	  };

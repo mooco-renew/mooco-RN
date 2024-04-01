@@ -33,6 +33,7 @@ const originLogin = async (id, pw, navigation) => {
       }
     } catch (error) {
       console.error("로그인 에러가 있습니다. ", error);
+      alert("error");
       return null;
     }
   };

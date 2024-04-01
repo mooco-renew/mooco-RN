@@ -24,6 +24,7 @@ const checkCode = async (email, code) => {
           }
         } catch (error) {
 		  console.log('코드 인증 에러', error);
+      alert("error");
           return null;
 		}
 	  };

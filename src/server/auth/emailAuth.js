@@ -23,6 +23,7 @@ const requestEmail = async (email) => {
           }
         } catch (error) {
 		  console.log('이메일 요청 에러', error);
+      alert("error");
           return null;
 		}
 	  };

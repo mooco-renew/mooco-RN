@@ -23,6 +23,7 @@ const changePw = async (email, password) => {
           }
         } catch (error) {
 		  console.log('비밀번호 변경 에러', error);
+      alert("error");
           return null;
 		}
 	  };

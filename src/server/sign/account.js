@@ -34,6 +34,7 @@ const originAccount = async (email, id, pw, navigation) => {
       }
     } catch (error) {
       console.error("회원가입 에러가 있습니다. ", error);
+      alert("error");
     }
   };
 

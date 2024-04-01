@@ -39,7 +39,7 @@ const postGoogleToken = async (accessToken, navigation) => {
       );
       console.log(response.data);
       if(response.data.success == true) {
-        console.log('구글 로그인 성공!');
+        console.log('구글 로그인 성공!', response.data);
         storeData(response.data.data.accessToken, response.data.data.refreshToken); 
         if (response.data.data.isExisted) {
           navigation.navigate("Home"); // 존재하는 유저라면 home으로
@@ -52,6 +52,7 @@ const postGoogleToken = async (accessToken, navigation) => {
       }
     } catch (error) {
       console.log(error);
+      alert("error");
       return null;
     }
   };
