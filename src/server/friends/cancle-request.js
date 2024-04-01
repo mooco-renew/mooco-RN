@@ -1,17 +1,9 @@
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SERVER_HOST } from "@env";
+import axiosInstance from '../axios/axiosInstance';
 
 // 친구 요청 취소
 const cancleRequest = async (userId) => {
-    const value = await AsyncStorage.getItem('access_token');
-
     try {
-        const response = await axios.delete(`${SERVER_HOST}/api/v1/users/${userId}/friends`, {
-            headers: {
-                'Authorization': `Bearer ${value};`
-            },
-        });
+        const response = await axiosInstance.delete(`/api/v1/users/${userId}/friends`);
         if(response.data.success = true) {
         console.log('요청 취소 성공! ', response.data);
         return response.data;

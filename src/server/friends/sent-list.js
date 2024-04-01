@@ -1,20 +1,13 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { SERVER_HOST } from "@env";
-import axios from 'axios';
+import axiosInstance from '../axios/axiosInstance';
 
 // 보낸 요청 조회
     const getSentList = async () => {
-        const value = await AsyncStorage.getItem('access_token');
-		
 		try {
-		  const response = await axios.get(`${SERVER_HOST}/api/v1/users/friends/request-sent`, {
+		  const response = await axiosInstance.get(`/api/v1/users/friends/request-sent`, {
             params: {
                 page: 0,
                 size: 10,
             },
-            headers: {
-                'Authorization': `Bearer ${value}`
-              },
           });
           if(response.data.success = true) {
 		  console.log('보낸 요청 조회 성공! ', response.data);
