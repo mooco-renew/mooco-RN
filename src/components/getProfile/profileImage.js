@@ -66,7 +66,7 @@ export default function ProfileImage({ setImage }) {
     return (
         <View style={styles.container}>
         <Pressable onPress={() => setShowOptions(true)}>
-        <Image style={styles.image} source={isUploaded ? { uri: imageUrl } : require('../../assets/images/getProfile/pre-image.png')} />
+        <Image style={styles.image} source={isUploaded ? { uri: imageUrl } : require('../../assets/images/getProfile/default-image.png')} />
         </Pressable>
         {!showOptions ? (
             <View></View>

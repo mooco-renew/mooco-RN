@@ -13,7 +13,7 @@ export default function GetProfile() {
 
     // 유효성 검사(빈 값 검사 중)
     useEffect(() => {
-      if(nickname != null && nickname != "" && image.length > 0) {
+      if(nickname != null && nickname != "") {
         setIsAvail(true);
       } else {
         setIsAvail(false);
@@ -22,8 +22,8 @@ export default function GetProfile() {
 
     // 유저 정보 전송
 	const clickPost = async () => {
-    if(nickname != null && nickname != "" && image.length > 0 && isAvail != false) {
-      postUserInfo(image, nickname, navigation);
+    if(nickname != null && nickname != "" && isAvail != false) {
+        postUserInfo(image, nickname, navigation);
     }
 	  };
 

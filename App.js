@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { navigationRef } from "./src/services/navigation/NavigationService"; // 전역 네비 관리
 
 /* 네비게이션 스타일 */
 import { backbtncolorbar } from "./src/components/navigation/bar/BackBtnColorBar";
@@ -40,7 +41,7 @@ function App() {
   });
   if (!fontsLoaded) return null;
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <NativeBaseProvider>
         <Stack.Navigator>
           <Stack.Screen
