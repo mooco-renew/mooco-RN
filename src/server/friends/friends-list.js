@@ -19,7 +19,7 @@ import axiosInstance from '../axios/axiosInstance';
           }
 		} catch (error) {
 		  console.error('친구 목록 조회 에러 ', error);
-          return response.data;
+          return [];
 		}
     };
 

@@ -8,6 +8,7 @@ const receiveFriend = async (userId) => {
           console.log('요청 수락 성공! : ', response);
           return response.data;
           } else {
+            console.log('요청 수락 실패! : ', response);
             return response.data;
           }
         } catch (error) {
