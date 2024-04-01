@@ -23,7 +23,7 @@ axiosInstance.interceptors.response.use(response => {
   return response;
 }, async (error) => {
   const originalRequest = error.config;
-  if (error.response.status === 401 && !originalRequest._retry) {
+  if (error.response.status === 40101 && !originalRequest._retry) {
     originalRequest._retry = true;
     const refreshToken = await AsyncStorage.getItem('refresh_token');
     console.log('refresh : ', refreshToken);
