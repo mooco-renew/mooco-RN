@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 // test용 스크린
 export default function CustomAlert({value, message}) {
     const [isVisible, setIsVisible] = useState(false);
-    
         setIsVisible(value);
         console.log(value);
 

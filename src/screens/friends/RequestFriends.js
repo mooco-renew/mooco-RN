@@ -28,8 +28,8 @@ export default function RequestFriends() {
             const received_result = await getReceviedList();
             const sent_result = await getSentList();
             if(received_result.success == true && sent_result.success == true) {
-            // setReceivedList(received_result.data.receiceRequestList);
-            // setSentList(sent_result.data.sendRequestDtoList);
+            setReceivedList(received_result.data.receiceRequestList);
+            setSentList(sent_result.data.sendRequestDtoList);
             } else if(received_result.success == false || sent_result.success == false) {
               alert(result.error.message);
             }
@@ -48,7 +48,7 @@ export default function RequestFriends() {
       if(text != "") {
         const result = await searchFriends(text); // text로 검색
         if(result.success == true) {
-        // setSearchData(result.data.userInfoList);
+        setSearchData(result.data.userInfoList);
         } else if(result.success == false) {
           alert(result.error.message);
         } 
@@ -56,8 +56,8 @@ export default function RequestFriends() {
         const received_result = await getReceviedList();
         const sent_result = await getSentList();
         if(received_result.success == true && sent_result.success == true) {
-        // setReceivedList(received_result.data.receiceRequestList);
-        // setSentList(sent_result.data.sendRequestDtoList);
+        setReceivedList(received_result.data.receiceRequestList);
+        setSentList(sent_result.data.sendRequestDtoList);
         } else if(received_result.success == false || sent_result.success == false) {
           alert(result.error.message);
         }

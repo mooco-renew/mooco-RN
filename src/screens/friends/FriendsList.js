@@ -26,7 +26,7 @@ export default function FriendsList() {
         const getList = async () => {
             const result = await getFriendsList(); 
             if(result.success == true) {
-            // setData(result.data.friendList); 
+            setData(result.data.friendList); 
             } else if(result.success == false) {
               alert(result.error.message);
             }
@@ -41,14 +41,14 @@ export default function FriendsList() {
       if(text != "") {
         const result = await searchFriends(text); // text로 검색
         if(result.success == true) {
-          // setSearchData(result.data.userInfoList);
+          setSearchData(result.data.userInfoList);
         } else if(result.success == false) {
           alert(result.error.message);
         }
       } else {
         const result = await getFriendsList(); 
         if(result.success == true) {
-           // setData(result.data.friendList); 
+           setData(result.data.friendList); 
         } else if(result.success == false) {
           alert(result.error.message);
         }
