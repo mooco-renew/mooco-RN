@@ -9,8 +9,8 @@ export default function DetailTerms({index, setTerm, color}) {
         <Text style={styles.text}>
             [필수] {index == 1 ? "이용 약관" : "개인정보 취급 방침"}
         </Text>
-        <TouchableOpacity style={styles.button}>
-            <Text style={styles.buttontext} onPress={() => setTerm(index)}>{color === true ? '완료' : '보기'}</Text>
+        <TouchableOpacity style={[styles.buttondisable, !(color === true) && styles.button]}>
+            <Text style={[styles.buttontextdisable, !(color === true) && styles.buttontext]} onPress={() => setTerm(index)}>{color === true ? '완료' : '보기'}</Text>
         </TouchableOpacity>
         </View>
   )
@@ -51,9 +51,21 @@ const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.1)',
         borderRadius: 5,
       },
+      buttondisable: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 5,
+        backgroundColor: '#000000',
+        borderRadius: 5,
+      },
       buttontext: {
         fontSize: 12,
         color: '#000000',
+        fontWeight: '600',
+      },
+      buttontextdisable: {
+        fontSize: 12,
+        color: '#ffffff',
         fontWeight: '600',
       },
   });
