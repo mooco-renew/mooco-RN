@@ -34,7 +34,7 @@ axiosInstance.interceptors.response.use(response => {
 
         const response = await axios.post(`${SERVER_HOST}/api/v1/auth/reissue`, { headers });
   
-        if (response.data.success === 200) {
+        if (response.data.success === true) {
           console.log('새 토큰 발급 성공');
             // 새로운 토큰 세팅
           const newAccessToken = response.data.data.accessToken;
