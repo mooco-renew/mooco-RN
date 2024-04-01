@@ -7,16 +7,10 @@
     <list default="true" id="0baf66ed-3085-4e75-a060-1928bc18caeb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/account/Account.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/account/Agreement.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/account/Getprofile.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/login/KakaoLogin.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/login/Login.js" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/screens/onboarding/OnBoarding.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/OnBoarding.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/auth/postGoogleToken.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/auth/postToken.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/util/sign/validate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/util/sign/validate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/sign/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/sign/Login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/sign/account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/sign/account.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/token/getNewToken.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/token/getNewToken.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

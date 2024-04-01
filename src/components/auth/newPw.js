@@ -33,8 +33,13 @@ export default function NewPw(email) {
         
         const clickPw = async () => {
           let data = await changePw(email, pw); // 이메일로 새로운 pw로 변경
-          if(data == true) {
+          if(data.success == true) {
             navigation.navigate('OnBoarding'); // 성공한다면
+          } else if(data.success == false) {
+            alert(data.error.message);
+            setTimeout(() => {
+              navigation.navigate('Login');
+          }, 2000);
           }
         }
 

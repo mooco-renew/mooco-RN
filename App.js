@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { navigationRef } from "./src/services/navigation/NavigationService"; // 전역 네비 관리
 
 /* 네비게이션 스타일 */
 import { backbtncolorbar } from "./src/components/navigation/bar/BackBtnColorBar";
@@ -8,7 +9,6 @@ import { nonebackbtncolorbar } from "./src/components/navigation/bar/NoneBackBut
 
 /* screens */
 import Daily from "./src/screens/daily/Daily";
-import Agreement from "./src/screens/sign/Agreement";
 import KakaoLoginScreen from "./src/screens/sign/KakaoLogin";
 import GetProfile from "./src/screens/sign/Getprofile";
 import OnBoarding from "./src/screens/onboarding/OnBoarding";
@@ -41,7 +41,7 @@ function App() {
   });
   if (!fontsLoaded) return null;
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <NativeBaseProvider>
         <Stack.Navigator>
           <Stack.Screen
@@ -53,12 +53,6 @@ function App() {
             name="Account"
             component={Account}
             options={{ ...backbtncolorbar, title: "회원가입" }}
-          />
-          <Stack.Screen
-            name="Agreement"
-            component={Agreement}
-            options={{ ...nonebackbtncolorbar, title: "이용 약관 동의서" }}
-            headerShown
           />
            <Stack.Screen
             name="Login"

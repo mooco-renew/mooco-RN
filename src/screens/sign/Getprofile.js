@@ -8,12 +8,12 @@ import postUserInfo from '../../server/getInfo/post-profile';
 export default function GetProfile() {
   const navigation = useNavigation();
     const [nickname, setNickname] = useState(null);
-    const [image, setImage] = useState([]);
+    const [image, setImage] = useState(null);
     const [isAvail, setIsAvail] = useState(false);
 
     // 유효성 검사(빈 값 검사 중)
     useEffect(() => {
-      if(nickname != null && nickname != "" && image.length > 0) {
+      if(nickname != null && nickname != "") {
         setIsAvail(true);
       } else {
         setIsAvail(false);
@@ -22,14 +22,14 @@ export default function GetProfile() {
 
     // 유저 정보 전송
 	const clickPost = async () => {
-    if(nickname != null && nickname != "" && image.length > 0 && isAvail != false) {
-      postUserInfo(image, nickname, navigation);
+    if(nickname != null && nickname != "" && isAvail != false) {
+        postUserInfo(image, nickname, navigation);
     }
 	  };
 
     return (
       <View style={styles.container}>
-        <ProfileImage setImage={setImage} />
+        <ProfileImage image={image} setImage={setImage} />
         <View style={styles.inputbox}>
         <TextInput 
         value={nickname}
@@ -56,7 +56,7 @@ export default function GetProfile() {
       width: '100%',
       alignItems: 'center',
       textAlign: 'center',
-      marginTop: 40,
+      marginTop: 80,
     },
     image: {
         width: 236,
@@ -83,7 +83,7 @@ export default function GetProfile() {
       width: '90%', 
       paddingVertical: 18, // 상하 패딩 
       borderRadius: 10,
-      marginTop: 110,
+      marginTop: 80,
     },
     buttondisable: {
       backgroundColor: 'rgba(217, 217, 217, 0.5)',

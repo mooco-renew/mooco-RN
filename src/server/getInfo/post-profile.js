@@ -1,19 +1,20 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SERVER_HOST } from "@env";
-import axios from "axios";
 import { Platform } from "react-native";
+import axiosInstance from "../axios/axiosInstance";
 
 const postUserInfo = async (image, nickname, navigation) => {
-  console.log("image : ", image, "nickname : ", nickname);
-  const value = await AsyncStorage.getItem("access_token");
   const formData = new FormData();
   // 이미지 용량이 너무 커서 압축이 필요하다.
   // 안드는 jpeg, ios는 jpg로 고정
-  const file = {
-    name: image[0],
-    type: Platform.OS === "android" ? "image/jpeg" : "image/jpg",
-    uri: image[2],
-  };
+
+  if(image != null) {
+    file = {
+      name: image[0],
+      type: Platform.OS === "android" ? "image/jpeg" : "image/jpg",
+      uri: image[2],
+    };
+  } else {
+    file = null;
+  }
 
   formData.append("profileImage", file);
   formData.append("nickname", nickname);
@@ -21,13 +22,12 @@ const postUserInfo = async (image, nickname, navigation) => {
   const config = {
     headers: {
       "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${value}`,
     },
   };
 
   try {
-    const response = await axios.post(
-      `${SERVER_HOST}/api/v1/auth/user-info`,
+    const response = await axiosInstance.post(
+      `/api/v1/auth/user-info`,
       formData,
       config
     );

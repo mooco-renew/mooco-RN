@@ -21,15 +21,16 @@ export default function SocialButton() {
       async () => {
         try {
           await GoogleSignin.hasPlayServices();
-          await GoogleSignin.signIn();
-          // postGoogle(data.accessToken); // google api userinfo 발급용
-        } catch (error) {
-          console.log('실패 ', error);
-        } finally {
-          const data = await GoogleSignin.getTokens();
+          const isSignedIn = await GoogleSignin.isSignedIn();
+          if (!isSignedIn) {
+            await GoogleSignin.signIn();
+          } 
+          const data = await GoogleSignin.getTokens(); // 토큰을 얻습니다.
           console.log('token : ', data.accessToken);
           postGoogleToken(data.accessToken, navigation);
-        }
+        } catch (error) {
+          console.log('실패 ', error);
+        } 
       }
     }>
         <GoogleLogoSvg />

@@ -15,13 +15,15 @@ const requestEmail = async (email) => {
             },
           );
           if(response.data.success == true) {
-            console.log('이메일 요청 성공!');
+            console.log('이메일 요청 성공!', response.data);
             return response.data.success;
           } else {
+            console.log('이메일 요청 실패', response.data);
             return response.data.error;
           }
         } catch (error) {
 		  console.log('이메일 요청 에러', error);
+      alert("error");
           return null;
 		}
 	  };

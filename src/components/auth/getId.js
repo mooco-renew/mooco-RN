@@ -9,9 +9,18 @@ export default function GetId({email, code}) {
     const [id, setId] = useState("");
 
     useEffect(async () => {
-      let data = await findId(email, code);
-      console.log(data);
-      setId(data);
+      const fetchData = async () => {
+        let data = await findId(email, code);
+        console.log(data);
+        if (data.success === false) {
+          alert(data.error.message);
+          navigation.navigate("Login");
+        } else if (data.success === true) {
+          setId(data.data.id);
+        }
+      };
+    
+      fetchData();
     }, [])
 
     return (

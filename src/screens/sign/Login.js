@@ -4,6 +4,7 @@ import { validatePassword } from '../../util/sign/validate';
 import HelpBox from '../../components/sign/helpBox';
 import SocialButton from '../../components/sign/socialButton';
 import SecureIcon from '../../components/sign/secureIcon';
+import originLogin from '../../server/sign/login';
 
 // test용 스크린
 export default function Login() {
@@ -25,6 +26,13 @@ export default function Login() {
             setIsAvail(false);
           }
         }, [id, pw]);
+
+        const handleLogin = async () => {
+          let data = await originLogin(id, pw); // 로그인
+          if(data) {
+            
+          }
+        }
 
     return (
       <View style={styles.container}>
@@ -50,7 +58,7 @@ export default function Login() {
           </View>
     </View>
     <Text style={styles.errortext}>{errorMessage}</Text>
-    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail}>
+    <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} disabled={!isAvail} onPress={() => handleLogin()}>
         <Text style={styles.buttontext}>확인</Text>
     </TouchableOpacity>
     <View style={styles.hrbox}>

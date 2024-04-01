@@ -1,11 +1,34 @@
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import cancleRequest from '../../server/friends/cancle-request';
+import sendRequest from '../../server/friends/send-request';
+import React, { useState, useEffect } from 'react';
 
 // test용 스크린
-export default function SendFriend({setFirstView, nickname, identifierId, profileImageUrl, userId}) {
+export default function SendFriend({userId, nickname, identifierId, profileImageUrl}) {
+  const [step, setStep] = useState(1);
 
-    const handleDelete = () => {
-        setFirstView(true);
+  const handleClick = async () => {
+    if(step == 1) {
+      let data = await cancleRequest(userId); // 요청 취소
+      if(data.success == true) {
+        setStep(2);
+      } else if(data.success == false) {
+        alert(data.error.message);
+      } else {
+        alert("서버 에러");
       }
+    } else if(step == 2) {
+      let data = await sendRequest(userId); // 친구 요청하기
+      if(data.success == true) {
+        setStep(1);
+      } else if(data.success == false) {
+        alert(data.error.message);
+      } else {
+        alert("서버 에러");
+      }
+    } else {
+    }
+  }
 
     return (
       <View style={styles.container}>
@@ -23,9 +46,12 @@ export default function SendFriend({setFirstView, nickname, identifierId, profil
             </View>
         </View>
         <View style={styles.secondbox}>
-        <TouchableOpacity style={styles.button} onPress={() => handleDelete()}>
-            <Text style={styles.buttontext}>요청 취소</Text>
-        </TouchableOpacity>
+        <TouchableOpacity
+    style={[styles.button,{ backgroundColor: step == 1 ? '#626262' : '#151515' }, ]}onPress={() => handleClick()}>
+    <Text style={styles.buttontext}>
+        {step == 1 ? "요청 취소" : "추가"}
+    </Text>
+</TouchableOpacity>
         </View>
       </View>
     );

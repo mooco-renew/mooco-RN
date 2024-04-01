@@ -3,7 +3,7 @@ import axios from 'axios';
 
 // 이메일 코드 확인
 const checkCode = async (email, code) => {
-		
+		console.log(email, code);
 		try {
 		  const response = await axios.post(`${SERVER_HOST}/api/v1/auth/verification`, { 
             email: email,
@@ -16,13 +16,15 @@ const checkCode = async (email, code) => {
             },
           );
           if(response.data.success == true) {
-            console.log('코드 인증 성공!');
-            return response.data.success;
+            console.log('코드 인증 성공!', response.data);
+            return response.data;
           } else {
-            return response.data.error;
+            console.log('코드 인증 실패!', response.data);
+            return response.data;
           }
         } catch (error) {
 		  console.log('코드 인증 에러', error);
+      alert("error");
           return null;
 		}
 	  };

@@ -2,12 +2,16 @@ import { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { View, Pressable, StyleSheet, Image, Text } from 'react-native';
 
-export default function ProfileImage({ setImage }) {
+export default function ProfileImage({ image, setImage }) {
     // 이미지 권한 요청을 위한 hooks
     const [status, requestPermisson] = ImagePicker.useMediaLibraryPermissions();
     const [imageUrl, setImageUrl] = useState(null); // 기본 이미지
-    const [isUploaded, setIsUploaded] = useState(false);
     const [showOptions, setShowOptions] = useState(false);
+
+    const uploadOrigin = async () => {
+      setImage(null);
+      setShowOptions(false);
+    }
 
     const uploadImage = async () => {
         // 권한 확인 코드 : 권한 없으면 물어보고, 승인하지 않으면 함수 종료
@@ -32,7 +36,6 @@ export default function ProfileImage({ setImage }) {
         
         // 이미지 업로드 결과 및 이미지 경로 업데이트
         setImageUrl(result.assets[0].uri);
-        setIsUploaded(true);
         setShowOptions(false);
     }
 
@@ -59,19 +62,31 @@ export default function ProfileImage({ setImage }) {
       
       // 이미지 업로드 결과 및 이미지 경로 업데이트
       setImageUrl(result.assets[0].uri);
-      setIsUploaded(true);
       setShowOptions(false);
     };
 
     return (
         <View style={styles.container}>
         <Pressable onPress={() => setShowOptions(true)}>
-        <Image style={styles.image} source={isUploaded ? { uri: imageUrl } : require('../../assets/images/getProfile/pre-image.png')} />
+        <Image style={styles.image} source={image != null ? { uri: imageUrl } : require('../../assets/images/getProfile/default-image.png')} />
         </Pressable>
         {!showOptions ? (
             <View></View>
         ) : (
             <View style={styles.optionContainer}>
+        <Pressable
+        style={({ pressed }) => [
+          styles.option,
+          pressed ? styles.pressedOption : {},
+        ]}
+        onPress={uploadOrigin}
+      >
+        {({ pressed }) => (
+          <Text style={[styles.optionText, pressed ? styles.pressedText : {}]}>
+            기본 이미지
+          </Text>
+        )}
+      </Pressable>
        <Pressable
         style={({ pressed }) => [
           styles.option,
@@ -123,6 +138,7 @@ export default function ProfileImage({ setImage }) {
     container: {
         width: '100%',
         alignItems: 'center',
+        zIndex: 100,
       },
     image: {
         width: 236,

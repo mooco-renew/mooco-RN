@@ -1,10 +1,10 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 // test용 스크린
-export default function GetFriendAlert({ setSecondView}) {
+export default function GetFriendAlert({ setView}) {
 
     const handleDelete = () => {
-        setSecondView(false);
+        setView(false);
     }
 
     return (

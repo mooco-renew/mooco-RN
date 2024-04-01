@@ -1,11 +1,13 @@
 import React, { useState, createRef, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { setNewTrueArray } from '../../util/array/newTrueArray';
 import checkCode from '../../server/auth/checkCode';
 import requestEmail from '../../server/auth/emailAuth';
+import originAccount from '../../server/sign/account';
+import GetId from './getId';
+import findId from '../../server/auth/findId';
 
-export default function EmailAuth({ email , setShowAuth, setCode }) {
+export default function EmailAuth({ by, email, id, pw, setStep, setCode }) {
   const navigation = useNavigation();
   const [inputs, setInputs] = useState(["", "", "", "", "", ""]);
   const [isAvail, setIsAvail] = useState(false);
@@ -35,13 +37,36 @@ export default function EmailAuth({ email , setShowAuth, setCode }) {
   }
   }, [inputs]);
 
+  // 회원가입 페이지용 api
   const sendCode = async () => {
     const combinedString = inputs.join("");   // inputs 배열의 모든 요소를 하나의 문자열로 합친다.
     const resultInt = parseInt(combinedString, 10);  // 문자열을 정수형으로 변환한다.
     let data = await checkCode(email, resultInt); // 코드 인증 api
-    if(data == true) { // 성공이라면
-      setCode(resultInt); // code 업데이트
-      setNewTrueArray(setShowAuth, 1) // 화면 전환
+    let nextdata;
+    if(data.success === true) { // 성공이라면
+      console.log(data);
+      if(by == 'account') {
+        nextdata = await originAccount(email, id, pw, navigation);
+              // console.log(nextdata);
+      if(nextdata.success == false) {
+        alert(nextdata.error.message);
+        setTimeout(() => {
+         navigation.navigate('Account');
+     }, 2000); // 2초 후에 'Account'로 이동
+    } 
+      } else if(by == 'findid') {
+        setCode(resultInt); // 코드 저장
+        setStep(3); // 아이디 찾기 페이지로 이동
+      } else if(by =='findpw') {
+        setStep(3); // 비밀번호 변경 페이지로 이동
+      }
+    } else if(data.success === false) {
+      alert(data.error.message);
+      setTimeout(() => {
+        navigation.navigate('Login');
+    }, 2000);
+    } else {
+      alert("서버 에러");
     }
   }
   

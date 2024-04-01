@@ -22,7 +22,7 @@ const postKakaoToken = async (accessToken, navigation) => {
         config
       );
       if(response.data.success == true) {
-        console.log('카카오 로그인 성공!');
+        console.log('카카오 로그인 성공!', response.data);
         storeData(response.data.data.accessToken, response.data.data.refreshToken); 
         if (response.data.data.isExisted) {
           navigation.navigate("Home"); // 존재하는 유저라면 home으로
@@ -34,6 +34,7 @@ const postKakaoToken = async (accessToken, navigation) => {
       }
     } catch (error) {
       console.error("에러가 있습니다. ", error);
+      alert("error");
       return null;
     }
   };

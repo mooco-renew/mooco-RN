@@ -11,38 +11,62 @@ import getSentList from '../../server/friends/sent-list';
 import receivedListData from '../../data/friends/received-list';
 import sentListData from '../../data/friends/sent-list';
 import SearchSvg from '../../assets/images/friends/search';
+import searchFriends from '../../server/friends/search-friend';
+import searchList from '../../data/friends/search-list';
 
 
 // test용 스크린
 export default function RequestFriends() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
-    const [firstview, setFirstView] = useState(false);
-    const [secondview, setSecondView] = useState(false);
-    const [requestId, setRequestId] = useState(null);
-    const [receiveId, setReceiveId] = useState(null);
-    const [receivedList, setReceivedList] = useState({ receiceRequestList: [] }); 
-    const [sentList, setSentList] = useState({ sendRequestDtoList: [] }); 
+    const [selectedId, setSelectedId] = useState(null);
+    const [receivedList, setReceivedList] = useState(receivedListData.receiceRequestList); 
+    const [sentList, setSentList] = useState(sentListData.sendRequestDtoList); 
+    const [searchData, setSearchData] = useState(searchList.userInfoList);
 
     useEffect(() => {
         const getList = async () => {
             const received_result = await getReceviedList();
             const sent_result = await getSentList();
-            setReceivedList(received_result);
-            setSentList(sent_result);
+            if(received_result.success == true && sent_result.success == true) {
+            setReceivedList(received_result.data.receiceRequestList);
+            setSentList(sent_result.data.sendRequestDtoList);
+            } else if(received_result.success == false || sent_result.success == false) {
+              alert(result.error.message);
+            }
         };
         getList();
     }, []); 
-
 
     const onSelectSwitch = () => {
         navigation.navigate('FriendsList');
       };
 
+      // 검색 함수
+    const handleSearchChange = async (text) => {
+      setSearch(text);  // onChange 텍스트 업데이트
+
+      if(text != "") {
+        const result = await searchFriends(text); // text로 검색
+        if(result.success == true) {
+        setSearchData(result.data.userInfoList);
+        } else if(result.success == false) {
+          alert(result.error.message);
+        } 
+      } else {
+        const received_result = await getReceviedList();
+        const sent_result = await getSentList();
+        if(received_result.success == true && sent_result.success == true) {
+        setReceivedList(received_result.data.receiceRequestList);
+        setSentList(sent_result.data.sendRequestDtoList);
+        } else if(received_result.success == false || sent_result.success == false) {
+          alert(result.error.message);
+        }
+      }
+  };
+
     return (
       <View style={styles.container}>
-         {firstview ? ( < SendFriendAlert setFirstView={setFirstView}/>) : ( <></> )}
-         {secondview ? ( < GetFriendAlert setSecondView={setSecondView} receiveId={receiveId} />) : ( <></> )}
          <KeyboardAvoidingView style={styles.inputcontainer}>
           <KeyboardAvoidingView style={styles.search}>
         <SearchSvg />
@@ -50,26 +74,38 @@ export default function RequestFriends() {
         <TextInput 
         value={search}
         style={styles.input}
-        onChangeText={setSearch}
+        onChangeText={handleSearchChange}
         placeholder='추가하고 싶은 친구의 아이디를 검색해보세요!'
         placeholderTextColor={'rgba(0,0,0,0.5)'}/>
         </KeyboardAvoidingView>
-        <View style={styles.subcontainer}>
+        {search != "" && (
+            <View style={styles.subcontainer}>
+            <Text style={styles.label}>검색 결과</Text>
+               <ScrollView style={styles.scrollbox} contentContainerStyle={{alignItems: 'center'}}>
+               {searchData.map((value, index) => (
+              <SendFriend key={index} setSelectedId={setSelectedId} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId}/>
+            ))}
+               </ScrollView>
+        </View>
+        )}
+        {search == "" && (
+            <View style={styles.subcontainer}>
             <View style={styles.container}>
             <Text style={styles.label}>보낸 요청</Text>
             <ScrollView style={styles.firstscroll} contentContainerStyle={{alignItems: 'center'}}>
-            {receivedList.receiceRequestList.map((value, index) => (
-            <SendFriend key={index} setFirstView={setFirstView} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
+            {receivedList.map((value, index) => (
+            <SendFriend key={index} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
           ))}
             </ScrollView>
             <Text style={styles.label}>빋은 요청</Text>
             <ScrollView style={styles.secondscroll} contentContainerStyle={{alignItems: 'center'}}>
-              {sentList.sendRequestDtoList.map((value, index) => (
-            <GetFriend key={index} setSecondView={setSecondView} setReceiveId={setReceiveId} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
+              {sentList.map((value, index) => (
+            <GetFriend key={index} setReceivedList={setReceivedList} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
           ))}
             </ScrollView>
             </View>
         </View>
+        )}
     <View style={styles.switch}>
     <TouchableOpacity onPress={() => onSelectSwitch()}>
     <CustomSwitch
@@ -134,7 +170,7 @@ export default function RequestFriends() {
     },
     scrollbox: {
         width: '90%',
-        marginTop: 10,
+        marginTop: 30,
     },
     switch: {
         marginTop: -30,

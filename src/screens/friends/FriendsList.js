@@ -7,32 +7,51 @@ import DeleteFriendAlert from '../../components/alert/deletefriendalert';
 import SearchSvg from '../../assets/images/friends/search';
 import getFriendsList from '../../server/friends/friends-list';
 import friendsList from '../../data/friends/friends-list';
+import searchList from '../../data/friends/search-list';
 import searchFriends from '../../server/friends/search-friend';
+import SendFriend from '../../components/friends/SendFriend';
+import SendFriendAlert from '../../components/alert/sendfriendalert';
 
 // test용 스크린
 export default function FriendsList() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
-    const [view, setView] = useState(false);
+    const [firstview, setFirstView] = useState(false);
+    const [secondview, setSecondView] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
-    const [data, setData] = useState({ friendList: [] }); 
+    const [data, setData] = useState(friendsList.friendList); 
+    const [searchData, setSearchData] = useState(searchList.userInfoList); 
 
     useEffect(() => {
         const getList = async () => {
             const result = await getFriendsList(); 
-            setData(result); 
+            if(result.success == true) {
+            setData(result.data.friendList); 
+            } else if(result.success == false) {
+              alert(result.error.message);
+            }
         };
         getList();
     }, []); 
 
     // 검색 함수
-    const handleSearchChange = (text) => {
+    const handleSearchChange = async (text) => {
       setSearch(text);  // onChange 텍스트 업데이트
 
       if(text != "") {
-        searchFriends(text); // text로 검색
+        const result = await searchFriends(text); // text로 검색
+        if(result.success == true) {
+          setSearchData(result.data.userInfoList);
+        } else if(result.success == false) {
+          alert(result.error.message);
+        }
       } else {
-        getFriendsList();
+        const result = await getFriendsList(); 
+        if(result.success == true) {
+           setData(result.data.friendList); 
+        } else if(result.success == false) {
+          alert(result.error.message);
+        }
       }
   };
 
@@ -42,7 +61,7 @@ export default function FriendsList() {
 
     return (
       <View style={styles.container}>
-        {view ? ( <DeleteFriendAlert setView={setView} selectedId={selectedId} />) : ( <></> )}
+        {secondview ? ( <DeleteFriendAlert setView={setSecondView} selectedId={selectedId} setData={setData}/>) : ( <></> )}
         <View style={styles.inputcontainer}>
           <View style={styles.search}>
         <SearchSvg />
@@ -54,14 +73,26 @@ export default function FriendsList() {
         placeholder='추가하고 싶은 친구의 아이디를 검색해보세요!'
         placeholderTextColor={'rgba(0,0,0,0.5)'}/>
         </View>
-        <View style={styles.subcontainer}>
-            <Text style={styles.label}>친구 목록</Text>
+        {search != "" && (
+          <View style={styles.subcontainer}>
+          <Text style={styles.label}>검색 결과</Text>
              <ScrollView style={styles.scrollbox} contentContainerStyle={{alignItems: 'center'}}>
-             {data.friendList.map((value, index) => (
-            <DeleteFriend key={index} setView={setView} setSelectedId={setSelectedId} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId}/>
+             {searchData.map((value, index) => (
+            <SendFriend key={index} setSelectedId={setSelectedId} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId}/>
           ))}
              </ScrollView>
-        </View>
+      </View>
+        )}
+        {search == "" && (
+           <View style={styles.subcontainer}>
+           <Text style={styles.label}>친구 목록</Text>
+              <ScrollView style={styles.scrollbox} contentContainerStyle={{alignItems: 'center'}}>
+              {data.map((value, index) => (
+             <DeleteFriend key={index} setView={setSecondView} setSelectedId={setSelectedId} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId}/>
+           ))}
+              </ScrollView>
+       </View>
+        )}
     <View style={styles.switch}>
       <TouchableOpacity onPress={() => onSelectSwitch()}>
     <CustomSwitch
