@@ -20,9 +20,11 @@ const AppBar = ({ navigation }) => {
   return {
     headerBackVisible: false,
     headerLeft: () => (
-      <TouchableOpacity onPress={() => {
-        navigation.navigate('FriendsList');
-      }}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("FriendsList");
+        }}
+      >
         <LeftIcon />
       </TouchableOpacity>
     ),
@@ -32,7 +34,11 @@ const AppBar = ({ navigation }) => {
         <TouchableOpacity onPress={() => {}}>
           <RightIcon1 />
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => {}}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate("Profile");
+          }}
+        >
           <RightIcon2 />
         </TouchableOpacity>
       </View>
