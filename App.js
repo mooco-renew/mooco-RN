@@ -78,7 +78,7 @@ function App() {
           <Stack.Screen
             name="FriendsList"
             component={FriendsList}
-            options={{ ...backbtncolorbar, title: "친구 목록 및 추가" }}
+            options={{ ...backbtncolorbar, title: "친구 목록" }}
           />
           <Stack.Screen
             name="RequestFriends"
