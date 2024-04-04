@@ -4,21 +4,20 @@ import DetailTerms from './detailTerms';
 import { allTrue } from "../../util/auth/authStep";
 import requestEmail from "../../server/auth/emailAuth";
 
-export default function CustomActionSheet({isOpen, setStep, setTerm, check, email}) {
-    const [close, setClose] = useState(false);
+export default function CustomActionSheet({open, isOpen, setStep, setTerm, check, email}) {
 
     const handleSecondStep = async () => {
         if(allTrue(check)) {
             let data = await requestEmail(email);
             if(data == true) {
-                setStep(3); // 다음 단계로
-            setClose(true); // 창 닫기
+            setStep(3); // 다음 단계로
+            isOpen(false);
             setTerm(0); // 이용약관 닫기
               }
             
         }
     }
-
+    
     // check 배열의 true false 확인
     function checkConditions(checkArray) {
         const isFirstIndexTrue = checkArray[0] === true;
@@ -31,7 +30,7 @@ export default function CustomActionSheet({isOpen, setStep, setTerm, check, emai
       
 
   return (
-    <Actionsheet isOpen={isOpen} onClose={close}>
+    <Actionsheet isOpen={open} onClose={() => isOpen(false)}>
     <Actionsheet.Content>
       <Box w="100%" h={70} px={4} justifyContent="center" alignItems="flex-start">
         <Text w="100%" fontSize="20" color="black" fontWeight="bold">

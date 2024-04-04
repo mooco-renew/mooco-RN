@@ -3,6 +3,7 @@ import axios from 'axios';
 
 // 친구 요청하기
 const findId = async (email, code) => {
+  console.log(email,code);
 		
 		try {
 		  const response = await axios.post(`${SERVER_HOST}/api/v1/auth/userId`, { 

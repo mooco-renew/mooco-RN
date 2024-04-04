@@ -37,9 +37,6 @@ export default function NewPw(email) {
             navigation.navigate('OnBoarding'); // 성공한다면
           } else if(data.success == false) {
             alert(data.error.message);
-            setTimeout(() => {
-              navigation.navigate('Login');
-          }, 2000);
           }
         }
 

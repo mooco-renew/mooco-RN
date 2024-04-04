@@ -6,21 +6,17 @@ import CustomSwitch from '../../components/switch/CustomSwitch';
 import DeleteFriendAlert from '../../components/alert/deletefriendalert';
 import SearchSvg from '../../assets/images/friends/search';
 import getFriendsList from '../../server/friends/friends-list';
-import friendsList from '../../data/friends/friends-list';
-import searchList from '../../data/friends/search-list';
 import searchFriends from '../../server/friends/search-friend';
 import SendFriend from '../../components/friends/SendFriend';
-import SendFriendAlert from '../../components/alert/sendfriendalert';
 
 // test용 스크린
 export default function FriendsList() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
-    const [firstview, setFirstView] = useState(false);
     const [secondview, setSecondView] = useState(false);
     const [selectedId, setSelectedId] = useState(null);
-    const [data, setData] = useState(friendsList.friendList); 
-    const [searchData, setSearchData] = useState(searchList.userInfoList); 
+    const [data, setData] = useState([]); 
+    const [searchData, setSearchData] = useState([]); 
 
     useEffect(() => {
         const getList = async () => {
@@ -70,12 +66,12 @@ export default function FriendsList() {
         value={search}
         style={styles.input}
         onChangeText={handleSearchChange}
-        placeholder='추가하고 싶은 친구의 아이디를 검색해보세요!'
+        placeholder='찾고자 하는 친구의 아이디를 검색해보세요!'
         placeholderTextColor={'rgba(0,0,0,0.5)'}/>
         </View>
         {search != "" && (
           <View style={styles.subcontainer}>
-          <Text style={styles.label}>검색 결과</Text>
+          <Text style={styles.label}>친구 검색 결과</Text>
              <ScrollView style={styles.scrollbox} contentContainerStyle={{alignItems: 'center'}}>
              {searchData.map((value, index) => (
             <SendFriend key={index} setSelectedId={setSelectedId} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId}/>

@@ -7,6 +7,7 @@ import { allFalse, allTrue, firstTrue, firstTrueOnly, secondTrueOnly } from '../
 import EmailAuth from '../../components/auth/emailAuth';
 import { setNewTrueArray } from '../../util/array/newTrueArray';
 import requestEmail from '../../server/auth/emailAuth';
+import Loading from '../../components/loading/Loading';
 
 // test용 스크린
 export default function FindPw() {
@@ -16,6 +17,7 @@ export default function FindPw() {
     const [isAvail, setIsAvail] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [step, setStep] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
 
             // 유효성 검사
             useEffect(() => {
@@ -31,9 +33,13 @@ export default function FindPw() {
             }, [email]);
 
             const sendEmail = async () => {
+              setIsLoading(true);
               let data = await requestEmail(email);
               if(data == true) {
+                setIsLoading(false);
                 setStep(2); // 이메일 인증코드 입력 페이지로 이동
+              } else {
+                setIsLoading(false);
               }
             }
 
@@ -41,6 +47,7 @@ export default function FindPw() {
       <View style={styles.container}>
       {step == 1 && (
             <View style={styles.container}>
+               {isLoading ? <Loading /> : <></>}
             <Text style={styles.title}>비밀번호 찾기</Text>
             <Text style={styles.firstlabel}>이메일을 입력해주세요.</Text>
             <View style={styles.inputcontainer} >

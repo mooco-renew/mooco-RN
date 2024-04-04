@@ -2,13 +2,11 @@ import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import { WEBCLIENTID, IOSCLIENTID } from "@env";
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, Animated } from 'react-native';
 import { validateEmail, validatePassword } from '../../util/sign/validate';
 import SocialButton from '../../components/sign/socialButton';
 import EmailAuth from '../../components/auth/emailAuth';
 import SecureIcon from '../../components/sign/secureIcon';
-import originAccount from '../../server/sign/account';
-import requestEmail from '../../server/auth/emailAuth';
 import CustomActionSheet from '../../components/sheet/actionSheet';
 import Term from '../../components/sheet/term';
 
@@ -21,11 +19,16 @@ export default function Account() {
     const [pw, setPw] = useState("");
     const [isSecure, setIsSecure] = useState(true); // 비밀번호 숨기기/보이기 여부
 
+    const [open, isOpen] = useState(false); // 이용약관 여닫기
     const [isAvail, setIsAvail] = useState(true); // 인증번호 클릭 허가 상태
     const [step, setStep] = useState(1); // 페이지 전환, 1 : id,pw,email 입력, 2 : 약관 동의, 3 : 이메일 인증 
     const [terms, setTerms] = useState(0); // 약관동의 페이지 전환, 1 : 이용 약관, 2 : 개인정보 약관
     const [check, setCheck] = useState([false, false]); // 이용약관 동의 현황
     const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
+
+    // animation value
+    const y = new Animated.Value(30);
+    const opacity = new Animated.Value(0);
 
     GoogleSignin.configure({
       webClientId: WEBCLIENTID, // client ID of type WEB for your server. Required to get the `idToken` on the user object, and for offline access.
@@ -35,8 +38,23 @@ export default function Account() {
     // 유효성 검사
     useEffect(() => {
       if(validatePassword(pw) && validateEmail(email)) {
-        setErrorMessage('');
-        setIsAvail(true);
+        Animated.parallel([
+          Animated.timing(opacity, {
+            toValue: 1,
+            delay: 0,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+          Animated.timing(y, {
+            toValue: 0,
+            delay: 0,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]).start(() =>{
+          setErrorMessage('');
+          setIsAvail(true);
+        });
       } else {
         setIsAvail(false);
           if(email != "" && !validateEmail(email)) setErrorMessage("올바른 이메일 형식으로 작성해주세요.");
@@ -45,16 +63,21 @@ export default function Account() {
             setErrorMessage("");
           }
       }
-    }, [pw, email]);
+    }, [pw, email, id]);
+
+    const openTerms = () => {
+      setStep(2); // 이용약관으로
+      isOpen(true); // 뷰 표시
+    }
 
     return (
       <View style={styles.container}>
         {terms == 1 && <Term id={1} setTerm={setTerms} setCheck={setCheck}/>}
         {terms == 2 && <Term id={2} setTerm={setTerms} setCheck={setCheck}/>}
-        {terms == 0 && <CustomActionSheet isOpen={step == 2} setStep={setStep} setTerm={setTerms} check={check} email={email}/>}
+        {terms == 0 && step == 2 && <CustomActionSheet open={open}isOpen={isOpen} setStep={setStep} setTerm={setTerms} check={check} email={email}/>}
         {(step == 1 || step == 2)&& (
           <View style={styles.container}>
-            <Text style={styles.introduce}>정보가 맞다면{'\n'}인증하기 버튼을 눌러주세요.</Text>
+            <Animated.Text style={{...styles.introduce, opacity: opacity, transform: [{ translateY: y }]}}>정보가 맞다면{'\n'}인증하기 버튼을 눌러주세요.</Animated.Text>
          <View style={styles.inputbox}>
          <Text style={styles.firstlabel}>이메일</Text>
           <TextInput 
@@ -85,7 +108,7 @@ export default function Account() {
           </View>
       </View>
       <Text style={styles.errortext}>{errorMessage}</Text>
-      <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => setStep(2)} disabled={!isAvail}>
+      <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={() => openTerms()} disabled={!isAvail}>
           <Text style={styles.buttontext}>인증하기</Text>
       </TouchableOpacity>
       <Text style={styles.socialtext}>소셜 계정으로 가입하기</Text>
@@ -99,7 +122,7 @@ export default function Account() {
       </View>
         </View>
         )}
-        {step == 3 && <EmailAuth by='account' email={email} id={id} pw={pw} setStep={setStep}/>}
+        {step == 3 && <EmailAuth by='account' email={email} id={id} pw={pw} setStep={setStep} />}
         </View>
     );
   }
