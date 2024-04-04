@@ -3,7 +3,16 @@ import axiosInstance from '../axios/axiosInstance';
 // 친구 요청 수락하기
 const receiveFriend = async (userId) => {
 		try {
-		  const response = await axiosInstance.post(`/api/v1/users/request-accept`, { userId: userId}, );
+		  const response = await axiosInstance.post(`/api/v1/users/request-accept`, 
+      {
+        userId: userId
+      }, 
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      }
+      );
           if(response.data.success = true) {
           console.log('요청 수락 성공! : ', response);
           return response.data;

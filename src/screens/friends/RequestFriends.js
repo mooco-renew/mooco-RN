@@ -3,16 +3,12 @@ import { useState, useEffect } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import CustomSwitch from '../../components/switch/CustomSwitch';
 import GetFriend from '../../components/friends/GetFriend';
-import SendFriendAlert from '../../components/alert/sendfriendalert';
-import GetFriendAlert from '../../components/alert/getfriendalert';
 import SendFriend from '../../components/friends/SendFriend';
 import getReceviedList from '../../server/friends/recevied-list';
 import getSentList from '../../server/friends/sent-list';
-import receivedListData from '../../data/friends/received-list';
-import sentListData from '../../data/friends/sent-list';
 import SearchSvg from '../../assets/images/friends/search';
-import searchFriends from '../../server/friends/search-friend';
-import searchList from '../../data/friends/search-list';
+import searchAll from '../../server/friends/search-all';
+import SentFriend from '../../components/friends/SentFriend';
 
 
 // test용 스크린
@@ -20,9 +16,9 @@ export default function RequestFriends() {
     const navigation = useNavigation();
     const [search, setSearch] = useState("");
     const [selectedId, setSelectedId] = useState(null);
-    const [receivedList, setReceivedList] = useState(receivedListData.receiceRequestList); 
-    const [sentList, setSentList] = useState(sentListData.sendRequestDtoList); 
-    const [searchData, setSearchData] = useState(searchList.userInfoList);
+    const [receivedList, setReceivedList] = useState([]); 
+    const [sentList, setSentList] = useState([]); 
+    const [searchData, setSearchData] = useState([]);
 
     useEffect(() => {
         const getList = async () => {
@@ -47,7 +43,7 @@ export default function RequestFriends() {
       setSearch(text);  // onChange 텍스트 업데이트
 
       if(text != "") {
-        const result = await searchFriends(text); // text로 검색
+        const result = await searchAll(text); // text로 검색
         if(result.success == true) {
         setSearchData(result.data.userInfoList);
         } else if(result.success == false) {
@@ -75,12 +71,12 @@ export default function RequestFriends() {
         value={search}
         style={styles.input}
         onChangeText={handleSearchChange}
-        placeholder='추가하고 싶은 친구의 아이디를 검색해보세요!'
+        placeholder='추가하고 싶은 유저의 아이디를 검색해보세요!'
         placeholderTextColor={'rgba(0,0,0,0.5)'}/>
         </KeyboardAvoidingView>
         {search != "" && (
             <View style={styles.subcontainer}>
-            <Text style={styles.label}>검색 결과</Text>
+            <Text style={styles.label}>전체 검색 결과</Text>
                <ScrollView style={styles.scrollbox} contentContainerStyle={{alignItems: 'center'}}>
                {searchData.map((value, index) => (
               <SendFriend key={index} setSelectedId={setSelectedId} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId}/>
@@ -93,13 +89,13 @@ export default function RequestFriends() {
             <View style={styles.container}>
             <Text style={styles.label}>보낸 요청</Text>
             <ScrollView style={styles.firstscroll} contentContainerStyle={{alignItems: 'center'}}>
-            {receivedList.map((value, index) => (
-            <SendFriend key={index} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
+            {sentList.map((value, index) => (
+            <SentFriend key={index} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
           ))}
             </ScrollView>
             <Text style={styles.label}>빋은 요청</Text>
             <ScrollView style={styles.secondscroll} contentContainerStyle={{alignItems: 'center'}}>
-              {sentList.map((value, index) => (
+              {receivedList.map((value, index) => (
             <GetFriend key={index} setReceivedList={setReceivedList} nickname={value.nickname} identifierId={value.identifierId} profileImageUrl={value.profileImageUrl} userId={value.userId} />
           ))}
             </ScrollView>

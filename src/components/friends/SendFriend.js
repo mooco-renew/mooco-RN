@@ -9,7 +9,7 @@ export default function SendFriend({userId, nickname, identifierId, profileImage
 
   const handleClick = async () => {
     if(step == 1) {
-      let data = await cancleRequest(userId); // 요청 취소
+      let data = await sendRequest(userId); // 친구 요청하기
       if(data.success == true) {
         setStep(2);
       } else if(data.success == false) {
@@ -18,7 +18,7 @@ export default function SendFriend({userId, nickname, identifierId, profileImage
         alert("서버 에러");
       }
     } else if(step == 2) {
-      let data = await sendRequest(userId); // 친구 요청하기
+      let data = await cancleRequest(userId); // 요청 취소
       if(data.success == true) {
         setStep(1);
       } else if(data.success == false) {
@@ -47,9 +47,9 @@ export default function SendFriend({userId, nickname, identifierId, profileImage
         </View>
         <View style={styles.secondbox}>
         <TouchableOpacity
-    style={[styles.button,{ backgroundColor: step == 1 ? '#626262' : '#151515' }, ]}onPress={() => handleClick()}>
+    style={[styles.button,{ backgroundColor: step == 1 ? '#151515' : '#626262' }, ]}onPress={() => handleClick()}>
     <Text style={styles.buttontext}>
-        {step == 1 ? "요청 취소" : "추가"}
+        {step == 1 ? "추가" : "요청 취소"}
     </Text>
 </TouchableOpacity>
         </View>

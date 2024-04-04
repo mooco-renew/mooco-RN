@@ -2,6 +2,7 @@ import axiosInstance from '../axios/axiosInstance';
 
 // 친구 요청 취소
 const cancleRequest = async (userId) => {
+    console.log(userId);
     try {
         const response = await axiosInstance.delete(`/api/v1/users/${userId}/friends`);
         if(response.data.success = true) {
