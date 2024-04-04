@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
 import { validatePassword } from '../../util/sign/validate';
 import HelpBox from '../../components/sign/helpBox';
@@ -8,6 +9,7 @@ import originLogin from '../../server/sign/login';
 
 // test용 스크린
 export default function Login() {
+  const navigation = useNavigation();
     const [id, setId] = useState(""); // 유저 정보
     const [pw, setPw] = useState("");
     const [isAvail, setIsAvail] = useState(false); // 전체 확인
@@ -28,9 +30,11 @@ export default function Login() {
         }, [id, pw]);
 
         const handleLogin = async () => {
-          let data = await originLogin(id, pw); // 로그인
+          let data = await originLogin(id, pw, navigation); // 로그인
           if(data) {
-            
+            if(data.success == false) {
+              setErrorMessage("잘못된 아이디, 비밀번호 입니다.");
+            }
           }
         }
 
