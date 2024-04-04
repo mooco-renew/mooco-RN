@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import ProfileImage from '../../components/getProfile/profileImage';
 import postUserInfo from '../../server/getInfo/post-profile';
 
@@ -30,14 +30,14 @@ export default function GetProfile() {
     return (
       <View style={styles.container}>
         <ProfileImage image={image} setImage={setImage} />
-        <View style={styles.inputbox}>
+        <KeyboardAvoidingView behavior={Platform.OS === "ios" ? "padding" : "height"} style={styles.inputbox}>
         <TextInput 
         value={nickname}
         style={styles.input}
         onChangeText={setNickname}
         placeholder='닉네임을 입력해주세요'
         placeholderTextColor='#ffffff' />
-    </View>
+    </KeyboardAvoidingView>
     <TouchableOpacity style={[styles.button, !isAvail && styles.buttondisable]} onPress={clickPost} disabled={!isAvail}>
         <Text style={styles.buttontext}>확인</Text>
     </TouchableOpacity>
