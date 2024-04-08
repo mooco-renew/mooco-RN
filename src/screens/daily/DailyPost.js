@@ -35,6 +35,14 @@ export default function DailyPost({ route, navigation }) {
   const visible = data.visible;
   const [isLoading, setIsLoading] = useState(false);
 
+  const onServerError = () => {
+    //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
+
   useEffect(() => {
     const getUserData = async () => {
       const result = await getDailyImageUserData();
@@ -43,6 +51,7 @@ export default function DailyPost({ route, navigation }) {
         setUserData(result);
       } else {
         // result가 null일 때의 처리 로직, 필요한 경우
+        onServerError();
       }
     };
     getUserData();
@@ -53,20 +62,25 @@ export default function DailyPost({ route, navigation }) {
         setData(result);
       } else {
         // result가 null일 때의 처리 로직, 필요한 경우
+        onServerError();
       }
     };
     getData(dateString);
   }, []);
 
   const deletePost = async (date) => {
-    await deleteDailyImageData(date);
-    setIsLoading(false);
-    navigation.dispatch(
-      CommonActions.reset({
-        index: 1,
-        routes: [{ name: "Home" }],
-      })
-    );
+    const result = await deleteDailyImageData(date);
+    if (result !== null) {
+      setIsLoading(false);
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: "Home" }],
+        })
+      );
+    } else {
+      onServerError();
+    }
   };
   const [isOpen, setIsOpen] = React.useState(false);
   const [lockIsOpen, setLockIsOpen] = React.useState(false);

@@ -22,6 +22,7 @@ const postDailyBarcodeGenerate = async (year, month) => {
       config // axios 요청 설정
     );
     console.log("데일리 바코드 생성", response.data);
+    return response.data.data;
     /*if (response.data.success == true) {
       //처리
     } else {
@@ -29,6 +30,7 @@ const postDailyBarcodeGenerate = async (year, month) => {
     }*/
   } catch (error) {
     console.error("Error post daily data", error);
+    return null;
   }
 };
 
