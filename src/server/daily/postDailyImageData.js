@@ -30,6 +30,7 @@ const postDailyImageData = async (date, images, memo) => {
       config
     );
     console.log("데일리 업로드", response.data);
+    return response.data.data;
     /*if (response.data.success == true) {
       //처리
     } else {
@@ -37,6 +38,7 @@ const postDailyImageData = async (date, images, memo) => {
     }*/
   } catch (error) {
     console.error("Error post daily data", error);
+    return null;
   }
 };
 

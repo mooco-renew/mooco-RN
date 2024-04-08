@@ -31,6 +31,7 @@ import Profile from "./src/screens/profile/Profile";
 import Setting from "./src/screens/profile/Setting";
 import DailyBarcodeDetail from "./src/screens/profile/DailyBarcodeDetail";
 import { useFonts } from "expo-font";
+import ServerErrorPage from "./src/screens/error/ServerErrorPage";
 // rn navigatior로 stack 생성, rn은 stack으로 사용자의 이동을 확인한다.
 const Stack = createNativeStackNavigator();
 
@@ -134,6 +135,11 @@ function App() {
               name="DailyBarcodeDetail"
               component={DailyBarcodeDetail}
               options={{ ...trashBtnBar, title: "바코드 내역" }}
+            />
+            <Stack.Screen
+              name="ServerError"
+              component={ServerErrorPage}
+              options={{ headerShown: false }}
             />
           </Stack.Navigator>
         </BarcodeProvider>

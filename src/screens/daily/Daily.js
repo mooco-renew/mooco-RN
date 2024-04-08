@@ -10,6 +10,13 @@ import getDailyCalendarData from "../../server/daily/getDailyCalendarData";
 import dailyHomeData from "../../data/daily/dailyHomeData";
 
 export default function Daily({ navigation }) {
+  const onServerError = () => {
+    //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
   //홈 데이터 저장
   const [homeData, setHomeData] = useState(dailyHomeData.data);
   const dailyImgList = homeData.dailyImgList;
@@ -82,6 +89,7 @@ export default function Daily({ navigation }) {
         );
       } else {
         // result가 null일 때의 처리 로직, 필요한 경우
+        onServerError();
       }
     };
     getHomeData();
@@ -132,6 +140,8 @@ export default function Daily({ navigation }) {
           return acc;
         }, {})
       );
+    } else {
+      onServerError();
     }
   };
 

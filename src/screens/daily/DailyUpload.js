@@ -45,15 +45,27 @@ export default function DailyUpload({ route, navigation }) {
   const Btn2 = "취소하기";
   const Btn2Event = () => navigation.pop();
 
+  const onServerError = () => {
+    //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
+
   const uploadPost = async (date, images, memo) => {
     if (selectedImages.length !== 0 || memo !== "") {
-      await postDailyImageData(date, images, memo);
-      navigation.dispatch(
-        CommonActions.reset({
-          index: 1,
-          routes: [{ name: "Home" }],
-        })
-      );
+      const result = await postDailyImageData(date, images, memo);
+      if (result !== null)
+        navigation.dispatch(
+          CommonActions.reset({
+            index: 1,
+            routes: [{ name: "Home" }],
+          })
+        );
+      else {
+        onServerError();
+      }
     }
     setIsLoading(false);
   };
