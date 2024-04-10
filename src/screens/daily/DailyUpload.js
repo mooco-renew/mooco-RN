@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
   appBarTitle: {
     color: "white",
     fontSize: 16,
-    fontWeight: "700",
+    fontFamily: "SUIT-Medium",
   },
   input: {
     backgroundColor: "black",
