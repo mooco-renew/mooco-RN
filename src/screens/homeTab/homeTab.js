@@ -1,8 +1,9 @@
 import React from "react";
-import { Animated, Pressable } from "react-native";
+import { Animated, Pressable, StyleSheet } from "react-native";
 import { TabView, SceneMap } from "react-native-tab-view";
 import Daily from "../daily/Daily";
 import { Box, useColorModeValue } from "native-base";
+import PreparePage from "../prepare/PreparePage";
 const HomeTab = ({ navigation }) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
@@ -43,9 +44,12 @@ const HomeTab = ({ navigation }) => {
                 }}
               >
                 <Animated.Text
-                  style={{
-                    color,
-                  }}
+                  style={[
+                    {
+                      color,
+                    },
+                    styles.content,
+                  ]}
                 >
                   {route.title}
                 </Animated.Text>
@@ -56,13 +60,12 @@ const HomeTab = ({ navigation }) => {
       </Box>
     );
   };
-  const FirstRoute = () => <Daily navigation={navigation} />;
-  const SecondRoute = () => <></>;
+  const FirstRoute = () => <PreparePage></PreparePage>;
+  const SecondRoute = () => <PreparePage></PreparePage>;
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
   });
-
   return (
     <TabView
       navigationState={{ index, routes }}
@@ -72,5 +75,9 @@ const HomeTab = ({ navigation }) => {
     />
   );
 };
-
+const styles = StyleSheet.create({
+  content: {
+    fontFamily: "SUIT-Bold",
+  },
+});
 export default HomeTab;

@@ -32,6 +32,7 @@ import Setting from "./src/screens/profile/Setting";
 import DailyBarcodeDetail from "./src/screens/profile/DailyBarcodeDetail";
 import { useFonts } from "expo-font";
 import ServerErrorPage from "./src/screens/error/ServerErrorPage";
+import PreparePage from "./src/screens/prepare/PreparePage";
 // rn navigatior로 stack 생성, rn은 stack으로 사용자의 이동을 확인한다.
 const Stack = createNativeStackNavigator();
 
@@ -44,6 +45,15 @@ screen 숨기고 싶으면 아래 코드로 변경(스크린 옵션 추가)
 function App() {
   const [fontsLoaded] = useFonts({
     "Plaster-Regular": require("./src/assets/fonts/Plaster-Regular.ttf"),
+    "SUIT-Bold": require("./src/assets/fonts/SUIT-Bold.ttf"),
+    "SUIT-ExtraBold": require("./src/assets/fonts/SUIT-ExtraBold.ttf"),
+    "SUIT-ExtraLight": require("./src/assets/fonts/SUIT-ExtraLight.ttf"),
+    "SUIT-Heavy": require("./src/assets/fonts/SUIT-Heavy.ttf"),
+    "SUIT-Light": require("./src/assets/fonts/SUIT-Light.ttf"),
+    "SUIT-Medium": require("./src/assets/fonts/SUIT-Medium.ttf"),
+    "SUIT-Regular": require("./src/assets/fonts/SUIT-Regular.ttf"),
+    "SUIT-SemiBold": require("./src/assets/fonts/SUIT-SemiBold.ttf"),
+    "SUIT-Thin": require("./src/assets/fonts/SUIT-Thin.ttf"),
   });
   if (!fontsLoaded) return null;
   return (
@@ -84,7 +94,7 @@ function App() {
             <Stack.Screen name="KakaoLogin" component={KakaoLoginScreen} />
             <Stack.Screen
               name="FriendsList"
-              component={FriendsList}
+              component={PreparePage}
               options={{ ...backbtncolorbar, title: "친구 목록" }}
             />
             <Stack.Screen

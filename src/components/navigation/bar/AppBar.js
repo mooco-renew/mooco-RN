@@ -31,9 +31,11 @@ const AppBar = ({ navigation }) => {
     headerTitle: () => <TitleText />,
     headerRight: () => (
       <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <TouchableOpacity onPress={() => {}}>
+        {/*<TouchableOpacity
+          onPress={() => {}}
+        >
           <RightIcon1 />
-        </TouchableOpacity>
+        </TouchableOpacity>*/}
         <TouchableOpacity
           onPress={() => {
             navigation.navigate("Profile");

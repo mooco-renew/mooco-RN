@@ -156,12 +156,12 @@ export default function Daily({ navigation }) {
             justifyContent="center"
             alignItems="center"
           >
-            <Text fontSize="16" color="black" fontWeight="bold">
+            <Text fontSize="16" color="black" fontFamily="SUIT-Regular">
               {changedModalText}
             </Text>
           </Box>
           <Box w="70%" px={4} mb={4}>
-            <Text fontSize="14" color="black">
+            <Text fontSize="14" color="black" fontFamily="SUIT-Regular">
               {fixedModalText}
             </Text>
           </Box>
@@ -189,7 +189,12 @@ export default function Daily({ navigation }) {
               style={styles.gradientBox}
             >
               <VStack space={3} alignItems="center">
-                <Text color="white" fontSize="20px" marginTop="20px">
+                <Text
+                  color="white"
+                  fontSize="20px"
+                  marginTop="20px"
+                  fontFamily="SUIT-Regular"
+                >
                   오늘의 일상을 기록하세요
                 </Text>
                 <TouchableOpacity
@@ -199,7 +204,11 @@ export default function Daily({ navigation }) {
                   style={styles.navigateDailyContainer}
                 >
                   <Box style={styles.navigateDailyBox}>
-                    <Text color="white" fontSize="14px">
+                    <Text
+                      color="white"
+                      fontSize="14px"
+                      fontFamily="SUIT-Regular"
+                    >
                       데일리 기록으로 이동하기
                     </Text>
                   </Box>
@@ -273,20 +282,20 @@ export default function Daily({ navigation }) {
           </View>
           <HStack width="92%" justifyContent="space-between" marginTop="24px">
             <Box style={styles.monthUploadTextBox}>
-              <Text color="black" fontSize="14px">
+              <Text color="black" fontSize="14px" fontFamily="SUIT-Medium">
                 이번달 기록 횟수
               </Text>
             </Box>
             <Box style={styles.monthUploadCntBox}>
-              <Text color="white" fontSize="14px">
+              <Text color="white" fontSize="14px" fontFamily="SUIT-Medium">
                 {uploadCnt}
               </Text>
             </Box>
           </HStack>
-          <Text color="white" marginTop="24px">
+          <Text color="white" marginTop="24px" fontFamily="SUIT-Regular">
             이번 달에 기록한 데일리는
           </Text>
-          <Text color="white" marginBottom="50px">
+          <Text color="white" marginBottom="50px" fontFamily="SUIT-Regular">
             다음 달 1일에 꺼내볼 수 있어요
           </Text>
         </VStack>

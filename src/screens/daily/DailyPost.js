@@ -356,6 +356,7 @@ const styles = StyleSheet.create({
   dateText: {
     color: "white",
     fontSize: 16,
+    fontFamily: "SUIT-Medium",
   },
   centerContainer: {
     width: "100%",
@@ -372,10 +373,12 @@ const styles = StyleSheet.create({
   username: {
     color: "white",
     fontSize: 14,
+    fontFamily: "SUIT-Medium",
   },
   userId: {
     color: "white",
     fontSize: 12,
+    fontFamily: "SUIT-Regular",
   },
   postsContainer: {
     flex: 1,
@@ -431,6 +434,7 @@ const styles = StyleSheet.create({
     color: "white",
     alignItems: "flex-start",
     fontSize: 12,
+    fontFamily: "SUIT-Regular",
   },
   alertContiner: {
     flex: 1,
