@@ -60,7 +60,7 @@ const HomeTab = ({ navigation }) => {
       </Box>
     );
   };
-  const FirstRoute = () => <PreparePage></PreparePage>;
+  const FirstRoute = () => <Daily navigation={navigation} />;
   const SecondRoute = () => <PreparePage></PreparePage>;
   const renderScene = SceneMap({
     first: FirstRoute,
