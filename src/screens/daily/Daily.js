@@ -156,12 +156,12 @@ export default function Daily({ navigation }) {
             justifyContent="center"
             alignItems="center"
           >
-            <Text fontSize="16" color="black" fontFamily="SUIT-Regular">
+            <Text fontSize="16" color="black" fontFamily="SUIT-SemiBold">
               {changedModalText}
             </Text>
           </Box>
           <Box w="70%" px={4} mb={4}>
-            <Text fontSize="14" color="black" fontFamily="SUIT-Regular">
+            <Text fontSize="14" color="black" fontFamily="SUIT-SemiBold">
               {fixedModalText}
             </Text>
           </Box>
@@ -193,7 +193,7 @@ export default function Daily({ navigation }) {
                   color="white"
                   fontSize="20px"
                   marginTop="20px"
-                  fontFamily="SUIT-Regular"
+                  fontFamily="SUIT-SemiBold"
                 >
                   오늘의 일상을 기록하세요
                 </Text>
@@ -207,7 +207,7 @@ export default function Daily({ navigation }) {
                     <Text
                       color="white"
                       fontSize="14px"
-                      fontFamily="SUIT-Regular"
+                      fontFamily="SUIT-SemiBold"
                     >
                       데일리 기록으로 이동하기
                     </Text>
@@ -282,20 +282,20 @@ export default function Daily({ navigation }) {
           </View>
           <HStack width="92%" justifyContent="space-between" marginTop="24px">
             <Box style={styles.monthUploadTextBox}>
-              <Text color="black" fontSize="14px" fontFamily="SUIT-Medium">
+              <Text color="black" fontSize="14px" fontFamily="SUIT-SemiBold">
                 이번달 기록 횟수
               </Text>
             </Box>
             <Box style={styles.monthUploadCntBox}>
-              <Text color="white" fontSize="14px" fontFamily="SUIT-Medium">
+              <Text color="white" fontSize="14px" fontFamily="SUIT-SemiBold">
                 {uploadCnt}
               </Text>
             </Box>
           </HStack>
-          <Text color="white" marginTop="24px" fontFamily="SUIT-Regular">
+          <Text color="white" marginTop="24px" fontFamily="SUIT-Medium">
             이번 달에 기록한 데일리는
           </Text>
-          <Text color="white" marginBottom="50px" fontFamily="SUIT-Regular">
+          <Text color="white" marginBottom="50px" fontFamily="SUIT-Medium">
             다음 달 1일에 꺼내볼 수 있어요
           </Text>
         </VStack>
