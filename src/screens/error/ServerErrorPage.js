@@ -49,19 +49,21 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 22,
-    fontWeight: "bold",
-    marginBottom: 10,
+    fontFamily: "SUIT-Bold",
+    marginBottom: 14,
     color: "white",
   },
   message: {
     fontSize: 18,
     marginBottom: 5,
     color: "#626262",
+    fontFamily: "SUIT-SemiBold",
   },
   apology: {
     fontSize: 18,
-    marginBottom: 50,
+    marginBottom: 30,
     color: "#626262",
+    fontFamily: "SUIT-SemiBold",
   },
   button: {
     paddingHorizontal: 9,
@@ -75,6 +77,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: 16,
+    fontFamily: "SUIT-SemiBold",
   },
 });
 
