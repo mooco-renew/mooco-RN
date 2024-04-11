@@ -6,6 +6,15 @@ import getReceviedList from '../../server/friends/recevied-list';
 // test용 스크린
 export default function GetFriend({setReceivedList, nickname, identifierId, profileImageUrl, userId}) {
 
+  // 서버 에러용
+  const onServerError = () => {
+    //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
+
     const clickRefuse = async () => {
        let data = await refuseFriend(userId); // 요청 거절
        if(data.success == true) {
@@ -14,11 +23,13 @@ export default function GetFriend({setReceivedList, nickname, identifierId, prof
           setReceivedList(received_result.data.receiceRequestList);
         } else if(received_result.success == false){
           alert(received_result.error.message);
+        } else {
+          onServerError();
         }
        } else if(data.success == false) {
         alert(data.error.message);
        } else {
-        alert("서버 에러");
+        onServerError();
        }
     }
     const clickReceive = async () => {
@@ -29,11 +40,13 @@ export default function GetFriend({setReceivedList, nickname, identifierId, prof
           setReceivedList(received_result.data.receiceRequestList);
         } else if(received_result.success == false){
           alert(received_result.error.message);
+        } else {
+          onServerError();
         }
       } else if(data.success == false) {
         alert(data.error.message);
       } else {
-       alert("서버 에러");
+       onServerError();
       }
     }
 

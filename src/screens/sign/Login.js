@@ -16,6 +16,15 @@ export default function Login() {
     const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
     const [isSecure, setIsSecure] = useState(true); // 비밀번호 숨기기/보이기 여부
 
+    // 서버에러용
+    const onServerError = () => {
+      //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "ServerError" }],
+      });
+    };
+
         // 유효성 검사
         useEffect(() => {
           if(id != "" && pw != "" && validatePassword(pw)) {
@@ -34,6 +43,8 @@ export default function Login() {
           if(data) {
             if(data.success == false) {
               setErrorMessage("잘못된 아이디, 비밀번호 입니다.");
+            } else if(data.success != true && data.success != false) {
+              onServerError();
             }
           }
         }

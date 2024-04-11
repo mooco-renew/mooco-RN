@@ -6,15 +6,27 @@ import requestEmail from "../../server/auth/emailAuth";
 
 export default function CustomActionSheet({open, isOpen, setStep, setTerm, check, email}) {
 
+  // 서버 에러용
+  const onServerError = () => {
+    //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
+
     const handleSecondStep = async () => {
         if(allTrue(check)) {
             let data = await requestEmail(email);
-            if(data == true) {
+            if(data.success == true) {
             setStep(3); // 다음 단계로
             isOpen(false);
             setTerm(0); // 이용약관 닫기
+              } else if(data.success == false) {
+                alert(data.error.message);
+              } else {
+                onServerError();
               }
-            
         }
     }
     

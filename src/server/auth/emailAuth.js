@@ -16,10 +16,10 @@ const requestEmail = async (email) => {
           );
           if(response.data.success == true) {
             console.log('이메일 요청 성공!', response.data);
-            return response.data.success;
+            return response.data;
           } else {
             console.log('이메일 요청 실패', response.data);
-            return response.data.error;
+            return response.data;
           }
         } catch (error) {
 		  console.log('이메일 요청 에러', error);

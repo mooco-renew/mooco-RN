@@ -139,6 +139,7 @@ export default function OnBoarding() {
              postGoogleToken(data.accessToken, navigation);
            } catch (error) {
              console.log('실패 ', error);
+             alert("문제가 있습니다!");
            } 
          }
        }>

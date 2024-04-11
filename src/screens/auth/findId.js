@@ -18,6 +18,15 @@ export default function FindId() {
     const [id, setId] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
+    // 서버 에러용
+    const onServerError = () => {
+      //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "ServerError" }],
+      });
+    };
+
             // 유효성 검사
             useEffect(() => {
               if(email != "" && validateEmail(email)) {
@@ -34,11 +43,13 @@ export default function FindId() {
             const sendEmail = async () => {
               setIsLoading(true);
               let data = await requestEmail(email);
-              if(data == true) {
+              if(data.success == true) {
                 setIsLoading(false);
                 setStep(2); // 이메일 인증 코드 입력 페이지로 이동
-              } else {
+              } else if (data.success == false) {
                 setIsLoading(false);
+              } else {
+                onServerError();
               }
             }
 

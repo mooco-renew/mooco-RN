@@ -13,6 +13,15 @@ export default function EmailAuth({ by, email, id, pw, setStep, setCode, setId }
   const [isAvail, setIsAvail] = useState(false);
   let inputRefs = Array(6).fill().map(() => createRef());
 
+  // 서버 에러용
+  const onServerError = () => {
+    //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
+
   const handleChangeText = (text, index) => {
     const newInputs = [...inputs];
     newInputs[index] = text;
@@ -48,6 +57,8 @@ export default function EmailAuth({ by, email, id, pw, setStep, setCode, setId }
         setStep(3); // 아이디 찾기 페이지로 이동
       } else if(data.success == false) {
         alert(data.error.message);
+      } else {
+        onServerError();
       }
     }
     else {
@@ -63,7 +74,9 @@ export default function EmailAuth({ by, email, id, pw, setStep, setCode, setId }
         setTimeout(() => {
          navigation.navigate('Account');
      }, 2000); // 2초 후에 'Account'로 이동
-    } 
+    } else if(nextdata.success != true && nextdata.success != false) {
+      onServerError();
+    }
       } else if(by =='findpw') {
         setStep(3); // 비밀번호 변경 페이지로 이동
       }
@@ -73,7 +86,7 @@ export default function EmailAuth({ by, email, id, pw, setStep, setCode, setId }
         navigation.navigate('Login');
     }, 2000);
     } else {
-      alert("서버 에러");
+      onServerError();
     }
   }
   }

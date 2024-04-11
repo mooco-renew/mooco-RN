@@ -3,6 +3,16 @@ import deleteFriend from '../../server/friends/delete-friend';
 
 // test용 스크린
 export default function DeleteFriendAlert({ setView, selectedId, setData}) {
+
+    // 서버 에러
+    const onServerError = () => {
+        //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+        navigation.reset({
+          index: 0,
+          routes: [{ name: "ServerError" }],
+        });
+      };
+
     const handleCancel = () => {
         setView(false);
     }
@@ -15,10 +25,14 @@ export default function DeleteFriendAlert({ setView, selectedId, setData}) {
             setData(result.data.friendList); 
             } else if(result.success == false) {
               alert(result.error.message);
+            } else {
+                onServerError();
             }
             setView(false);
         } else if(data.success == false) {
             alert(data.error.message);
+        } else {
+            onServerError();
         }
     }
 

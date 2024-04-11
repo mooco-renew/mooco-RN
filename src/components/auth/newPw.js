@@ -16,6 +16,15 @@ export default function NewPw(email) {
     const [errorMessage, setErrorMessage] = useState(''); // 에러 메시지
     const [isSecure, setIsSecure] = useState(true); // 비밀번호 숨기기/보이기 여부
 
+    // 서버 에러용
+    const onServerError = () => {
+      //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "ServerError" }],
+      });
+    };
+
         // 유효성 검사
         useEffect(() => {
           if(pw != "" && newPw != "" && validatePassword(pw) && validatePassword(newPw) && pw == newPw) {
@@ -37,6 +46,8 @@ export default function NewPw(email) {
             navigation.navigate('OnBoarding'); // 성공한다면
           } else if(data.success == false) {
             alert(data.error.message);
+          } else {
+            onServerError();
           }
         }
 

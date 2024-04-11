@@ -7,6 +7,15 @@ import React, { useState, useEffect } from 'react';
 export default function SendFriend({userId, nickname, identifierId, profileImageUrl}) {
   const [step, setStep] = useState(1);
 
+  // 서버 에러용
+  const onServerError = () => {
+    //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
+
   const handleClick = async () => {
     if(step == 1) {
       let data = await sendRequest(userId); // 친구 요청하기
@@ -15,7 +24,7 @@ export default function SendFriend({userId, nickname, identifierId, profileImage
       } else if(data.success == false) {
         alert(data.error.message);
       } else {
-        alert("서버 에러");
+        onServerError();
       }
     } else if(step == 2) {
       let data = await cancleRequest(userId); // 요청 취소
@@ -24,7 +33,7 @@ export default function SendFriend({userId, nickname, identifierId, profileImage
       } else if(data.success == false) {
         alert(data.error.message);
       } else {
-        alert("서버 에러");
+        onServerError();
       }
     } else {
     }

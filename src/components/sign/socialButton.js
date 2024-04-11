@@ -30,6 +30,7 @@ export default function SocialButton() {
           postGoogleToken(data.accessToken, navigation);
         } catch (error) {
           console.log('실패 ', error);
+          alert("에러가 있습니다!");
         } 
       }
     }>

@@ -18,6 +18,15 @@ export default function FriendsList() {
     const [data, setData] = useState([]); 
     const [searchData, setSearchData] = useState([]); 
 
+    // 서버 에러용
+    const onServerError = () => {
+      //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "ServerError" }],
+      });
+    };
+
     useEffect(() => {
         const getList = async () => {
             const result = await getFriendsList(); 
@@ -25,6 +34,8 @@ export default function FriendsList() {
             setData(result.data.friendList); 
             } else if(result.success == false) {
               alert(result.error.message);
+            } else {
+              onServerError();
             }
         };
         getList();
@@ -40,6 +51,8 @@ export default function FriendsList() {
           setSearchData(result.data.userInfoList);
         } else if(result.success == false) {
           alert(result.error.message);
+        } else {
+          onServerError();
         }
       } else {
         const result = await getFriendsList(); 
@@ -47,6 +60,8 @@ export default function FriendsList() {
            setData(result.data.friendList); 
         } else if(result.success == false) {
           alert(result.error.message);
+        } else {
+          onServerError();
         }
       }
   };

@@ -20,6 +20,15 @@ export default function RequestFriends() {
     const [sentList, setSentList] = useState([]); 
     const [searchData, setSearchData] = useState([]);
 
+    // 서버 에러용
+    const onServerError = () => {
+      //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "ServerError" }],
+      });
+    };
+
     useEffect(() => {
         const getList = async () => {
             const received_result = await getReceviedList();
@@ -29,6 +38,8 @@ export default function RequestFriends() {
             setSentList(sent_result.data.sendRequestDtoList);
             } else if(received_result.success == false || sent_result.success == false) {
               alert(result.error.message);
+            } else {
+              onServerError();
             }
         };
         getList();
@@ -48,7 +59,9 @@ export default function RequestFriends() {
         setSearchData(result.data.userInfoList);
         } else if(result.success == false) {
           alert(result.error.message);
-        } 
+        } else {
+          onServerError();
+        }
       } else {
         const received_result = await getReceviedList();
         const sent_result = await getSentList();
@@ -57,6 +70,8 @@ export default function RequestFriends() {
         setSentList(sent_result.data.sendRequestDtoList);
         } else if(received_result.success == false || sent_result.success == false) {
           alert(result.error.message);
+        } else {
+          onServerError();
         }
       }
   };
