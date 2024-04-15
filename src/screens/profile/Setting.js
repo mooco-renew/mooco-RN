@@ -17,6 +17,13 @@ export default function Setting() {
   const navigation = useNavigation();
   const [profileData, setProfileData] = useState(null);
 
+  const onServerError = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
+
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
@@ -24,7 +31,7 @@ export default function Setting() {
         console.log(data);
         setProfileData(data);
       } catch (error) {
-        console.error("프로필 데이터 에러", error);
+        onServerError();
       }
     };
 
