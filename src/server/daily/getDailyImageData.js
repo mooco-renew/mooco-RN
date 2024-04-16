@@ -8,7 +8,6 @@ const getDailyImageData = async (date) => {
     const response = await axios.get(`${SERVER_HOST}/api/v1/days/${date}`, {
       headers: { Authorization: `Bearer ${accessToken}` },
     });
-    console.log("데일리 기록 조회", response.data);
     /*if (response.data.success == true) {
       //처리
     } else {

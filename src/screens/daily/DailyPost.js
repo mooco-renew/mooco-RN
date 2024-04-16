@@ -91,7 +91,6 @@ export default function DailyPost({ route, navigation }) {
   const Btn1Event = () => setIsOpen(false);
   const Btn2 = "삭제하기";
   const Btn2Event = () => {
-    console.log("삭제하기");
     if (photos.length !== null) {
       setIsLoading(true);
       deletePost(dateString);

@@ -29,8 +29,7 @@ const postDailyImageData = async (date, images, memo) => {
       formData,
       config
     );
-    console.log("데일리 업로드", response.data);
-    return response.data.data;
+    return response.data;
     /*if (response.data.success == true) {
       //처리
     } else {

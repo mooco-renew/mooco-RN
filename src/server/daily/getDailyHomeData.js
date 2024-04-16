@@ -10,7 +10,6 @@ const getDailyHomeData = async () => {
         Authorization: `Bearer ${accessToken};`,
       },
     });
-    console.log("데일리 홈 데이터 로드", response.data);
     /*if (response.data.success == true) {
       //처리
     } else {

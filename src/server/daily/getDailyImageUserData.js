@@ -10,7 +10,6 @@ const getDailyImageUserData = async () => {
         Authorization: `Bearer ${accessToken};`,
       },
     });
-    console.log("데일리 기록 유저 데이터 로드", response.data);
     /*if (response.data.success == true) {
       //처리
     } else {
