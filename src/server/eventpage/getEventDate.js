@@ -1,11 +1,8 @@
-import { SERVER_HOST } from "@env";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import axiosInstance from '../axios/axiosInstance';
 
 const getDailyHomeData = async () => {
-  const accessToken = await AsyncStorage.getItem("access_token");
   try {
-    const response = await axios.get(`${SERVER_HOST}/api/v1/events`, {
+    const response = await axiosInstance.get(`/api/v1/events`, {
       headers: {
         Authorization: `Bearer ${accessToken};`,
       },

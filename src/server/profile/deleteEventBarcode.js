@@ -1,18 +1,9 @@
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { SERVER_HOST } from "@env";
+import axiosInstance from '../axios/axiosInstance';
 
 const deleteEventBarcode = async (eventId) => {
-  const accessToken = await AsyncStorage.getItem("access_token");
   try {
-    const response = await axios.delete(
-      `${SERVER_HOST}/api/v1/events/${eventId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      }
-    );
+    const response = await axiosInstance.delete(
+      `/api/v1/events/${eventId}`);
 
     if (response.data.success) {
       return { data: response.data.data };

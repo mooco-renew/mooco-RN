@@ -1,14 +1,6 @@
-import { SERVER_HOST } from "@env";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import axiosInstance from '../axios/axiosInstance';
 
 const postDailyBarcodeGenerate = async (year, month) => {
-  const accessToken = await AsyncStorage.getItem("access_token");
-  const config = {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  };
 
   const requestBody = {
     year,
@@ -16,10 +8,9 @@ const postDailyBarcodeGenerate = async (year, month) => {
   };
 
   try {
-    const response = await axios.post(
-      `${SERVER_HOST}/api/v1/barcodes/daily?year=${year}&month=${month}`,
+    const response = await axiosInstance.post(
+      `/api/v1/barcodes/daily?year=${year}&month=${month}`,
       {}, // 요청 본문으로 전송될 데이터
-      config // axios 요청 설정
     );
     return response.data;
     /*if (response.data.success == true) {

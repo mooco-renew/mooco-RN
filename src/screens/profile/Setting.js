@@ -12,6 +12,7 @@ import {
   ScrollView,
 } from "react-native";
 import getProfileData from "../../server/profile/getProfileData";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Setting() {
   const navigation = useNavigation();
@@ -45,8 +46,13 @@ export default function Setting() {
     setIsLogoutModalVisible(true);
   };
 
-  const handleLogoutConfirm = () => {
+  const handleLogoutConfirm = async () => {
     //TODO 로그아웃 로직 작성
+
+    await Promise.all([
+            AsyncStorage.removeItem("access_token"),
+            AsyncStorage.removeItem("refresh_token")
+        ]);
 
     // 로그아웃 후에 모달 닫기
     setIsLogoutModalVisible(false);

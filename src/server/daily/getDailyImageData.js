@@ -1,13 +1,8 @@
-import { SERVER_HOST } from "@env";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import axiosInstance from '../axios/axiosInstance';
 
 const getDailyImageData = async (date) => {
-  const accessToken = await AsyncStorage.getItem("access_token");
   try {
-    const response = await axios.get(`${SERVER_HOST}/api/v1/days/${date}`, {
-      headers: { Authorization: `Bearer ${accessToken}` },
-    });
+    const response = await axiosInstance.get(`/api/v1/days/${date}`);
     /*if (response.data.success == true) {
       //처리
     } else {

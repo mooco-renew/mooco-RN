@@ -6,11 +6,23 @@
   <component name="ChangeListManager">
     <list default="true" id="0baf66ed-3085-4e75-a060-1928bc18caeb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/.vscode/settings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/onboarding/OnBoarding.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/onboarding/OnBoarding.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/screens/sign/Login.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/sign/Login.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/sign/account.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/sign/account.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/server/token/getNewToken.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/token/getNewToken.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/screens/profile/Setting.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/screens/profile/Setting.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/daily/deleteDailyImageData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/daily/deleteDailyImageData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/daily/getDailyCalendarData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/daily/getDailyCalendarData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/daily/getDailyHomeData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/daily/getDailyHomeData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/daily/getDailyImageData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/daily/getDailyImageData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/daily/getDailyImageUserData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/daily/getDailyImageUserData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/daily/postDailyBarcodeGenerate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/daily/postDailyBarcodeGenerate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/daily/postDailyImageData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/daily/postDailyImageData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/eventpage/getEventDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/eventpage/getEventDate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/profile/deleteDailyBarcode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/profile/deleteDailyBarcode.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/profile/deleteEventBarcode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/profile/deleteEventBarcode.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/profile/getDailyData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/profile/getDailyData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/profile/getMyDailyDetailDate.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/profile/getMyDailyDetailDate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/profile/getMyDailyDetailPhoto.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/profile/getMyDailyDetailPhoto.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/profile/getProfileData.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/profile/getProfileData.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/profile/patchPublicBarcode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/profile/patchPublicBarcode.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/server/test/makeBarcode.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/server/test/makeBarcode.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,20 +43,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;feature/sign&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/eunji/Desktop/github-repo/mooco-RN&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "/Users/eunji/Desktop/github-repo/mooco",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">

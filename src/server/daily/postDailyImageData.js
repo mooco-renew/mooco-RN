@@ -1,10 +1,7 @@
-import { SERVER_HOST } from "@env";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import axios from "axios";
+import axiosInstance from '../axios/axiosInstance';
 import { Platform } from "react-native";
 
 const postDailyImageData = async (date, images, memo) => {
-  const accessToken = await AsyncStorage.getItem("access_token");
   const formData = new FormData();
   const files = [];
   for (let i = 0; i < images.length; i++) {
@@ -20,12 +17,11 @@ const postDailyImageData = async (date, images, memo) => {
   const config = {
     headers: {
       "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${accessToken}`,
     },
   };
   try {
-    const response = await axios.post(
-      `${SERVER_HOST}/api/v1/days/${date}`,
+    const response = await axiosInstance.post(
+      `/api/v1/days/${date}`,
       formData,
       config
     );
