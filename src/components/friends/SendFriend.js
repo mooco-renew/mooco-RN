@@ -2,11 +2,13 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import cancleRequest from '../../server/friends/cancle-request';
 import sendRequest from '../../server/friends/send-request';
 import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 // test용 스크린
 export default function SendFriend({userId, nickname, identifierId, profileImageUrl}) {
   const [step, setStep] = useState(1);
-
+  const navigation = useNavigation();
+  
   // 서버 에러용
   const onServerError = () => {
     //네비게이션 스택 없앤 후 서버 에러 페이지로 이동

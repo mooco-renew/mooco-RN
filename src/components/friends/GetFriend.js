@@ -2,10 +2,13 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import receiveFriend from '../../server/friends/accept-friend';
 import refuseFriend from '../../server/friends/refusefriend';
 import getReceviedList from '../../server/friends/recevied-list';
+import { useNavigation } from '@react-navigation/native';
 
 // test용 스크린
 export default function GetFriend({setReceivedList, nickname, identifierId, profileImageUrl, userId}) {
 
+  const navigation = useNavigation();
+  
   // 서버 에러용
   const onServerError = () => {
     //네비게이션 스택 없앤 후 서버 에러 페이지로 이동

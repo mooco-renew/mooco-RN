@@ -2,10 +2,12 @@ import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import cancleRequest from '../../server/friends/cancle-request';
 import sendRequest from '../../server/friends/send-request';
 import React, { useState, useEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 // test용 스크린
 export default function SentFriend({userId, nickname, identifierId, profileImageUrl}) {
-    console.log('id : ', identifierId);
+    // console.log('id : ', identifierId);
+    const navigation = useNavigation();
     const [step, setStep] = useState(2);
 
     // 서버에러용

@@ -4,9 +4,12 @@ import DetailTerms from './detailTerms';
 import { allTrue } from "../../util/auth/authStep";
 import requestEmail from "../../server/auth/emailAuth";
 import Loading from '../loading/Loading';
+import { useNavigation } from '@react-navigation/native';
 
 export default function CustomActionSheet({open, isOpen, setStep, setTerm, check, email}) {
 const [isLoading, setIsLoading] = useState(false);
+const navigation = useNavigation();
+
   // 서버 에러용
   const onServerError = () => {
     //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
