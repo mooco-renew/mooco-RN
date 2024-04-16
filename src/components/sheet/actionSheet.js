@@ -3,9 +3,10 @@ import React, { useEffect, useState } from "react";
 import DetailTerms from './detailTerms';
 import { allTrue } from "../../util/auth/authStep";
 import requestEmail from "../../server/auth/emailAuth";
+import Loading from '../loading/Loading';
 
 export default function CustomActionSheet({open, isOpen, setStep, setTerm, check, email}) {
-
+const [isLoading, setIsLoading] = useState(false);
   // 서버 에러용
   const onServerError = () => {
     //네비게이션 스택 없앤 후 서버 에러 페이지로 이동
@@ -17,14 +18,18 @@ export default function CustomActionSheet({open, isOpen, setStep, setTerm, check
 
     const handleSecondStep = async () => {
         if(allTrue(check)) {
+        setIsLoading(true);
             let data = await requestEmail(email);
             if(data.success == true) {
+            setIsLoading(false);
             setStep(3); // 다음 단계로
             isOpen(false);
             setTerm(0); // 이용약관 닫기
               } else if(data.success == false) {
+              setIsLoading(false);
                 alert(data.error.message);
               } else {
+              setIsLoading(false);
                 onServerError();
               }
         }
@@ -43,6 +48,7 @@ export default function CustomActionSheet({open, isOpen, setStep, setTerm, check
 
   return (
     <Actionsheet isOpen={open} onClose={() => isOpen(false)}>
+    {isLoading ? <Loading /> : <></>}
     <Actionsheet.Content>
       <Box w="100%" h={70} px={4} justifyContent="center" alignItems="flex-start">
         <Text w="100%" fontSize="20" color="black" fontWeight="bold">
