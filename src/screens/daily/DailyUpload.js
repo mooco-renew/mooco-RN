@@ -123,7 +123,6 @@ export default function DailyUpload({ route, navigation }) {
   };
 
   const handleCancel = () => {
-    console.log("취소");
     setMenuVisible(false);
   };
 

@@ -11,7 +11,6 @@ const getDailyCalendarData = async (date) => {
         headers: { Authorization: `Bearer ${accessToken}` },
       }
     );
-    console.log("데일리 캘린더 데이터 로드", response.data);
     /*if (response.data.success == true) {
       //처리
     } else {
