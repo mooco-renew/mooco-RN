@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { navigationRef } from "./src/services/navigation/NavigationService"; // 전역 네비 관리
 import { BarcodeProvider } from "./src/context/BarcodeContext";
-
+import { StatusBar } from "react-native";
 /* 네비게이션 스타일 */
 import { backbtncolorbar } from "./src/components/navigation/bar/BackBtnColorBar";
 import { nonebackbtncolorbar } from "./src/components/navigation/bar/NoneBackButton";
@@ -59,6 +59,7 @@ function App() {
   return (
     <NavigationContainer ref={navigationRef}>
       <NativeBaseProvider>
+        <StatusBar backgroundColor="black" barStyle="light-content" />
         <BarcodeProvider>
           <Stack.Navigator>
             <Stack.Screen
