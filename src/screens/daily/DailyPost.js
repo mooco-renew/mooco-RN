@@ -151,7 +151,7 @@ export default function DailyPost({ route, navigation }) {
         if (i < 2) {
           //안드로이드 2*2 그리드 2행의 여백 문제로 인한 분기
           grid.push(
-            <View style={styles.lockContainer}>
+            <View style={styles.lockContainer} key={`view-${i}`}>
               <Image
                 key={`post-${i}`}
                 source={{ uri: photos[i] }}
@@ -166,7 +166,10 @@ export default function DailyPost({ route, navigation }) {
         } else {
           //2행일 경우 상단 여백을 줌
           grid.push(
-            <View style={[styles.lockContainer, styles.marginTopT]}>
+            <View
+              style={[styles.lockContainer, styles.marginTopT]}
+              key={`view-${i}`}
+            >
               <Image
                 key={`post-${i}`}
                 source={{ uri: photos[i] }}
