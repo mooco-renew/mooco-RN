@@ -1,4 +1,3 @@
-import { SERVER_HOST } from "@env";
 import React, { useEffect, useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
@@ -7,22 +6,19 @@ import SettingSvg from "../../assets/images/setting/setting";
 import DailyBarcodeTab from "../../components/profiletab/DailyBarcodeTab";
 import EventBarcodeTab from "../../components/profiletab/EventBarcodeTab";
 import getProfileData from "../../server/profile/getProfileData";
-// import sendRequest from "../../server/test/makeBarcode";
 
 const Tab = createMaterialTopTabNavigator();
 
 export default function Profile() {
-  // const [loading, setLoading] = useState(false);
-
-  // const handleBarcodeCreation = async () => {
-  //   setLoading(true);
-  //   await sendRequest();
-  //   setLoading(false);
-  // };
-  // 바코드 만들기 테스트
   const navigation = useNavigation();
-
   const [profileData, setProfileData] = useState(null);
+
+  const onServerError = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -30,7 +26,7 @@ export default function Profile() {
         const data = await getProfileData();
         setProfileData(data);
       } catch (error) {
-        console.error("프로필 데이터 에러", error);
+        onServerError();
       }
     };
 
@@ -62,9 +58,6 @@ export default function Profile() {
           <Text style={styles.profileTag}>@{profileData.identifierId}</Text>
         </View>
       </View>
-      {/* <TouchableOpacity onPress={handleBarcodeCreation} style={styles.button}>
-        <Text style={styles.buttonText}>바코드 생성</Text>
-      </TouchableOpacity> */}
       <Tab.Navigator
         initialRouteName="데일리 바코드"
         screenOptions={{
@@ -117,19 +110,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "500",
   },
-  // button: {
-  //   backgroundColor: "#FFD700",
-  //   paddingVertical: 10,
-  //   paddingHorizontal: 20,
-  //   borderRadius: 8,
-  //   alignSelf: "center",
-  //   marginVertical: 20,
-  // },
-  // buttonText: {
-  //   color: "#000000",
-  //   fontSize: 16,
-  //   fontWeight: "bold",
-  // },
   disabled: {
     opacity: 0.5,
   },

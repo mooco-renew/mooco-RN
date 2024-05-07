@@ -49,20 +49,27 @@ export default function DailyBarcodeDetail() {
   } = route.params;
   const { setBarcodeId } = useBarcodeContext();
 
+  const onServerError = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
+
   useEffect(() => {
     setBarcodeId(barcodeId);
   }, [barcodeId, setBarcodeId]);
 
   useEffect(() => {
-    getToggleStateFromStorage(); // 저장된 토글 상태 불러오기
+    getToggleStateFromStorage();
   }, []);
 
   useEffect(() => {
-    setIsEnabled(isPrivate); // 초기 토글 상태 설정
+    setIsEnabled(isPrivate);
   }, [isPrivate]);
 
   useEffect(() => {
-    loadPhotos(); // 사진 정보 받아오기
+    loadPhotos();
   }, []);
 
   const getToggleStateFromStorage = async () => {
@@ -83,7 +90,7 @@ export default function DailyBarcodeDetail() {
 
     try {
       await patchPublicBarcode(barcodeId, !isEnabled);
-      storeToggleState(!isEnabled); // 토글 상태 저장
+      storeToggleState(!isEnabled);
     } catch (error) {
       console.error("바코드 전환 에러:", error);
     }
@@ -101,7 +108,7 @@ export default function DailyBarcodeDetail() {
         console.error("일상 디테일 사진 조회 에러 ", response.error.message);
       }
     } catch (error) {
-      console.error("일상 디테일 사진 조회 에러 ", error);
+      onServerError();
     }
   };
 
@@ -143,10 +150,10 @@ export default function DailyBarcodeDetail() {
         setPhotos((prevPhotos) => [...prevPhotos, ...nextTenPhotos]);
         setCurrentPage(nextPage);
       } else {
-        console.error("일상 디테일 사진 조회 에러 ", response.error.message);
+        onServerError();
       }
     } catch (error) {
-      console.error("일상 디테일 사진 조회 에러 ", error);
+      onServerError();
     } finally {
       setIsLoadingMore(false);
     }

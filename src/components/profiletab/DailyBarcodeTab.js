@@ -20,6 +20,13 @@ export default function DailyBarcodeTab({ profileData }) {
   const [hasMore, setHasMore] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
+  const onServerError = () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "ServerError" }],
+    });
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -45,8 +52,7 @@ export default function DailyBarcodeTab({ profileData }) {
         console.log("더 이상 데이터가 없습니다.");
       }
     } catch (error) {
-      console.error("API 호출 에러", error);
-      Alert.alert("API 호출 에러", "데이터를 불러오는 중 문제가 발생했습니다.");
+      onServerError();
     } finally {
       setLoading(false);
       setRefreshing(false);
