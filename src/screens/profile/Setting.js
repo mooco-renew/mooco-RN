@@ -12,7 +12,7 @@ import {
   ScrollView,
 } from "react-native";
 import getProfileData from "../../server/profile/getProfileData";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function Setting() {
   const navigation = useNavigation();
@@ -57,9 +57,9 @@ export default function Setting() {
     //TODO 로그아웃 로직 작성
 
     await Promise.all([
-            AsyncStorage.removeItem("access_token"),
-            AsyncStorage.removeItem("refresh_token")
-        ]);
+      AsyncStorage.removeItem("access_token"),
+      AsyncStorage.removeItem("refresh_token"),
+    ]);
 
     // 로그아웃 후에 모달 닫기
     setIsLogoutModalVisible(false);
@@ -110,8 +110,9 @@ export default function Setting() {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollViewContainer}>
-      <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+        <View></View>
         <View style={styles.pageNameContainer}>
           <Text style={styles.pageName}>프로필 수정</Text>
         </View>
@@ -228,23 +229,24 @@ export default function Setting() {
             </Animated.View>
           </Animated.View>
         )}
-      </SafeAreaView>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  scrollViewContainer: {
-    flexGrow: 1,
-    backgroundColor: "#000000",
-  },
   container: {
+    flex: 1,
     width: "100%",
     height: "100%",
     backgroundColor: "#000000",
   },
+  scrollViewContainer: {
+    flexGrow: 1,
+    backgroundColor: "#000000",
+  },
   pageNameContainer: {
-    height: "10%",
+    paddingVertical: 20,
     justifyContent: "center",
   },
   pageName: {
@@ -261,14 +263,15 @@ const styles = StyleSheet.create({
     borderColor: "white",
     borderWidth: 1,
     marginTop: 10,
-    padding: 6,
-    paddingHorizontal: 140,
+    padding: 10,
+    paddingHorizontal: 80,
     borderRadius: 100,
   },
   profileName: {
     color: "white",
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: "700",
+    textAlign: "center",
   },
   accountAdmin: {
     width: "100%",
